@@ -1,9 +1,15 @@
 RELEASE=3.2
 
+PACKAGE=novnc-pve
+PKGREL=1
+
 NOVNCDIR=novnc
 NOVNCSRC=${NOVNCDIR}.tgz
+NOVNCVER=0.4
 
 ARCH:=$(shell dpkg-architecture -qDEB_BUILD_ARCH)
+
+DEB=${PACKAGE}_${NOVNCVER}-${PKGREL}_${ARCH}.deb
 
 all: deb
 
@@ -15,7 +21,10 @@ dinstall: deb
 deb ${DEB}: ${TARSRC}
 	rm -rf ${NOVNCDIR}
 	tar xf ${NOVNCSRC}
+	mv ${NOVNCDIR}/debian ${NOVNCDIR}/debian.org
+	cp -a debian ${NOVNCDIR}/debian 
 	cd ${NOVNCDIR}; dpkg-buildpackage -b -uc -us
+	lintian ${DEB}
 
 .PHONY: download
 download:
@@ -25,4 +34,4 @@ download:
 
 .PHONY: clean
 clean:
-	rm -rf *~ *_${ARCH}.deb *_all.deb *.changes *.dsc novnc 
+	rm -rf *~ debian/*~ *_${ARCH}.deb *_all.deb *.changes *.dsc novnc 

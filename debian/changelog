@@ -1,0 +1,6 @@
+novnc-pve (0.4-1) unstable; urgency=low
+
+  * create specialized package for Proxmox VE. We use our own package because 
+    upstream novnc package depends on OpenStack.
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 13 Jun 2014 08:35:06 +0200

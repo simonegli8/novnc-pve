@@ -1,0 +1,16 @@
+#!/usr/bin/make -f
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+export DEB_BUILD_HARDENING=1
+
+clean:
+	make -C utils clean
+	dh clean
+
+build:
+	make -C utils rebind.so
+
+%:
+	dh ${@}
