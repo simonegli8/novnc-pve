@@ -8,6 +8,7 @@ NOVNCSRC=${NOVNCDIR}.tgz
 NOVNCVER=0.4
 
 ARCH:=$(shell dpkg-architecture -qDEB_BUILD_ARCH)
+GITVERSION:=$(shell cat .git/refs/heads/master)
 
 DEB=${PACKAGE}_${NOVNCVER}-${PKGREL}_${ARCH}.deb
 
@@ -22,7 +23,10 @@ deb ${DEB}: ${TARSRC}
 	rm -rf ${NOVNCDIR}
 	tar xf ${NOVNCSRC}
 	mv ${NOVNCDIR}/debian ${NOVNCDIR}/debian.org
-	cp -a debian ${NOVNCDIR}/debian 
+	cp -a debian ${NOVNCDIR}/debian
+	# fix file permissions
+	chmod 0644 ${NOVNCDIR}/include/jsunzip.js
+	echo "git clone git://git.proxmox.com/git/novnc-pve.git\\ngit checkout ${GITVERSION}" > ${NOVNCDIR}/debian/SOURCE
 	cd ${NOVNCDIR}; dpkg-buildpackage -b -uc -us
 	lintian ${DEB}
 
