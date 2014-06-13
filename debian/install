@@ -1,5 +1,4 @@
-vnc.html		/usr/share/novnc-pve
-vnc_auto.html		/usr/share/novnc-pve
+vnc_pve.html		/usr/share/novnc-pve
 utils/launch.sh   	/usr/share/novnc-pve/utils
 utils/websocket.py   	/usr/share/novnc-pve/utils
 utils/websockify   	/usr/share/novnc-pve/utils
