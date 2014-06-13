@@ -1,6 +1,7 @@
 vnc_pve.html		/usr/share/novnc-pve
 utils/launch.sh   	/usr/share/novnc-pve/utils
 utils/websocket.py   	/usr/share/novnc-pve/utils
+utils/wsproxy.py   	/usr/share/novnc-pve/utils
 utils/websockify   	/usr/share/novnc-pve/utils
 utils/rebind.so  	/usr/lib/novnc-pve/utils
 images  		/usr/share/novnc-pve
