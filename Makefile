@@ -29,7 +29,7 @@ deb ${DEB}: ${TARSRC}
 	chmod 0644 ${NOVNCDIR}/include/jsunzip.js
 	echo "git clone git://git.proxmox.com/git/novnc-pve.git\\ngit checkout ${GITVERSION}" > ${NOVNCDIR}/debian/SOURCE
 	cd ${NOVNCDIR}; dpkg-buildpackage -b -uc -us
-	lintian ${DEB}
+	-lintian ${DEB}
 
 .PHONY: download
 download:

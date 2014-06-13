@@ -3,7 +3,7 @@ utils/launch.sh   	/usr/share/novnc-pve/utils
 utils/websocket.py   	/usr/share/novnc-pve/utils
 utils/wsproxy.py   	/usr/share/novnc-pve/utils
 utils/websockify   	/usr/share/novnc-pve/utils
-utils/rebind.so  	/usr/lib/novnc-pve/utils
+utils/rebind.so  	/usr/share/novnc-pve/utils
 images  		/usr/share/novnc-pve
 include/base64.js   	/usr/share/novnc-pve/include
 include/des.js  	/usr/share/novnc-pve/include
