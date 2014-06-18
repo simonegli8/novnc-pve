@@ -1,3 +1,9 @@
+novnc-pve (0.4-2) unstable; urgency=low
+
+  * fix websocket binary type detection
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 18 Jun 2014 14:20:23 +0200
+
 novnc-pve (0.4-1) unstable; urgency=low
 
   * create specialized package for Proxmox VE. We use our own package because 
