@@ -13,4 +13,4 @@ build:
 	make -C utils rebind.so
 
 %:
-	dh ${@}
+	dh ${@} --with quilt
