@@ -1,3 +1,11 @@
+novnc-pve (0.4-3) unstable; urgency=low
+
+  * cleanups: remove unused code
+  
+  * store connection state for PVE VNCConsole
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 27 Jun 2014 10:27:28 +0200
+
 novnc-pve (0.4-2) unstable; urgency=low
 
   * fix websocket binary type detection
