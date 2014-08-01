@@ -1,9 +1,4 @@
-vnc_pve.html		/usr/share/novnc-pve
-utils/launch.sh   	/usr/share/novnc-pve/utils
-utils/websocket.py   	/usr/share/novnc-pve/utils
-utils/wsproxy.py   	/usr/share/novnc-pve/utils
-utils/websockify   	/usr/share/novnc-pve/utils
-utils/rebind.so  	/usr/share/novnc-pve/utils
+pveui.js		/usr/share/novnc-pve/include
 images  		/usr/share/novnc-pve
 include/base64.js   	/usr/share/novnc-pve/include
 include/des.js  	/usr/share/novnc-pve/include
@@ -17,9 +12,11 @@ include/blue.css   	/usr/share/novnc-pve/include
 include/black.css   	/usr/share/novnc-pve/include
 include/playback.js   	/usr/share/novnc-pve/include
 include/rfb.js   	/usr/share/novnc-pve/include
-include/ui.js   	/usr/share/novnc-pve/include
 include/util.js   	/usr/share/novnc-pve/include
 include/websock.js   	/usr/share/novnc-pve/include
 include/webutil.js   	/usr/share/novnc-pve/include
 include/jsunzip.js   	/usr/share/novnc-pve/include
 include/web-socket-js/* /usr/share/novnc-pve/include/web-socket-js
+include/Orbitron700.ttf	/usr/share/novnc-pve/include
+include/Orbitron700.woff /usr/share/novnc-pve/include
+include/keysym.js	/usr/share/novnc-pve/include

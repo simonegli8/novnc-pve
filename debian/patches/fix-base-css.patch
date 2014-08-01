@@ -1,0 +1,40 @@
+Index: new/include/base.css
+===================================================================
+--- new.orig/include/base.css	2014-08-04 11:08:19.000000000 +0200
++++ new/include/base.css	2014-08-04 11:16:30.000000000 +0200
+@@ -21,6 +21,17 @@
+   height:100%;
+ }
+ 
++#noVNC_pve_commands {
++  display:none;
++  margin-top:73px;
++  right:30px;
++  position:fixed;
++}
++
++#noVNC_pve_commands.top:after {
++  right:0px;
++}
++
+ #noVNC_controls ul {
+   list-style: none;
+   margin: 0px;
+@@ -220,7 +231,7 @@
+   position:fixed;
+ }
+ #noVNC_clipboard.top:after {
+-  right:85px;
++  right:35px;
+ }
+ 
+ #keyboardinput {
+@@ -375,7 +386,7 @@
+ }
+ 
+ #noVNC_logo {
+-  margin-top: 170px;
++  margin-top: 10px;
+   margin-left: 10px;
+   color:yellow;
+   text-align:left;
