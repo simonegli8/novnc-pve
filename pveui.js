@@ -346,8 +346,8 @@ sizeUpdateTimer: undefined,
 
 updateFBSize: function(rfb, width, height) {
     try {
-	UI.lastFBWidth = width + 1;
-	UI.lastFBHeight = height + 5;
+	UI.lastFBWidth = width + 2;
+	UI.lastFBHeight = height + 6;
 
 	if (UI.sizeUpdateTimer !== undefined) {
 	    clearInterval(UI.sizeUpdateTimer);
