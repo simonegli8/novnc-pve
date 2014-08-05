@@ -129,7 +129,7 @@ pve_show_msg: function(klass, msg, permanant) {
     $D('noVNC-control-bar').setAttribute("class", klass);
     var oldmsg = $D('noVNC_status').innerHTML;
     $D('noVNC_status').innerHTML = msg;
-    if (permanent) return;
+    if (typeof permanent !== 'undefined' && permanent) return;
 
     setTimeout(function() {
 	var curmsg = $D('noVNC_status').innerHTML;
