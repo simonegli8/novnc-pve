@@ -112,7 +112,6 @@ API2Request: function(reqOpts) {
     xhr.setRequestHeader('Cache-Control', 'no-cache');
     if (reqOpts.method === 'POST' || reqOpts.method === 'PUT') {
 	xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-	console.dir(PVE);
 	xhr.setRequestHeader('CSRFPreventionToken', PVE.CSRFPreventionToken);
 	xhr.send(data);
     } else if (reqOpts.method === 'GET') {
@@ -122,6 +121,26 @@ API2Request: function(reqOpts) {
     }
 
 
+},
+
+// show msg for 5 seconds
+pve_show_msg: function(klass, msg, permanant) {
+    var oldklass = $D('noVNC-control-bar').getAttribute("class");
+    $D('noVNC-control-bar').setAttribute("class", klass);
+    var oldmsg = $D('noVNC_status').innerHTML;
+    $D('noVNC_status').innerHTML = msg;
+    if (permanent) return;
+
+    setTimeout(function() {
+	var curmsg = $D('noVNC_status').innerHTML;
+  	if (curmsg === msg) {
+	    $D('noVNC_status').innerHTML = oldmsg;
+	}
+	var curklass = $D('noVNC-control-bar').getAttribute("class");
+  	if (curklass === klass) {
+	    $D('noVNC-control-bar').setAttribute("class", oldklass);
+	}
+    }, 5000);
 },
 
 pve_vm_command: function(cmd, params, reload) {
@@ -135,33 +154,15 @@ pve_vm_command: function(cmd, params, reload) {
 	throw "unknown VM type";
     }
 
-    var show_msg = function(klass, msg) {
-	// show msg for 5 seconds
-	var oldklass = $D('noVNC-control-bar').getAttribute("class");
-        $D('noVNC-control-bar').setAttribute("class", klass);
-	var oldmsg = $D('noVNC_status').innerHTML;
-        $D('noVNC_status').innerHTML = msg;
-	setTimeout(function() {
-	    var curmsg = $D('noVNC_status').innerHTML;
-  	    if (curmsg === msg) {
-		$D('noVNC_status').innerHTML = oldmsg;
-	    }
-	    var curklass = $D('noVNC-control-bar').getAttribute("class");
-  	    if (curklass === klass) {
-		$D('noVNC-control-bar').setAttribute("class", oldklass);
-	    }
-	}, 5000);
-    };
-
     UI.API2Request({
 	params: params,
 	url: baseUrl + "/status/" + cmd,
 	method: 'POST',
 	failure: function(msg) {
-            show_msg('noVNC_status_warn', msg);
+            UI.pve_show_msg('noVNC_status_warn', msg);
 	},
 	success: function() {
-            show_msg('noVNC_status_normall', "VM command '" + cmd +"' successful");
+            UI.pve_show_msg('noVNC_status_normall', "VM command '" + cmd +"' successful");
 	    if (reload) {
 		setTimeout(function() {
 		    UI.pveReload();
@@ -307,8 +308,6 @@ pve_start: function(callback) {
     document.title = title;
 
     var start_vnc_viewer = function(param) {
-	console.dir(param);
-
 	var wsparams = UI.urlEncode({
 	    port: param.port,
 	    vncticket: param.ticket
@@ -336,7 +335,7 @@ pve_start: function(callback) {
 	    start_vnc_viewer(result.data);
 	},
 	failure: function(msg) {
-	    console.log("ERROR: " + msg);
+            UI.pve_show_msg('noVNC_status_error', msg, 1);
 	}
     });
 },
@@ -585,7 +584,6 @@ addMouseHandlers: function() {
 
 // Read form control compatible setting from cookie
 getSetting: function(name) {
-    console.log("GET: " + name);
     var val, ctrl = $D('noVNC_' + name);
     val = WebUtil.readSetting(name);
     if (val !== null && ctrl.type === 'checkbox') {
