@@ -256,14 +256,19 @@ pve_start: function(callback) {
     var wsurl;
     var params = { websocket: 1 };
     var btn;
+    
+    var translate_btn_text = function(btn, hide) {
+	var el = $D(btn);
+	if (hide) el.style.display = "none";
+	el.value = gettext(el.value);
+    };
 
     var vmcmd_btns = ['pveStartButton', 'pveShutdownButton', 'pveStopButton', 'pveResetButton', 'pveSuspendButton', 'pveResumeButton'];
     vmcmd_btns.forEach(function(btn) {
-	var el = $D(btn);
-	el.style.display = "none";
-	el.value = gettext(el.value);
+	translate_btn_text(btn, true);
     });
 
+    translate_btn_text('pveReloadButton', false);
 
     var title;
 
