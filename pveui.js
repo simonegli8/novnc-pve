@@ -277,23 +277,63 @@ pve_start: function(callback) {
     var params = { websocket: 1 };
     var btn;
     
-    var translate_btn_text = function(btn, hide) {
-	var el = $D(btn);
-	if (hide) el.style.display = "none";
-	el.value = gettext(el.value);
-    };
-
-    var vmcmd_btns = ['pveStartButton', 'pveShutdownButton', 'pveStopButton', 'pveResetButton', 'pveSuspendButton', 'pveResumeButton'];
-    vmcmd_btns.forEach(function(btn) {
-	translate_btn_text(btn, true);
+    // add pve command buttons
+    var cmdpanel = $D('noVNC_pve_command_menu');
+    var buttonlist = [
+	{
+	    text: gettext('Start'), 
+	    handler: UI.pveCmdStart,
+	    enable: { kvm: 1, openvz: 1 }
+	},
+	{
+	    text: gettext('Shutdown'), 
+	    handler: UI.pveCmdShutdown,
+	    enable: { kvm: 1, openvz: 1 }
+	},
+	{
+	    text: gettext('Stop'),
+	    handler: UI.pveCmdStop,
+	    enable: { kvm: 1, openvz: 1 }
+	},
+	{
+	    text: gettext('Reset'),
+	    handler: UI.pveCmdReset,
+	    enable: { kvm: 1 }
+	},
+	{
+	    text: gettext('Suspend'),
+	    handler: UI.pveCmdSuspend,
+	    enable: { kvm: 1 }
+	},
+	{
+	    text: gettext('Resume'),
+	    handler: UI.pveCmdResume,
+	    enable: { kvm: 1 }
+	},
+	{
+	    text: gettext('Reload'),
+	    handler: UI.pveCmdReload,
+	    enable: { any: 1 }
+	}
+    ];
+    buttonlist.forEach(function(btn) {
+	if (btn.enable.any || btn.enable[UI.consoletype]) {
+	    var el = document.createElement('input');
+	    el.setAttribute('type', 'button');
+	    el.setAttribute('value', btn.text);
+	    el.onclick = btn.handler;
+ 	    el.style.display = "block";
+	    el.style.width = "100%";
+	    el.style.minWidth = "150px";
+	    cmdpanel.appendChild(el);
+	    console.log("ADD: " + btn.text);
+	}
     });
-
-    translate_btn_text('pveReloadButton', false);
 
     // add sendKeys buttons
     var skpanel = $D('noVNC_send_keys_panel');
 
-    var buttonlist = [
+    buttonlist = [
 	{
 	    text: 'Tab', handler: function() {
 		UI.pve_send_key('tab');
@@ -396,9 +436,6 @@ pve_start: function(callback) {
 	var baseUrl = '/nodes/' + UI.nodename + '/qemu/' + UI.vmid;
 	url =  baseUrl + '/vncproxy';
 	wsurl = baseUrl + '/vncwebsocket';
-	vmcmd_btns.forEach(function(btn) {
-	    $D(btn).style.display = "";
-	});
 	title = "VM " + UI.vmid;
 	if (UI.vmname) {
 	    title += " ('" + UI.vmname + "')";
@@ -407,9 +444,6 @@ pve_start: function(callback) {
 	var baseUrl = '/nodes/' + UI.nodename + '/openvz/' + UI.vmid;
 	url =  baseUrl + '/vncproxy';
 	wsurl = baseUrl + '/vncwebsocket';
-	['pveStartButton', 'pveShutdownButton', 'pveStopButton'].forEach(function(btn) {
-	    $D(btn).style.display = "";
-	});
 	title = "CT " + UI.vmid;
 	if (UI.vmname) {
 	    title += " ('" + UI.vmname + "')";
@@ -713,14 +747,6 @@ addMouseHandlers: function() {
     $D("sendEscButton").onclick = UI.sendEsc;
 
     $D("showSendKeysButton").onclick = UI.togglePVESendKeysPanel;
-
-    $D("pveStartButton").onclick = UI.pveCmdStart;
-    $D("pveShutdownButton").onclick = UI.pveCmdShutdown;
-    $D("pveStopButton").onclick = UI.pveCmdStop;
-    $D("pveResetButton").onclick = UI.pveCmdReset;
-    $D("pveSuspendButton").onclick = UI.pveCmdSuspend;
-    $D("pveResumeButton").onclick = UI.pveCmdResume;
-    $D("pveReloadButton").onclick = UI.pveCmdReload;
 
     $D("sendCtrlAltDelButton").onclick = UI.sendCtrlAltDel;
     //$D("xvpShutdownButton").onclick = UI.xvpShutdown;
