@@ -1,3 +1,13 @@
+novnc-pve (0.4-5) unstable; urgency=low
+
+  * generate pve command memu dynamically
+  
+  * improve error handling, remove debugging code
+  
+  * implement qemu sendkey, improve touch keyboard input
+  
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 06 Aug 2014 09:07:29 +0200
+
 novnc-pve (0.4-4) unstable; urgency=low
 
   * used modified noVNC GUI
