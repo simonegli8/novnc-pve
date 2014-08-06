@@ -26,6 +26,7 @@ settingsOpen : false,
 connSettingsOpen : false,
 popupStatusOpen : false,
 clipboardOpen: false,
+sendKeysVisible: false,
 keyboardVisible: false,
 hideKeyboardTimeout: null,
 lastKeyboardinput: null,
@@ -246,6 +247,25 @@ pveReload: function() {
     location.reload();
 },
 
+pve_send_key: function(keyname) {
+    var baseUrl;
+
+    if (UI.consoletype === 'kvm') {
+	baseUrl = '/nodes/' + UI.nodename + '/qemu/' + UI.vmid;
+    } else {
+	throw "send key not implemented";
+    }
+
+    UI.API2Request({
+	params: { key: keyname },
+	url: baseUrl + '/sendkey',
+	method: 'PUT',
+	failure: function(msg) {
+            UI.pve_show_msg('noVNC_status_warn', msg);
+	}
+    });
+},
+ 
 pve_start: function(callback) {
     UI.consoletype = WebUtil.getQueryVar('console');
     UI.vmid = WebUtil.getQueryVar('vmid');
@@ -269,6 +289,106 @@ pve_start: function(callback) {
     });
 
     translate_btn_text('pveReloadButton', false);
+
+    // add sendKeys buttons
+    var skpanel = $D('noVNC_send_keys_panel');
+
+    var buttonlist = [
+	{
+	    text: 'Tab', handler: function() {
+		UI.pve_send_key('tab');
+	    }
+	},
+	{
+	    text: 'Ctrl-Alt-Delete', handler: function() {
+		UI.pve_send_key('ctrl-alt-delete');
+	    }
+	},
+	{
+	    text: 'Ctrl-Alt-Backspace', handler: function() {
+		UI.pve_send_key('ctrl-alt-backspace');  
+	    }
+	},
+	{
+	    text: 'Ctrl-Alt-F1', handler: function() {
+		UI.pve_send_key('ctrl-alt-f1');
+	    }
+	},
+	{
+	    text: 'Ctrl-Alt-F2', handler: function() {
+		UI.pve_send_key('ctrl-alt-f2');
+	    }
+	},
+	{
+	    text: 'Ctrl-Alt-F3', handler: function() {
+		UI.pve_send_key('ctrl-alt-f3');
+	    }
+	},
+	{
+	    text: 'Ctrl-Alt-F4', handler: function() {
+		UI.pve_send_key('ctrl-alt-f4');
+	    }
+	},
+	{
+	    text: 'Ctrl-Alt-F5', handler: function() {
+		UI.pve_send_key('ctrl-alt-f5');
+	    }
+	},
+	{
+	    text: 'Ctrl-Alt-F6', handler: function() {
+		UI.pve_send_key('ctrl-alt-f6');
+	    }
+	},
+	{
+	    text: 'Ctrl-Alt-F7', handler: function() {
+		UI.pve_send_key('ctrl-alt-f7');
+	    }
+	},
+	{
+	    text: 'Ctrl-Alt-F8', handler: function() {
+		UI.pve_send_key('ctrl-alt-f8');
+	    }
+	},
+	{
+	    text: 'Ctrl-Alt-F9', handler: function() {
+		UI.pve_send_key('ctrl-alt-f9');
+	    }
+	},
+	{
+	    text: 'Ctrl-Alt-F10', handler: function() {
+		UI.pve_send_key('ctrl-alt-f10');
+	    }
+	},
+	{
+	    text: 'Ctrl-Alt-F11', handler: function() {
+		UI.pve_send_key('ctrl-alt-f11');
+	    }
+	},
+	{
+	    text: 'Ctrl-Alt-F12', handler: function() {
+		UI.pve_send_key('ctrl-alt-f12');
+	    }
+	}
+    ];
+
+    buttonlist.forEach(function(btn) {
+	var el = document.createElement('input');
+	el.setAttribute('type', 'button');
+	el.setAttribute('value', btn.text);
+	el.onclick = function(handler) {
+	    return function() {
+		if (UI.sendKeysVisible === true) {
+		    UI.togglePVESendKeysPanel();
+		}
+
+		handler.call(this);
+	    };
+	}(btn.handler);
+ 	el.style.display = "block";
+	el.style.width = "100%";
+	el.style.minWidth = "150px";
+	skpanel.appendChild(el);
+    });
 
     var title;
 
@@ -396,10 +516,13 @@ updateFBSize: function(rfb, width, height) {
     }
 },
 
-// Open/close PVE connand menu
+// Open/close PVE commandand menu
 togglePVECommandPanel: function() {
     // Close the description panel
     $D('noVNC_description').style.display = "none";
+    if (UI.sendKeysVisible === true) {
+	UI.togglePVESendKeysPanel();
+    }
     // Close clipboard panel if open
     if (UI.clipboardOpen === true) {
         UI.toggleClipboardPanel();
@@ -424,6 +547,40 @@ togglePVECommandPanel: function() {
 	$D('noVNC_pve_commands').style.display = "block";
 	$D('pveCommandsButton').className = "noVNC_status_button_selected";
 	UI.pveCommandsOpen = true;
+    }
+},
+
+// Open/close PVE SendKeys menu
+togglePVESendKeysPanel: function() {
+    // Close the description panel
+    $D('noVNC_description').style.display = "none";
+    if (UI.pveCommandsOpen === true) {
+	UI.togglePVECommandPanel();
+    }
+    // Close clipboard panel if open
+    if (UI.clipboardOpen === true) {
+        UI.toggleClipboardPanel();
+    }
+    // Close connection settings if open
+    if (UI.connSettingsOpen === true) {
+        UI.toggleConnectPanel();
+    }
+    // Close popup status panel if open
+    if (UI.popupStatusOpen === true) {
+        UI.togglePopupStatusPanel();
+    }
+    // Close XVP panel if open
+    if (UI.xvpOpen === true) {
+        UI.toggleXvpPanel();
+    }
+    if (UI.sendKeysVisible) {
+	$D('noVNC_send_keys').style.display = "none";
+	$D('showSendKeysButton').className = "noVNC_status_button";
+        UI.sendKeysVisible = false;
+    } else {
+	$D('noVNC_send_keys').style.display = "block";
+	$D('showSendKeysButton').className = "noVNC_status_button_selected";
+        UI.sendKeysVisible = true;
     }
 },
 
@@ -486,12 +643,14 @@ start: function(callback) {
     if (UI.isTouchDevice) {
         // Show mobile buttons
         $D('noVNC_mobile_buttons').style.display = "inline";
+	$D('showSendKeysButton').style.display = "none";
         UI.setMouseButton();
         // Remove the address bar
         setTimeout(function() { window.scrollTo(0, 1); }, 100);
         UI.forceSetting('clip', true);
         $D('noVNC_clip').disabled = true;
     } else {
+	$D('showSendKeysButton').style.display = (UI.consoletype === 'kvm') ? "inline" : "none";
         UI.initSetting('clip', false);
     }
 
@@ -553,6 +712,8 @@ addMouseHandlers: function() {
     $D("sendTabButton").onclick = UI.sendTab;
     $D("sendEscButton").onclick = UI.sendEsc;
 
+    $D("showSendKeysButton").onclick = UI.togglePVESendKeysPanel;
+
     $D("pveStartButton").onclick = UI.pveCmdStart;
     $D("pveShutdownButton").onclick = UI.pveCmdShutdown;
     $D("pveStopButton").onclick = UI.pveCmdStop;
@@ -565,7 +726,8 @@ addMouseHandlers: function() {
     //$D("xvpShutdownButton").onclick = UI.xvpShutdown;
     //$D("xvpRebootButton").onclick = UI.xvpReboot;
     //$D("xvpResetButton").onclick = UI.xvpReset;
-    $D("noVNC_status").onclick = UI.togglePopupStatusPanel;
+    // disable popup, because it does not provide more info?
+    //$D("noVNC_status").onclick = UI.togglePopupStatusPanel;
     $D("noVNC_popup_status_panel").onclick = UI.togglePopupStatusPanel;
     //$D("xvpButton").onclick = UI.toggleXvpPanel;
     $D("clipboardButton").onclick = UI.toggleClipboardPanel;
@@ -727,6 +889,9 @@ toggleClipboardPanel: function() {
     $D('noVNC_description').style.display = "none";
     if (UI.pveCommandsOpen === true) {
 	UI.togglePVECommandPanel();
+    }
+    if (UI.sendKeysVisible === true) {
+	UI.togglePVESendKeysPanel();
     }
     // Close settings if open
     if (UI.settingsOpen === true) {
@@ -1007,13 +1172,11 @@ updateVisualState: function() {
         $D('clipboardButton').style.display =  (UI.consoletype !== 'kvm') ? "inline" : "none";
         $D('showKeyboard').style.display = "inline";
         $D('noVNC_extra_keys').style.display = "";
-	$D('sendCtrlAltDelButton').style.display = (UI.consoletype === 'kvm') ? "inline" : "none";
     } else {
         UI.setMouseButton();
         $D('clipboardButton').style.display = "none";
         $D('showKeyboard').style.display = "none";
         $D('noVNC_extra_keys').style.display = "none";
-        $D('sendCtrlAltDelButton').style.display = "none";
         UI.updateXvpVisualState(0);
     }
     
@@ -1302,6 +1465,7 @@ showExtraKeys: function() {
         $D('toggleAltButton').style.display = "inline";
         $D('sendTabButton').style.display = "inline";
         $D('sendEscButton').style.display = "inline";
+	$D('sendCtrlAltDelButton').style.display = (UI.consoletype === 'kvm') ? "inline" : "none";
         $D('showExtraKeysButton').className = "noVNC_status_button_selected";
         UI.extraKeysVisible = true;
     } else if(UI.extraKeysVisible === true) {
@@ -1309,6 +1473,7 @@ showExtraKeys: function() {
         $D('toggleAltButton').style.display = "";
         $D('sendTabButton').style.display = "";
         $D('sendEscButton').style.display = "";
+        $D('sendCtrlAltDelButton').style.display = "";
         $D('showExtraKeysButton').className = "noVNC_status_button";
         UI.extraKeysVisible = false;
     }

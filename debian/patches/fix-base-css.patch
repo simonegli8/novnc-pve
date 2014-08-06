@@ -1,8 +1,8 @@
 Index: new/include/base.css
 ===================================================================
---- new.orig/include/base.css	2014-08-04 11:08:19.000000000 +0200
-+++ new/include/base.css	2014-08-04 11:16:30.000000000 +0200
-@@ -21,6 +21,17 @@
+--- new.orig/include/base.css	2014-08-05 12:59:53.000000000 +0200
++++ new/include/base.css	2014-08-06 08:12:16.000000000 +0200
+@@ -21,6 +21,28 @@
    height:100%;
  }
  
@@ -17,10 +17,40 @@ Index: new/include/base.css
 +  right:0px;
 +}
 +
++#noVNC_send_keys {
++  display:none;
++  margin-top:73px;
++  right:30px;
++  position:fixed;
++}
++
++#noVNC_send_keys.top:after {
++  right:35px;
++}
++
  #noVNC_controls ul {
    list-style: none;
    margin: 0px;
-@@ -220,7 +231,7 @@
+@@ -56,9 +78,6 @@
+ #noVNC_view_drag_button {
+   display: none;
+ }
+-#sendCtrlAltDelButton {
+-  display: none;
+-}
+ #noVNC_xvp_buttons {
+   display: none;
+ }
+@@ -76,7 +95,7 @@
+ 
+ .noVNC-buttons-left {
+   float: left;
+-  z-index: 1;
++  z-index: 2;
+   position: relative;
+ }
+ 
+@@ -220,7 +239,7 @@
    position:fixed;
  }
  #noVNC_clipboard.top:after {
@@ -29,7 +59,7 @@ Index: new/include/base.css
  }
  
  #keyboardinput {
-@@ -375,7 +386,7 @@
+@@ -375,7 +394,7 @@
  }
  
  #noVNC_logo {
@@ -38,3 +68,26 @@ Index: new/include/base.css
    margin-left: 10px;
    color:yellow;
    text-align:left;
+@@ -432,6 +451,7 @@
+ #toggleAltButton {  display: inline; }
+ #sendTabButton { display: inline; }
+ #sendEscButton { display: inline; }
++#sendCtrlAltDelButton { display: none; }
+ 
+ /* left-align the status text on lower resolutions */
+ @media screen and (max-width: 800px){
+@@ -488,6 +508,14 @@
+     top: 135px;
+     left: 0px;
+   }
++  #sendCtrlAltDelButton {
++    display: none;
++    position: absolute;
++    top: 170px;
++    left: 0px;
++  }
++}
++
+ }
+ 
+ @media screen and (min-width: 321px) and (max-width: 480px) {
