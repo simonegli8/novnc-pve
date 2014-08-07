@@ -4,7 +4,8 @@
  * Copyright (C) 2013 Samuel Mannehed for Cendio AB
  * Licensed under MPL 2.0 (see LICENSE.txt)
  *
- * See README.md for usage and integration instructions.
+ * This is a modified version of the original 'ui.js' file, used
+ * for the proxmox console.
  */
 
 "use strict";
