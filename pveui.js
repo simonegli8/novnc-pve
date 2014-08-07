@@ -505,8 +505,10 @@ sizeUpdateTimer: undefined,
 
 updateFBSize: function(rfb, width, height) {
     try {
-	UI.lastFBWidth = width + 2;
-	UI.lastFBHeight = height + 6;
+	// Note1: CSS Canvas size is wrong by a few pixels in Chrome
+	// Note2: window size must be even number for firefox
+	UI.lastFBWidth = Math.floor((width + 1)/2)*2;;
+	UI.lastFBHeight = Math.floor((height + 6)/2)*2;
 
 	if (UI.sizeUpdateTimer !== undefined) {
 	    clearInterval(UI.sizeUpdateTimer);
