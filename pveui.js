@@ -22,6 +22,7 @@ Util.load_scripts(["webutil.js", "base64.js", "websock.js", "des.js",
 var UI = {
 
 rfb_state : 'loaded',
+pveAllowMigratedVMTest: false, // set to true after a succesful conection 
 pveCommandsOpen: false,
 settingsOpen : false,
 connSettingsOpen : false,
@@ -145,6 +146,36 @@ pve_show_msg: function(klass, msg, permanant) {
     }, 5000);
 },
 
+pve_detect_migrated_vm: function() {
+    if (!(UI.consoletype === 'kvm' || UI.consoletype === 'openvz')) {
+	return;
+    }
+
+    // try to detect migrated VM
+    UI.API2Request({
+	url: '/cluster/resources',
+	method: 'GET',
+	success: function(result) {
+	    var list = result.data;
+	    list.every(function(item) {
+		if ((item.type === 'qemu' || item.type === 'openvz') && 
+		    (item.vmid == UI.vmid)) {
+		    var url = "?" + UI.urlEncode({
+			console: UI.consoletype,
+			novnc: 1,
+			vmid: UI.vmid,
+			vmname: UI.vmname,
+			node: item.node
+		    });
+		    location.href = url;	
+		    return false; // break
+		}
+		return true;
+	    });
+	}
+    });
+},
+ 
 pve_vm_command: function(cmd, params, reload) {
     var baseUrl;
 
@@ -327,7 +358,6 @@ pve_start: function(callback) {
 	    el.style.width = "100%";
 	    el.style.minWidth = "150px";
 	    cmdpanel.appendChild(el);
-	    console.log("ADD: " + btn.text);
 	}
     });
 
@@ -1147,10 +1177,15 @@ updateState: function(rfb, state, oldstate, msg) {
             break;
         case 'normal':
             klass = "noVNC_status_normal";
+	    UI.pveAllowMigratedVMTest = true;
             break;
         case 'disconnected':
             $D('noVNC_logo').style.display = "block";
-            // Fall through
+	    if (UI.pveAllowMigratedVMTest) {
+		UI.pveAllowMigratedVMTest = false;
+		UI.pve_detect_migrated_vm();
+	    }
+           // Fall through
         case 'loaded':
             klass = "noVNC_status_normal";
             break;
