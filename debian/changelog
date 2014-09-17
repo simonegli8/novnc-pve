@@ -1,3 +1,9 @@
+novnc-pve (0.4-7) unstable; urgency=low
+
+  *  fix bug #562: set port to 443 when no port is specified
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 17 Sep 2014 13:36:09 +0200
+
 novnc-pve (0.4-6) unstable; urgency=low
 
   * detect migrated VMs
