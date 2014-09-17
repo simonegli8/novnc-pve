@@ -504,7 +504,7 @@ pve_start: function(callback) {
 	});
 
 	UI.updateSetting('host', window.location.hostname);
-	UI.updateSetting('port', window.location.port);
+	UI.updateSetting('port', window.location.port || 443);
 	UI.updateSetting('password', param.ticket);
 	UI.updateSetting('encrypt', true);
 	UI.updateSetting('true_color', true);
