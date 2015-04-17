@@ -147,7 +147,7 @@ pve_show_msg: function(klass, msg, permanant) {
 },
 
 pve_detect_migrated_vm: function() {
-    if (!(UI.consoletype === 'kvm' || UI.consoletype === 'openvz')) {
+    if (!(UI.consoletype === 'kvm' || UI.consoletype === 'lxc')) {
 	return;
     }
 
@@ -158,7 +158,7 @@ pve_detect_migrated_vm: function() {
 	success: function(result) {
 	    var list = result.data;
 	    list.every(function(item) {
-		if ((item.type === 'qemu' || item.type === 'openvz') && 
+		if ((item.type === 'qemu' || item.type === 'lxc') && 
 		    (item.vmid == UI.vmid)) {
 		    var url = "?" + UI.urlEncode({
 			console: UI.consoletype,
@@ -181,8 +181,8 @@ pve_vm_command: function(cmd, params, reload) {
 
     if (UI.consoletype === 'kvm') {
 	baseUrl = '/nodes/' + UI.nodename + '/qemu/' + UI.vmid;
-    } else if (UI.consoletype === 'openvz') {
-	baseUrl = '/nodes/' + UI.nodename + '/openvz/' + UI.vmid;
+    } else if (UI.consoletype === 'lxc') {
+	baseUrl = '/nodes/' + UI.nodename + '/lxc/' + UI.vmid;
     } else {
 	throw "unknown VM type";
     }
@@ -315,17 +315,17 @@ pve_start: function(callback) {
 	{
 	    text: gettext('Start'), 
 	    handler: UI.pveCmdStart,
-	    enable: { kvm: 1, openvz: 1 }
+	    enable: { kvm: 1, lxc: 1 }
 	},
 	{
 	    text: gettext('Shutdown'), 
 	    handler: UI.pveCmdShutdown,
-	    enable: { kvm: 1, openvz: 1 }
+	    enable: { kvm: 1, lxc: 1 }
 	},
 	{
 	    text: gettext('Stop'),
 	    handler: UI.pveCmdStop,
-	    enable: { kvm: 1, openvz: 1 }
+	    enable: { kvm: 1, lxc: 1 }
 	},
 	{
 	    text: gettext('Reset'),
@@ -471,8 +471,8 @@ pve_start: function(callback) {
 	if (UI.vmname) {
 	    title += " ('" + UI.vmname + "')";
 	}
-    } else if (UI.consoletype === 'openvz') {
-	var baseUrl = '/nodes/' + UI.nodename + '/openvz/' + UI.vmid;
+    } else if (UI.consoletype === 'lxc') {
+	var baseUrl = '/nodes/' + UI.nodename + '/lxc/' + UI.vmid;
 	url =  baseUrl + '/vncproxy';
 	wsurl = baseUrl + '/vncwebsocket';
 	title = "CT " + UI.vmid;
