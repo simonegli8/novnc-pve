@@ -1,3 +1,9 @@
+novnc-pve (0.4-8) unstable; urgency=medium
+
+  * make it work with new pve lxc API
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 17 Apr 2015 16:22:45 +0200
+
 novnc-pve (0.4-7) unstable; urgency=low
 
   *  fix bug #562: set port to 443 when no port is specified
