@@ -1,4 +1,4 @@
-RELEASE=3.3
+RELEASE=4.0
 
 PACKAGE=novnc-pve
 PKGREL=7
