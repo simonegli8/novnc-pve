@@ -22,9 +22,8 @@ dinstall: deb
 deb ${DEB}: ${TARSRC}
 	rm -rf ${NOVNCDIR}
 	tar xf ${NOVNCSRC}
-	mv ${NOVNCDIR}/debian ${NOVNCDIR}/debian.org
 	cp -a debian ${NOVNCDIR}/debian
-	cp pveui.js ${NOVNCDIR}
+	cp ${NOVNCDIR}/include/ui.js ${NOVNCDIR}/pveui.js
 	# fix file permissions
 	chmod 0644 ${NOVNCDIR}/include/jsunzip.js
 	echo "git clone git://git.proxmox.com/git/novnc-pve.git\\ngit checkout ${GITVERSION}" > ${NOVNCDIR}/debian/SOURCE

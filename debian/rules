@@ -5,12 +5,5 @@
 
 export DEB_BUILD_HARDENING=1
 
-clean:
-	make -C utils clean
-	dh clean
-
-build:
-	make -C utils rebind.so
-
 %:
 	dh ${@} --with quilt
