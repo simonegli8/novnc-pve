@@ -1,11 +1,11 @@
 RELEASE=4.0
 
 PACKAGE=novnc-pve
-PKGREL=8
+PKGREL=1
 
 NOVNCDIR=novnc
 NOVNCSRC=${NOVNCDIR}.tgz
-NOVNCVER=0.4
+NOVNCVER=0.5
 
 ARCH:=$(shell dpkg-architecture -qDEB_BUILD_ARCH)
 GITVERSION:=$(shell cat .git/refs/heads/master)

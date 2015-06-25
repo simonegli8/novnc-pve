@@ -1,3 +1,9 @@
+novnc-pve (0.5-1) unstable; urgency=medium
+
+  *  update to latest nonvc 0.5.1
+
+ -- Proxmox Support Team <support@proxmox.com>  Thu, 25 Jun 2015 18:31:50 +0200
+
 novnc-pve (0.4-8) unstable; urgency=medium
 
   * make it work with new pve lxc API
