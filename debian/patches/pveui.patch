@@ -1,15 +1,15 @@
-From 5eb689462a961931ec8590d77ab4d1b862cc5c99 Mon Sep 17 00:00:00 2001
+From 501e4e9bc56124982758b2807223e3c0cc5bba02 Mon Sep 17 00:00:00 2001
 From: Alexandre Derumier <aderumier@odiso.com>
 Date: Thu, 25 Jun 2015 02:50:03 +0200
 Subject: [PATCH] pveui : add promox code
 
 Signed-off-by: Alexandre Derumier <aderumier@odiso.com>
 ---
- pveui.js | 663 +++++++++++++++++++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 614 insertions(+), 49 deletions(-)
+ pveui.js | 665 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 616 insertions(+), 49 deletions(-)
 
 diff --git a/pveui.js b/pveui.js
-index fafafdc..f6b9a44 100644
+index 3d3c41e..71edda6 100644
 --- a/pveui.js
 +++ b/pveui.js
 @@ -38,11 +38,17 @@ var UI;
@@ -83,19 +83,19 @@ index fafafdc..f6b9a44 100644
                  return true;
              } catch (exc) {
                  UI.updateState(null, 'fatal', null, 'Unable to create RFB client -- ' + exc);
-@@ -194,28 +191,29 @@ var UI;
+@@ -194,33 +191,36 @@ var UI;
              $D("sendEscButton").onclick = UI.sendEsc;
  
              $D("sendCtrlAltDelButton").onclick = UI.sendCtrlAltDel;
 -            $D("xvpShutdownButton").onclick = UI.xvpShutdown;
 -            $D("xvpRebootButton").onclick = UI.xvpReboot;
 -            $D("xvpResetButton").onclick = UI.xvpReset;
--            $D("noVNC_status").onclick = UI.togglePopupStatusPanel;
+-            $D("noVNC_status").onclick = UI.togglePopupStatus;
 +            //$D("xvpShutdownButton").onclick = UI.xvpShutdown;
 +            //$D("xvpRebootButton").onclick = UI.xvpReboot;
 +            //$D("xvpResetButton").onclick = UI.xvpReset;
-+            //$D("noVNC_status").onclick = UI.togglePopupStatusPanel;
-             $D("noVNC_popup_status_panel").onclick = UI.togglePopupStatusPanel;
++            //$D("noVNC_status").onclick = UI.togglePopupStatus;
+             $D("noVNC_popup_status").onclick = UI.togglePopupStatus;
 -            $D("xvpButton").onclick = UI.toggleXvpPanel;
 +            //$D("xvpButton").onclick = UI.toggleXvpPanel;
              $D("clipboardButton").onclick = UI.toggleClipboardPanel;
@@ -107,7 +107,6 @@ index fafafdc..f6b9a44 100644
 +            //$D("connectButton").onclick = UI.toggleConnectPanel;
 +            //$D("disconnectButton").onclick = UI.disconnect;
 +            //$D("descriptionButton").onclick = UI.toggleConnectPanel;
-+	    $D("pveCommandsButton").onclick = UI.togglePVECommandPanel;
  
              $D("noVNC_clipboard_text").onfocus = UI.displayBlur;
              $D("noVNC_clipboard_text").onblur = UI.displayFocus;
@@ -126,7 +125,15 @@ index fafafdc..f6b9a44 100644
  
              $D("noVNC_resize").onchange = function () {
                  var connected = UI.rfb && UI.rfb_state === 'normal';
-@@ -374,6 +372,9 @@ var UI;
+                 UI.enableDisableViewClip(connected);
+             };
++
++	    $D("pveCommandsButton").onclick = UI.togglePVECommandPanel;
++	    $D("showSendKeysButton").onclick = UI.togglePVESendKeysPanel;
+         },
+ 
+         onresize: function (callback) {
+@@ -383,6 +383,9 @@ var UI;
          toggleXvpPanel: function() {
              // Close the description panel
              $D('noVNC_description').style.display = "none";
@@ -136,7 +143,7 @@ index fafafdc..f6b9a44 100644
              // Close settings if open
              if (UI.settingsOpen === true) {
                  UI.settingsApply();
-@@ -393,12 +394,12 @@ var UI;
+@@ -398,12 +401,12 @@ var UI;
              }
              // Toggle XVP panel
              if (UI.xvpOpen === true) {
@@ -153,7 +160,7 @@ index fafafdc..f6b9a44 100644
                  UI.xvpOpen = true;
              }
          },
-@@ -407,6 +408,12 @@ var UI;
+@@ -412,6 +415,12 @@ var UI;
          toggleClipboardPanel: function() {
              // Close the description panel
              $D('noVNC_description').style.display = "none";
@@ -166,7 +173,7 @@ index fafafdc..f6b9a44 100644
              // Close settings if open
              if (UI.settingsOpen === true) {
                  UI.settingsApply();
-@@ -440,6 +447,9 @@ var UI;
+@@ -441,6 +450,9 @@ var UI;
          toggleConnectPanel: function() {
              // Close the description panel
              $D('noVNC_description').style.display = "none";
@@ -176,7 +183,7 @@ index fafafdc..f6b9a44 100644
              // Close connection settings if open
              if (UI.settingsOpen === true) {
                  UI.settingsApply();
-@@ -462,14 +472,14 @@ var UI;
+@@ -459,14 +471,14 @@ var UI;
              // Toggle Connection Panel
              if (UI.connSettingsOpen === true) {
                  $D('noVNC_controls').style.display = "none";
@@ -193,7 +200,7 @@ index fafafdc..f6b9a44 100644
                  UI.connSettingsOpen = true;
                  $D('noVNC_host').focus();
              }
-@@ -527,14 +537,14 @@ var UI;
+@@ -520,14 +532,14 @@ var UI;
                  UI.toggleXvpPanel();
              }
              $D('noVNC_settings').style.display = "block";
@@ -210,7 +217,7 @@ index fafafdc..f6b9a44 100644
              UI.settingsOpen = false;
          },
  
-@@ -627,10 +637,15 @@ var UI;
+@@ -620,10 +632,15 @@ var UI;
                      break;
                  case 'normal':
                      klass = "noVNC_status_normal";
@@ -226,7 +233,7 @@ index fafafdc..f6b9a44 100644
                      /* falls through */
                  case 'loaded':
                      klass = "noVNC_status_normal";
-@@ -681,7 +696,7 @@ var UI;
+@@ -674,7 +691,7 @@ var UI;
              if (connected) {
                  UI.setViewClip();
                  UI.setMouseButton(1);
@@ -235,7 +242,7 @@ index fafafdc..f6b9a44 100644
                  $D('showKeyboard').style.display = "inline";
                  $D('noVNC_extra_keys').style.display = "";
                  $D('sendCtrlAltDelButton').style.display = "inline";
-@@ -702,18 +717,18 @@ var UI;
+@@ -695,18 +712,18 @@ var UI;
                  case 'fatal':
                  case 'failed':
                  case 'disconnected':
@@ -260,7 +267,7 @@ index fafafdc..f6b9a44 100644
                      break;
              }
  
-@@ -723,9 +738,9 @@ var UI;
+@@ -716,9 +733,9 @@ var UI;
          // Disable/enable XVP button
          updateXvpVisualState: function(ver) {
              if (ver >= 1) {
@@ -272,7 +279,7 @@ index fafafdc..f6b9a44 100644
                  // Close XVP panel if open
                  if (UI.xvpOpen === true) {
                      UI.toggleXvpPanel();
-@@ -1134,7 +1149,557 @@ var UI;
+@@ -1128,7 +1145,557 @@ var UI;
  
              var vncwidth = $D('noVNC_screen').style.offsetWidth;
              $D('noVNC-control-bar').style.width = vncwidth + 'px';
