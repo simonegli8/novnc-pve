@@ -1,15 +1,15 @@
-From 501e4e9bc56124982758b2807223e3c0cc5bba02 Mon Sep 17 00:00:00 2001
+From 3dc49ec6e3bdbec6ec3ace618387ceac73f9eeb5 Mon Sep 17 00:00:00 2001
 From: Alexandre Derumier <aderumier@odiso.com>
 Date: Thu, 25 Jun 2015 02:50:03 +0200
 Subject: [PATCH] pveui : add promox code
 
 Signed-off-by: Alexandre Derumier <aderumier@odiso.com>
 ---
- pveui.js | 665 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 616 insertions(+), 49 deletions(-)
+ pveui.js | 721 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 672 insertions(+), 49 deletions(-)
 
 diff --git a/pveui.js b/pveui.js
-index 3d3c41e..71edda6 100644
+index 3d3c41e..72072b1 100644
 --- a/pveui.js
 +++ b/pveui.js
 @@ -38,11 +38,17 @@ var UI;
@@ -23,7 +23,7 @@ index 3d3c41e..71edda6 100644
 +	vmid: undefined,
 +	vmname: undefined,
 +	nodename: undefined,
-+ 
++	resize: undefined, 
          // Setup rfb object, load settings from browser storage, then call
          // UI.init to setup the UI/menus
          load: function (callback) {
@@ -71,19 +71,26 @@ index 3d3c41e..71edda6 100644
              if (autoconnect === 'true' || autoconnect == '1') {
                  autoconnect = true;
                  UI.connect();
-@@ -165,8 +161,9 @@ var UI;
+@@ -160,13 +156,16 @@ var UI;
+ 
+         initRFB: function () {
+             try {
++		var scaleType = UI.getSetting('resize');
++
+                 UI.rfb = new RFB({'target': $D('noVNC_canvas'),
+                                   'onUpdateState': UI.updateState,
                                    'onXvpInit': UI.updateXvpVisualState,
                                    'onClipboard': UI.clipReceive,
                                    'onFBUComplete': UI.FBUComplete,
 -                                  'onFBResize': UI.updateViewDrag,
 -                                  'onDesktopName': UI.updateDocumentTitle});
-+                                  'onFBResize': UI.updateViewDrag
-+                                //  'onDesktopName': UI.updateDocumentTitle
++                                  'onFBResize': (typeof scaleType !== 'undefined') ? UI.updateFBSize : UI.updateViewDrag
++                                  //  'onDesktopName': UI.updateDocumentTitle
 +				});
                  return true;
              } catch (exc) {
                  UI.updateState(null, 'fatal', null, 'Unable to create RFB client -- ' + exc);
-@@ -194,33 +191,36 @@ var UI;
+@@ -194,33 +193,36 @@ var UI;
              $D("sendEscButton").onclick = UI.sendEsc;
  
              $D("sendCtrlAltDelButton").onclick = UI.sendCtrlAltDel;
@@ -133,7 +140,7 @@ index 3d3c41e..71edda6 100644
          },
  
          onresize: function (callback) {
-@@ -383,6 +383,9 @@ var UI;
+@@ -383,6 +385,9 @@ var UI;
          toggleXvpPanel: function() {
              // Close the description panel
              $D('noVNC_description').style.display = "none";
@@ -143,7 +150,7 @@ index 3d3c41e..71edda6 100644
              // Close settings if open
              if (UI.settingsOpen === true) {
                  UI.settingsApply();
-@@ -398,12 +401,12 @@ var UI;
+@@ -398,12 +403,12 @@ var UI;
              }
              // Toggle XVP panel
              if (UI.xvpOpen === true) {
@@ -160,7 +167,7 @@ index 3d3c41e..71edda6 100644
                  UI.xvpOpen = true;
              }
          },
-@@ -412,6 +415,12 @@ var UI;
+@@ -412,6 +417,12 @@ var UI;
          toggleClipboardPanel: function() {
              // Close the description panel
              $D('noVNC_description').style.display = "none";
@@ -173,7 +180,7 @@ index 3d3c41e..71edda6 100644
              // Close settings if open
              if (UI.settingsOpen === true) {
                  UI.settingsApply();
-@@ -441,6 +450,9 @@ var UI;
+@@ -441,6 +452,9 @@ var UI;
          toggleConnectPanel: function() {
              // Close the description panel
              $D('noVNC_description').style.display = "none";
@@ -183,7 +190,7 @@ index 3d3c41e..71edda6 100644
              // Close connection settings if open
              if (UI.settingsOpen === true) {
                  UI.settingsApply();
-@@ -459,14 +471,14 @@ var UI;
+@@ -459,14 +473,14 @@ var UI;
              // Toggle Connection Panel
              if (UI.connSettingsOpen === true) {
                  $D('noVNC_controls').style.display = "none";
@@ -200,7 +207,7 @@ index 3d3c41e..71edda6 100644
                  UI.connSettingsOpen = true;
                  $D('noVNC_host').focus();
              }
-@@ -520,14 +532,14 @@ var UI;
+@@ -520,14 +534,14 @@ var UI;
                  UI.toggleXvpPanel();
              }
              $D('noVNC_settings').style.display = "block";
@@ -217,7 +224,7 @@ index 3d3c41e..71edda6 100644
              UI.settingsOpen = false;
          },
  
-@@ -620,10 +632,15 @@ var UI;
+@@ -620,10 +634,15 @@ var UI;
                      break;
                  case 'normal':
                      klass = "noVNC_status_normal";
@@ -233,7 +240,7 @@ index 3d3c41e..71edda6 100644
                      /* falls through */
                  case 'loaded':
                      klass = "noVNC_status_normal";
-@@ -674,7 +691,7 @@ var UI;
+@@ -674,7 +693,7 @@ var UI;
              if (connected) {
                  UI.setViewClip();
                  UI.setMouseButton(1);
@@ -242,7 +249,7 @@ index 3d3c41e..71edda6 100644
                  $D('showKeyboard').style.display = "inline";
                  $D('noVNC_extra_keys').style.display = "";
                  $D('sendCtrlAltDelButton').style.display = "inline";
-@@ -695,18 +712,18 @@ var UI;
+@@ -695,18 +714,18 @@ var UI;
                  case 'fatal':
                  case 'failed':
                  case 'disconnected':
@@ -267,7 +274,7 @@ index 3d3c41e..71edda6 100644
                      break;
              }
  
-@@ -716,9 +733,9 @@ var UI;
+@@ -716,9 +735,9 @@ var UI;
          // Disable/enable XVP button
          updateXvpVisualState: function(ver) {
              if (ver >= 1) {
@@ -279,7 +286,7 @@ index 3d3c41e..71edda6 100644
                  // Close XVP panel if open
                  if (UI.xvpOpen === true) {
                      UI.toggleXvpPanel();
-@@ -1128,7 +1145,557 @@ var UI;
+@@ -1128,7 +1147,611 @@ var UI;
  
              var vncwidth = $D('noVNC_screen').style.offsetWidth;
              $D('noVNC-control-bar').style.width = vncwidth + 'px';
@@ -401,7 +408,8 @@ index 3d3c41e..71edda6 100644
 +			      novnc: 1,
 +			      vmid: UI.vmid,
 +			      vmname: UI.vmname,
-+			      node: item.node
++			      node: item.node,
++			      resize: UI.resize
 +			  });
 +			  location.href = url;	
 +			  return false; // break
@@ -539,6 +547,7 @@ index 3d3c41e..71edda6 100644
 +	  UI.vmid = WebUtil.getQueryVar('vmid');
 +	  UI.vmname = WebUtil.getQueryVar('vmname');
 +	  UI.nodename = WebUtil.getQueryVar('node');
++	  UI.resize = WebUtil.getQueryVar('resize');
 +	  
 +	  var url;
 +	  var wsurl;
@@ -747,7 +756,7 @@ index 3d3c41e..71edda6 100644
 +	      UI.updateSetting('cursor', !UI.isTouchDevice);
 +	      UI.updateSetting('shared', true);
 +	      UI.updateSetting('view_only', false);
-+	      UI.updateSetting('resize', 'scale');
++	      UI.updateSetting('resize', UI.resize);
 +
 +	      UI.updateSetting('path', 'api2/json' + wsurl + "?" + wsparams);
 +
@@ -767,6 +776,58 @@ index 3d3c41e..71edda6 100644
 +	  });
 +	},
 +
++	lastFBWidth: undefined,
++	lastFBHeight: undefined,
++	sizeUpdateTimer: undefined,
++
++	updateFBSize: function(rfb, width, height) {
++	    try {
++		// Note1: CSS Canvas size is wrong by a few pixels in Chrome
++		// Note2: window size must be even number for firefox
++		UI.lastFBWidth = Math.floor((width + 1)/2)*2;;
++		UI.lastFBHeight = Math.floor((height + 6)/2)*2;
++
++		if (UI.sizeUpdateTimer !== undefined) {
++		    clearInterval(UI.sizeUpdateTimer);
++		}
++		if (UI.getSetting('clip')) return;
++
++		var update_size = function() {
++		    var oh;
++		    var ow;
++
++		    if (window.innerHeight) {
++			oh = window.innerHeight;
++			ow = window.innerWidth;
++		    } else if (document.documentElement && 
++			      document.documentElement.clientHeight) {
++			oh = document.documentElement.clientHeight;
++			ow = document.documentElement.clientWidth;
++		    } else if (document.body) {
++			oh = document.body.clientHeight;
++			ow = document.body.clientWidth;
++		    }  else {
++			throw "can't get window size";
++		    }
++		
++		    // see base.css/noVNC_screen_pad
++		    var toolbar_height = 36;
++
++		    var offsetw = UI.lastFBWidth - ow;
++		    var offseth = UI.lastFBHeight + toolbar_height - oh;
++		    if (offsetw !== 0 || offseth !== 0) {
++			//console.log("try resize by " + offsetw + " " + offseth);
++			window.resizeBy(offsetw, offseth);
++		    }
++		};
++
++		update_size();
++		UI.sizeUpdateTimer = setInterval(update_size, 1000);
++
++	    } catch(e) {
++		console.log(e);
++	    }
++	},
 +	// Open/close PVE commandand menu
 +	togglePVECommandPanel: function() {
 +	  // Close the description panel
