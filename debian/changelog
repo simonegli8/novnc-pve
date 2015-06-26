@@ -1,3 +1,9 @@
+novnc-pve (0.5-2) unstable; urgency=medium
+
+  * add optional resize parameter to url
+  
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 26 Jun 2015 09:54:48 +0200
+
 novnc-pve (0.5-1) unstable; urgency=medium
 
   *  update to latest nonvc 0.5.1
