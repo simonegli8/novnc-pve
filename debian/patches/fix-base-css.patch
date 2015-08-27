@@ -38,7 +38,7 @@ Index: new/include/base.css
 -#sendCtrlAltDelButton {
 -  display: none;
 -}
- #noVNC_xvp_buttons {
+ #fullscreenButton {
    display: none;
  }
 @@ -76,7 +95,7 @@

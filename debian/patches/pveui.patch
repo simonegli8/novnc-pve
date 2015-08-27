@@ -1,29 +1,28 @@
-From 3dc49ec6e3bdbec6ec3ace618387ceac73f9eeb5 Mon Sep 17 00:00:00 2001
+From 280c1f8b3c07fde35282cd46d965bc1bc8f5649d Mon Sep 17 00:00:00 2001
 From: Alexandre Derumier <aderumier@odiso.com>
 Date: Thu, 25 Jun 2015 02:50:03 +0200
 Subject: [PATCH] pveui : add promox code
 
 Signed-off-by: Alexandre Derumier <aderumier@odiso.com>
 ---
- pveui.js | 721 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 672 insertions(+), 49 deletions(-)
+ pveui.js | 724 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 675 insertions(+), 49 deletions(-)
 
 diff --git a/pveui.js b/pveui.js
-index 3d3c41e..72072b1 100644
+index b2938d4..d6e172b 100644
 --- a/pveui.js
 +++ b/pveui.js
-@@ -38,11 +38,17 @@ var UI;
-         ctrlOn: false,
-         altOn: false,
+@@ -40,10 +40,17 @@ var UI;
          isTouchDevice: false,
--
-+	pveAllowMigratedVMTest: false, // set to true after a succesful conection 
-+	pveCommandsOpen: false,
-+	consoletype: undefined,
-+	vmid: undefined,
-+	vmname: undefined,
-+	nodename: undefined,
-+	resize: undefined, 
+         rememberedClipSetting: null,
+ 
++        pveAllowMigratedVMTest: false, // set to true after a succesful conection
++        pveCommandsOpen: false,
++        consoletype: undefined,
++        vmid: undefined,
++        vmname: undefined,
++        nodename: undefined,
++        resize: undefined,
          // Setup rfb object, load settings from browser storage, then call
          // UI.init to setup the UI/menus
          load: function (callback) {
@@ -32,7 +31,7 @@ index 3d3c41e..72072b1 100644
          },
  
          // Render default UI and initialize settings menu
-@@ -54,13 +60,13 @@ var UI;
+@@ -55,13 +62,13 @@ var UI;
              var sheets = WebUtil.getStylesheets();
              var i;
              for (i = 0; i < sheets.length; i += 1) {
@@ -48,7 +47,7 @@ index 3d3c41e..72072b1 100644
              }
  
              // Settings with immediate effects
-@@ -84,20 +90,10 @@ var UI;
+@@ -85,20 +92,10 @@ var UI;
                  }
              }
  
@@ -71,7 +70,18 @@ index 3d3c41e..72072b1 100644
              if (autoconnect === 'true' || autoconnect == '1') {
                  autoconnect = true;
                  UI.connect();
-@@ -160,13 +156,16 @@ var UI;
+@@ -141,7 +138,9 @@ var UI;
+                 (document.documentElement.requestFullscreen ||
+                  document.documentElement.mozRequestFullScreen ||
+                  document.documentElement.webkitRequestFullscreen ||
+-                 document.body.msRequestFullscreen)) {
++                 document.body.msRequestFullscreen)
++		&& UI.getSetting('resize') === 'scale'
++		) {
+                 $D('fullscreenButton').style.display = "inline";
+                 Util.addEvent(window, 'fullscreenchange', UI.updateFullscreenButton);
+                 Util.addEvent(window, 'mozfullscreenchange', UI.updateFullscreenButton);
+@@ -178,13 +177,16 @@ var UI;
  
          initRFB: function () {
              try {
@@ -90,7 +100,7 @@ index 3d3c41e..72072b1 100644
                  return true;
              } catch (exc) {
                  UI.updateState(null, 'fatal', null, 'Unable to create RFB client -- ' + exc);
-@@ -194,33 +193,36 @@ var UI;
+@@ -212,31 +214,34 @@ var UI;
              $D("sendEscButton").onclick = UI.sendEsc;
  
              $D("sendCtrlAltDelButton").onclick = UI.sendCtrlAltDel;
@@ -106,6 +116,7 @@ index 3d3c41e..72072b1 100644
 -            $D("xvpButton").onclick = UI.toggleXvpPanel;
 +            //$D("xvpButton").onclick = UI.toggleXvpPanel;
              $D("clipboardButton").onclick = UI.toggleClipboardPanel;
+             $D("fullscreenButton").onclick = UI.toggleFullscreen;
 -            $D("settingsButton").onclick = UI.toggleSettingsPanel;
 -            $D("connectButton").onclick = UI.toggleConnectPanel;
 -            $D("disconnectButton").onclick = UI.disconnect;
@@ -130,17 +141,14 @@ index 3d3c41e..72072b1 100644
 -            $D("noVNC_connect_button").onclick = UI.connect;
 +            //$D("noVNC_connect_button").onclick = UI.connect;
  
-             $D("noVNC_resize").onchange = function () {
-                 var connected = UI.rfb && UI.rfb_state === 'normal';
-                 UI.enableDisableViewClip(connected);
-             };
+             $D("noVNC_resize").onchange = UI.enableDisableViewClip;
 +
-+	    $D("pveCommandsButton").onclick = UI.togglePVECommandPanel;
-+	    $D("showSendKeysButton").onclick = UI.togglePVESendKeysPanel;
++            $D("pveCommandsButton").onclick = UI.togglePVECommandPanel;
++            $D("showSendKeysButton").onclick = UI.togglePVESendKeysPanel;
          },
  
          onresize: function (callback) {
-@@ -383,6 +385,9 @@ var UI;
+@@ -399,6 +404,9 @@ var UI;
          toggleXvpPanel: function() {
              // Close the description panel
              $D('noVNC_description').style.display = "none";
@@ -150,7 +158,7 @@ index 3d3c41e..72072b1 100644
              // Close settings if open
              if (UI.settingsOpen === true) {
                  UI.settingsApply();
-@@ -398,12 +403,12 @@ var UI;
+@@ -414,12 +422,12 @@ var UI;
              }
              // Toggle XVP panel
              if (UI.xvpOpen === true) {
@@ -167,7 +175,7 @@ index 3d3c41e..72072b1 100644
                  UI.xvpOpen = true;
              }
          },
-@@ -412,6 +417,12 @@ var UI;
+@@ -428,6 +436,12 @@ var UI;
          toggleClipboardPanel: function() {
              // Close the description panel
              $D('noVNC_description').style.display = "none";
@@ -180,7 +188,7 @@ index 3d3c41e..72072b1 100644
              // Close settings if open
              if (UI.settingsOpen === true) {
                  UI.settingsApply();
-@@ -441,6 +452,9 @@ var UI;
+@@ -498,6 +512,9 @@ var UI;
          toggleConnectPanel: function() {
              // Close the description panel
              $D('noVNC_description').style.display = "none";
@@ -190,7 +198,7 @@ index 3d3c41e..72072b1 100644
              // Close connection settings if open
              if (UI.settingsOpen === true) {
                  UI.settingsApply();
-@@ -459,14 +473,14 @@ var UI;
+@@ -516,14 +533,14 @@ var UI;
              // Toggle Connection Panel
              if (UI.connSettingsOpen === true) {
                  $D('noVNC_controls').style.display = "none";
@@ -207,7 +215,7 @@ index 3d3c41e..72072b1 100644
                  UI.connSettingsOpen = true;
                  $D('noVNC_host').focus();
              }
-@@ -520,14 +534,14 @@ var UI;
+@@ -577,14 +594,14 @@ var UI;
                  UI.toggleXvpPanel();
              }
              $D('noVNC_settings').style.display = "block";
@@ -224,7 +232,7 @@ index 3d3c41e..72072b1 100644
              UI.settingsOpen = false;
          },
  
-@@ -620,10 +634,15 @@ var UI;
+@@ -677,10 +694,15 @@ var UI;
                      break;
                  case 'normal':
                      klass = "noVNC_status_normal";
@@ -240,7 +248,7 @@ index 3d3c41e..72072b1 100644
                      /* falls through */
                  case 'loaded':
                      klass = "noVNC_status_normal";
-@@ -674,7 +693,7 @@ var UI;
+@@ -731,7 +753,7 @@ var UI;
              if (connected) {
                  UI.setViewClip();
                  UI.setMouseButton(1);
@@ -249,7 +257,7 @@ index 3d3c41e..72072b1 100644
                  $D('showKeyboard').style.display = "inline";
                  $D('noVNC_extra_keys').style.display = "";
                  $D('sendCtrlAltDelButton').style.display = "inline";
-@@ -695,18 +714,18 @@ var UI;
+@@ -752,18 +774,18 @@ var UI;
                  case 'fatal':
                  case 'failed':
                  case 'disconnected':
@@ -274,7 +282,7 @@ index 3d3c41e..72072b1 100644
                      break;
              }
  
-@@ -716,9 +735,9 @@ var UI;
+@@ -773,9 +795,9 @@ var UI;
          // Disable/enable XVP button
          updateXvpVisualState: function(ver) {
              if (ver >= 1) {
@@ -286,7 +294,7 @@ index 3d3c41e..72072b1 100644
                  // Close XVP panel if open
                  if (UI.xvpOpen === true) {
                      UI.toggleXvpPanel();
-@@ -1128,7 +1147,611 @@ var UI;
+@@ -1201,7 +1223,611 @@ var UI;
  
              var vncwidth = $D('noVNC_screen').style.offsetWidth;
              $D('noVNC-control-bar').style.width = vncwidth + 'px';
