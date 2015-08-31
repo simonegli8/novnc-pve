@@ -1,3 +1,9 @@
+novnc-pve (0.5-4) unstable; urgency=medium
+
+  * revert to upstream commit 8f3c0f6b9b5e5c23a7dc7e90bd22901017ab4fc7
+
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 31 Aug 2015 16:08:39 +0200
+
 novnc-pve (0.5-3) unstable; urgency=medium
 
   * update to upstream commmit 40b35fa20d459c731a5de826f4bd17634101a1db
