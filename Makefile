@@ -34,6 +34,7 @@ deb ${DEB}: ${TARSRC}
 download:
 	rm -rf ${NOVNCDIR}
 	git clone git://github.com/kanaka/noVNC ${NOVNCDIR}
+	cd ${NOVNCDIR}; git checkout -b local 8f3c0f6b9b5e5c23a7dc7e90bd22901017ab4fc7
 	tar czf ${NOVNCSRC} ${NOVNCDIR}
 
 .PHONY: upload
