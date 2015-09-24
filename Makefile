@@ -1,7 +1,7 @@
 RELEASE=4.0
 
 PACKAGE=novnc-pve
-PKGREL=4
+PKGREL=5
 
 NOVNCDIR=novnc
 NOVNCSRC=${NOVNCDIR}.tgz
@@ -34,7 +34,7 @@ deb ${DEB}: ${TARSRC}
 download:
 	rm -rf ${NOVNCDIR}
 	git clone git://github.com/kanaka/noVNC ${NOVNCDIR}
-	cd ${NOVNCDIR}; git checkout -b local 8f3c0f6b9b5e5c23a7dc7e90bd22901017ab4fc7
+	cd ${NOVNCDIR}; git checkout -b local a0e7ab43dca0ce11a713694ee4cf530bd3b17c5a
 	tar czf ${NOVNCSRC} ${NOVNCDIR}
 
 .PHONY: upload
