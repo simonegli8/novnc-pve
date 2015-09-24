@@ -19,4 +19,4 @@ include/jsunzip.js   	/usr/share/novnc-pve/include
 include/Orbitron700.ttf	/usr/share/novnc-pve/include
 include/Orbitron700.woff /usr/share/novnc-pve/include
 include/keysym.js	/usr/share/novnc-pve/include
-include/web-socket-js/* /usr/share/novnc-pve/include/web-socket-js
+include/inflator.js    /usr/share/novnc-pve/include
