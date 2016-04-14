@@ -1,3 +1,11 @@
+novnc-pve (0.5-6) unstable; urgency=medium
+
+  * add ie11 resize fix
+
+  * add fix for sendCtrlAltDeleteButton on mobile
+
+ -- Proxmox Support Team <support@proxmox.com>  Thu, 14 Apr 2016 12:15:20 +0200
+
 novnc-pve (0.5-5) unstable; urgency=medium
 
   * update novnc to commit a0e7ab43dca0ce11a713694ee4cf530bd3b17c5a
