@@ -1,0 +1,11 @@
+--- a/pveui.js
++++ b/pveui.js
+@@ -115,7 +115,7 @@
+                 setTimeout(function() { window.scrollTo(0, 1); }, 100);
+                 UI.forceSetting('clip', true);
+             } else {
+-                UI.initSetting('clip', false);
++                UI.forceSetting('clip', false);
+             }
+ 
+             UI.setViewClip();

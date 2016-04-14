@@ -1,2 +1,3 @@
 pveui.patch
 fix-base-css.patch
+fix-ie11-resize.patch
