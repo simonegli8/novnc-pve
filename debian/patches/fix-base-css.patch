@@ -1,7 +1,5 @@
-Index: new/include/base.css
-===================================================================
---- new.orig/include/base.css	2014-08-05 12:59:53.000000000 +0200
-+++ new/include/base.css	2014-08-06 08:12:16.000000000 +0200
+--- a/include/base.css
++++ b/include/base.css
 @@ -21,6 +21,28 @@
    height:100%;
  }
@@ -41,7 +39,7 @@ Index: new/include/base.css
  #fullscreenButton {
    display: none;
  }
-@@ -76,7 +95,7 @@
+@@ -79,7 +98,7 @@
  
  .noVNC-buttons-left {
    float: left;
@@ -50,7 +48,7 @@ Index: new/include/base.css
    position: relative;
  }
  
-@@ -220,7 +239,7 @@
+@@ -229,7 +248,7 @@
    position:fixed;
  }
  #noVNC_clipboard.top:after {
@@ -59,7 +57,7 @@ Index: new/include/base.css
  }
  
  #keyboardinput {
-@@ -375,7 +394,7 @@
+@@ -389,7 +408,7 @@
  }
  
  #noVNC_logo {
@@ -68,15 +66,15 @@ Index: new/include/base.css
    margin-left: 10px;
    color:yellow;
    text-align:left;
-@@ -432,6 +451,7 @@
+@@ -446,6 +465,7 @@
  #toggleAltButton {  display: inline; }
  #sendTabButton { display: inline; }
  #sendEscButton { display: inline; }
-+#sendCtrlAltDelButton { display: none; }
++#sendCtrlAltDelButton { display: inline; }
  
  /* left-align the status text on lower resolutions */
  @media screen and (max-width: 800px){
-@@ -488,6 +508,14 @@
+@@ -502,6 +522,14 @@
      top: 135px;
      left: 0px;
    }
