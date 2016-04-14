@@ -9,10 +9,10 @@ Signed-off-by: Alexandre Derumier <aderumier@odiso.com>
  1 file changed, 675 insertions(+), 49 deletions(-)
 
 diff --git a/pveui.js b/pveui.js
-index b2938d4..d6e172b 100644
+index cb5717c..ceaa4fc 100644
 --- a/pveui.js
 +++ b/pveui.js
-@@ -40,10 +40,17 @@ var UI;
+@@ -39,10 +39,17 @@ var UI;
          isTouchDevice: false,
          rememberedClipSetting: null,
  
@@ -31,7 +31,7 @@ index b2938d4..d6e172b 100644
          },
  
          // Render default UI and initialize settings menu
-@@ -55,13 +62,13 @@ var UI;
+@@ -54,13 +61,13 @@ var UI;
              var sheets = WebUtil.getStylesheets();
              var i;
              for (i = 0; i < sheets.length; i += 1) {
@@ -47,7 +47,7 @@ index b2938d4..d6e172b 100644
              }
  
              // Settings with immediate effects
-@@ -85,20 +92,10 @@ var UI;
+@@ -84,20 +91,10 @@ var UI;
                  }
              }
  
@@ -70,7 +70,7 @@ index b2938d4..d6e172b 100644
              if (autoconnect === 'true' || autoconnect == '1') {
                  autoconnect = true;
                  UI.connect();
-@@ -141,7 +138,9 @@ var UI;
+@@ -140,7 +137,9 @@ var UI;
                  (document.documentElement.requestFullscreen ||
                   document.documentElement.mozRequestFullScreen ||
                   document.documentElement.webkitRequestFullscreen ||
@@ -81,7 +81,7 @@ index b2938d4..d6e172b 100644
                  $D('fullscreenButton').style.display = "inline";
                  Util.addEvent(window, 'fullscreenchange', UI.updateFullscreenButton);
                  Util.addEvent(window, 'mozfullscreenchange', UI.updateFullscreenButton);
-@@ -178,13 +177,16 @@ var UI;
+@@ -177,13 +176,16 @@ var UI;
  
          initRFB: function () {
              try {
@@ -100,7 +100,7 @@ index b2938d4..d6e172b 100644
                  return true;
              } catch (exc) {
                  UI.updateState(null, 'fatal', null, 'Unable to create RFB client -- ' + exc);
-@@ -212,31 +214,34 @@ var UI;
+@@ -211,31 +213,34 @@ var UI;
              $D("sendEscButton").onclick = UI.sendEsc;
  
              $D("sendCtrlAltDelButton").onclick = UI.sendCtrlAltDel;
@@ -148,7 +148,7 @@ index b2938d4..d6e172b 100644
          },
  
          onresize: function (callback) {
-@@ -399,6 +404,9 @@ var UI;
+@@ -398,6 +403,9 @@ var UI;
          toggleXvpPanel: function() {
              // Close the description panel
              $D('noVNC_description').style.display = "none";
@@ -158,7 +158,7 @@ index b2938d4..d6e172b 100644
              // Close settings if open
              if (UI.settingsOpen === true) {
                  UI.settingsApply();
-@@ -414,12 +422,12 @@ var UI;
+@@ -413,12 +421,12 @@ var UI;
              }
              // Toggle XVP panel
              if (UI.xvpOpen === true) {
@@ -175,7 +175,7 @@ index b2938d4..d6e172b 100644
                  UI.xvpOpen = true;
              }
          },
-@@ -428,6 +436,12 @@ var UI;
+@@ -427,6 +435,12 @@ var UI;
          toggleClipboardPanel: function() {
              // Close the description panel
              $D('noVNC_description').style.display = "none";
@@ -188,7 +188,7 @@ index b2938d4..d6e172b 100644
              // Close settings if open
              if (UI.settingsOpen === true) {
                  UI.settingsApply();
-@@ -498,6 +512,9 @@ var UI;
+@@ -497,6 +511,9 @@ var UI;
          toggleConnectPanel: function() {
              // Close the description panel
              $D('noVNC_description').style.display = "none";
@@ -198,7 +198,7 @@ index b2938d4..d6e172b 100644
              // Close connection settings if open
              if (UI.settingsOpen === true) {
                  UI.settingsApply();
-@@ -516,14 +533,14 @@ var UI;
+@@ -515,14 +532,14 @@ var UI;
              // Toggle Connection Panel
              if (UI.connSettingsOpen === true) {
                  $D('noVNC_controls').style.display = "none";
@@ -215,7 +215,7 @@ index b2938d4..d6e172b 100644
                  UI.connSettingsOpen = true;
                  $D('noVNC_host').focus();
              }
-@@ -577,14 +594,14 @@ var UI;
+@@ -576,14 +593,14 @@ var UI;
                  UI.toggleXvpPanel();
              }
              $D('noVNC_settings').style.display = "block";
@@ -232,7 +232,7 @@ index b2938d4..d6e172b 100644
              UI.settingsOpen = false;
          },
  
-@@ -677,10 +694,15 @@ var UI;
+@@ -676,10 +693,15 @@ var UI;
                      break;
                  case 'normal':
                      klass = "noVNC_status_normal";
@@ -248,7 +248,7 @@ index b2938d4..d6e172b 100644
                      /* falls through */
                  case 'loaded':
                      klass = "noVNC_status_normal";
-@@ -731,7 +753,7 @@ var UI;
+@@ -730,7 +752,7 @@ var UI;
              if (connected) {
                  UI.setViewClip();
                  UI.setMouseButton(1);
@@ -257,7 +257,7 @@ index b2938d4..d6e172b 100644
                  $D('showKeyboard').style.display = "inline";
                  $D('noVNC_extra_keys').style.display = "";
                  $D('sendCtrlAltDelButton').style.display = "inline";
-@@ -752,18 +774,18 @@ var UI;
+@@ -751,18 +773,18 @@ var UI;
                  case 'fatal':
                  case 'failed':
                  case 'disconnected':
@@ -282,7 +282,7 @@ index b2938d4..d6e172b 100644
                      break;
              }
  
-@@ -773,9 +795,9 @@ var UI;
+@@ -772,9 +794,9 @@ var UI;
          // Disable/enable XVP button
          updateXvpVisualState: function(ver) {
              if (ver >= 1) {
@@ -294,7 +294,7 @@ index b2938d4..d6e172b 100644
                  // Close XVP panel if open
                  if (UI.xvpOpen === true) {
                      UI.toggleXvpPanel();
-@@ -1201,7 +1223,611 @@ var UI;
+@@ -1200,7 +1222,611 @@ var UI;
  
              var vncwidth = $D('noVNC_screen').style.offsetWidth;
              $D('noVNC-control-bar').style.width = vncwidth + 'px';
