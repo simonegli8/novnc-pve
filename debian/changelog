@@ -1,3 +1,11 @@
+novnc-pve (0.5-7) unstable; urgency=medium
+
+  * adjust novnc look, to better blend in with web gui
+
+  * remove unnecessary 6px addition
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 03 Aug 2016 11:55:05 +0200
+
 novnc-pve (0.5-6) unstable; urgency=medium
 
   * add ie11 resize fix
