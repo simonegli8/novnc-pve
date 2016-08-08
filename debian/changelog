@@ -1,3 +1,9 @@
+novnc-pve (0.5-8) unstable; urgency=medium
+
+  * fix height on resize
+
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 08 Aug 2016 12:22:11 +0200
+
 novnc-pve (0.5-7) unstable; urgency=medium
 
   * adjust novnc look, to better blend in with web gui
