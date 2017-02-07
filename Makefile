@@ -19,7 +19,8 @@ dinstall: deb
 	dpkg -i ${DEB}
 
 .PHONY: deb
-deb ${DEB}: ${TARSRC}
+deb: ${DEB}
+${DEB}: ${TARSRC}
 	rm -rf ${NOVNCDIR}
 	tar xf ${NOVNCSRC}
 	cp -a debian ${NOVNCDIR}/debian
