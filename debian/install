@@ -20,3 +20,4 @@ include/Orbitron700.ttf	/usr/share/novnc-pve/include
 include/Orbitron700.woff /usr/share/novnc-pve/include
 include/keysym.js	/usr/share/novnc-pve/include
 include/inflator.js    /usr/share/novnc-pve/include
+index.html.tpl		/usr/share/novnc-pve

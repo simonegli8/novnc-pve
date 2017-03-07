@@ -25,6 +25,7 @@ ${DEB}: ${TARSRC}
 	tar xf ${NOVNCSRC}
 	cp -a debian ${NOVNCDIR}/debian
 	cp ${NOVNCDIR}/include/ui.js ${NOVNCDIR}/pveui.js
+	cp ${NOVNCDIR}/vnc.html ${NOVNCDIR}/index.html.tpl
 	# fix file permissions
 	chmod 0644 ${NOVNCDIR}/include/jsunzip.js
 	echo "git clone git://git.proxmox.com/git/novnc-pve.git\\ngit checkout ${GITVERSION}" > ${NOVNCDIR}/debian/SOURCE
