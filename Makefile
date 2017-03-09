@@ -1,5 +1,3 @@
-RELEASE=4.2
-
 PACKAGE=novnc-pve
 PKGREL=8
 
@@ -41,7 +39,7 @@ download:
 
 .PHONY: upload
 upload: ${DEB}
-	tar cf - ${DEB}|ssh repoman@repo.proxmox.com upload
+	tar cf - ${DEB}|ssh -X repoman@repo.proxmox.com -- upload --product pmg,pve --dist stretch
 
 .PHONY: distclean
 distclean: clean
