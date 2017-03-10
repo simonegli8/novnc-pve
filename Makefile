@@ -1,5 +1,5 @@
 PACKAGE=novnc-pve
-PKGREL=8
+PKGREL=9
 
 NOVNCDIR=novnc
 NOVNCSRC=${NOVNCDIR}.tgz
