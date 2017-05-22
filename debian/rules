@@ -5,5 +5,9 @@
 
 export DEB_BUILD_HARDENING=1
 
+override_dh_install:
+	cp vnc.html index.html.tpl
+	dh_install
+
 %:
 	dh ${@} --with quilt

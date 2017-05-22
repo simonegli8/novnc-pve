@@ -1,5 +1,9 @@
-customize-html-tpl.diff
-pveui.patch
-fix-base-css.patch
-fix-ie11-resize.patch
-fix-CtrlAltDel-button-mobile.patch
+0001-add-pve-specific-js-code.patch
+0002-change-scaling-when-toggling-fullscreen.patch
+0003-add-pve-style.patch
+0004-remove-vnc-logos.patch
+0005-change-src-directory-for-images-js-files.patch
+0006-add-pve-vnc-commands.patch
+0007-add-replaceable-snippets-in-vnc.html.patch
+0008-focus-canvas-after-load.patch
+0009-decrease-animation-time.patch

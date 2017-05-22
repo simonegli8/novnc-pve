@@ -1,3 +1,9 @@
+novnc-pve (0.6-1) unstable; urgency=medium
+
+  * update novnc to commit b0061a3c49dc25a71f7b0a9a1f31a8befe787cb4
+
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 15 May 2017 15:42:15 +0200
+
 novnc-pve (0.5-9) unstable; urgency=medium
 
   * version bump for debian stretch - to make room for jessie updates

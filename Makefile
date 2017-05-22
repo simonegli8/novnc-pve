@@ -1,6 +1,6 @@
 PACKAGE=novnc-pve
-VER=0.5
-PKGREL=9
+VER=0.6
+PKGREL=1
 
 SRCDIR=novnc
 
@@ -18,10 +18,6 @@ ${DEB}: | submodule
 	rm -rf ${SRCDIR}.tmp
 	cp -rpa ${SRCDIR} ${SRCDIR}.tmp
 	cp -a debian ${SRCDIR}.tmp/debian
-	cp ${SRCDIR}.tmp/include/ui.js ${SRCDIR}.tmp/pveui.js
-	cp ${SRCDIR}.tmp/vnc.html ${SRCDIR}.tmp/index.html.tpl
-	# fix file permissions
-	chmod 0644 ${SRCDIR}.tmp/include/jsunzip.js
 	echo "git clone git://git.proxmox.com/git/novnc-pve.git\\ngit checkout ${GITVERSION}" > ${SRCDIR}.tmp/debian/SOURCE
 	cd ${SRCDIR}.tmp; dpkg-buildpackage -rfakeroot -b -uc -us
 	lintian ${DEB}
