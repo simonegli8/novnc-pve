@@ -1,0 +1,44 @@
+From 1a042fcad1f9242cafbb589a1da5b8b270e8b8bb Mon Sep 17 00:00:00 2001
+From: Dominik Csapak <d.csapak@proxmox.com>
+Date: Fri, 20 Jan 2017 10:35:43 +0100
+Subject: [PATCH 6/9] add pve vnc commands
+
+Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
+---
+ vnc.html | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+
+diff --git a/vnc.html b/vnc.html
+index 23fc0e4..e789d04 100644
+--- a/vnc.html
++++ b/vnc.html
+@@ -165,6 +165,26 @@
+                 id="noVNC_fullscreen_button" class="noVNC_button noVNC_hidden"
+                 title="Fullscreen" />
+ 
++	    <!-- PVE Commands -->
++            <input type="image" alt="Commands" src="/novnc/app/images/power.svg"
++                id="pve_commands_button" class="noVNC_button"
++                title="Commands" />
++
++            <div class="noVNC_vcenter">
++            <div id="pve_commands" class="noVNC_panel">
++                <div class="noVNC_heading">
++                    <img src="/novnc/app/images/power.svg"> Commands
++                </div>
++		<input id="pve_command_start" type="button" value="Start" />
++		<input id="pve_command_shutdown" type="button" value="Shutdown" />
++		<input id="pve_command_stop" type="button" value="Stop" />
++		<input id="pve_command_reset" type="button" value="Reset" />
++		<input id="pve_command_suspend" type="button" value="Suspend" />
++		<input id="pve_command_resume" type="button" value="Resume" />
++		<input id="pve_command_reload" type="button" value="Reload" />
++	    </div>
++	    </div>
++
+             <!-- Settings -->
+             <input type="image" alt="Settings" src="/novnc/app/images/settings.svg"
+                 id="noVNC_settings_button" class="noVNC_button"
+-- 
+2.11.0
+

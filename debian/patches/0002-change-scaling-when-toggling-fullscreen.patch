@@ -1,0 +1,45 @@
+From c1073cb0f19ebd64f6ee4b221b5aa06a2f8e5c99 Mon Sep 17 00:00:00 2001
+From: Dominik Csapak <d.csapak@proxmox.com>
+Date: Thu, 11 May 2017 10:34:10 +0200
+Subject: [PATCH 2/9] change scaling when toggling fullscreen
+
+when activating fullscreen, we change the scaling to 'scale',
+and changing it back when leaving fullscreen
+
+Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
+---
+ app/ui.js | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/app/ui.js b/app/ui.js
+index def0eda..d4b0291 100644
+--- a/app/ui.js
++++ b/app/ui.js
+@@ -1174,6 +1174,15 @@ const UI = {
+             } else if (document.msExitFullscreen) {
+                 document.msExitFullscreen();
+             }
++
++	    // when changing from fullscreen to window,
++	    // re enable auto resize
++	    if (WebUtil.getQueryVar('resize') === null) {
++		UI.updateSetting('resize', null);
++		setTimeout(function() {
++		    UI.fixScrollbars();
++		}, 100);
++	    }
+         } else {
+             if (document.documentElement.requestFullscreen) {
+                 document.documentElement.requestFullscreen();
+@@ -1184,6 +1193,8 @@ const UI = {
+             } else if (document.body.msRequestFullscreen) {
+                 document.body.msRequestFullscreen();
+             }
++	    // we want scaling in fullscreen mode
++	    UI.updateSetting('resize', 'scale');
+         }
+         UI.enableDisableViewClip();
+         UI.updateFullscreenButton();
+-- 
+2.11.0
+
