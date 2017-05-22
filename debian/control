@@ -8,7 +8,7 @@ Homepage: https://github.com/kanaka/noVNC/
 
 Package: novnc-pve
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, python (>= 2.4)
+Depends: ${misc:Depends}
 Description: HTML5 VNC client
  VNC client using HTML5 (WebSockets, Canvas). This packet is use by 
  Proxmox VE to provide HTML VM console. 
