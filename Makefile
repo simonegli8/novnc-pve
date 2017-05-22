@@ -17,7 +17,7 @@ deb: ${DEB}
 ${DEB}: | submodule
 	rm -rf ${SRCDIR}.tmp
 	cp -rpa ${SRCDIR} ${SRCDIR}.tmp
-	cp -a debian ${SRCDIR}.tmp/debian
+	cp -a debian ${SRCDIR}.tmp/
 	echo "git clone git://git.proxmox.com/git/novnc-pve.git\\ngit checkout ${GITVERSION}" > ${SRCDIR}.tmp/debian/SOURCE
 	cd ${SRCDIR}.tmp; dpkg-buildpackage -rfakeroot -b -uc -us
 	lintian ${DEB}

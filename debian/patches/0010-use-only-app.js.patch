@@ -1,0 +1,44 @@
+From 6d3945c7c0b680a871d789215659f04e42acd6e7 Mon Sep 17 00:00:00 2001
+From: Dominik Csapak <d.csapak@proxmox.com>
+Date: Tue, 16 May 2017 10:36:15 +0200
+Subject: [PATCH 10/10] use only app.js
+
+because we will use the commonjs version,
+we only need to use the generated app.js
+
+Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
+---
+ vnc.html | 17 +----------------
+ 1 file changed, 1 insertion(+), 16 deletions(-)
+
+diff --git a/vnc.html b/vnc.html
+index ff70e0c..40c726b 100644
+--- a/vnc.html
++++ b/vnc.html
+@@ -46,22 +46,7 @@
+     </script>
+ 
+     <!-- begin scripts -->
+-    <!-- promise polyfills promises for IE11 -->
+-    <script src="/novnc/vendor/promise.js"></script>
+-    <!-- ES2015/ES6 modules polyfill -->
+-    <script type="module">
+-        window._noVNC_has_module_support = true;
+-    </script>
+-    <script>
+-        window.addEventListener("load", function() {
+-            if (window._noVNC_has_module_support) return;
+-            var loader = document.createElement("script");
+-            loader.src = "/novnc/vendor/browser-es-module-loader/dist/browser-es-module-loader.js";
+-            document.head.appendChild(loader);
+-        });
+-    </script>
+-    <!-- actual script modules -->
+-    <script type="module" src="/novnc/app/ui.js"></script>
++    <script src="/novnc/app.js"></script>
+     <!-- end scripts -->
+ </head>
+ 
+-- 
+2.11.0
+
