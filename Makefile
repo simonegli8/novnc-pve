@@ -1,41 +1,39 @@
 PACKAGE=novnc-pve
+VER=0.5
 PKGREL=9
 
-NOVNCDIR=novnc
-NOVNCSRC=${NOVNCDIR}.tgz
-NOVNCVER=0.5
+SRCDIR=novnc
 
 ARCH:=$(shell dpkg-architecture -qDEB_BUILD_ARCH)
 GITVERSION:=$(shell cat .git/refs/heads/master)
 
-DEB=${PACKAGE}_${NOVNCVER}-${PKGREL}_${ARCH}.deb
+DEB=${PACKAGE}_${VER}-${PKGREL}_${ARCH}.deb
 
-all: deb
-
-.PHONY: dinstall
-dinstall: deb
-	dpkg -i ${DEB}
+all: ${DEB}
+	@echo ${DEB}
 
 .PHONY: deb
 deb: ${DEB}
-${DEB}: ${TARSRC}
-	rm -rf ${NOVNCDIR}
-	tar xf ${NOVNCSRC}
-	cp -a debian ${NOVNCDIR}/debian
-	cp ${NOVNCDIR}/include/ui.js ${NOVNCDIR}/pveui.js
-	cp ${NOVNCDIR}/vnc.html ${NOVNCDIR}/index.html.tpl
+${DEB}: | submodule
+	rm -rf ${SRCDIR}.tmp
+	cp -rpa ${SRCDIR} ${SRCDIR}.tmp
+	cp -a debian ${SRCDIR}.tmp/debian
+	cp ${SRCDIR}.tmp/include/ui.js ${SRCDIR}.tmp/pveui.js
+	cp ${SRCDIR}.tmp/vnc.html ${SRCDIR}.tmp/index.html.tpl
 	# fix file permissions
-	chmod 0644 ${NOVNCDIR}/include/jsunzip.js
-	echo "git clone git://git.proxmox.com/git/novnc-pve.git\\ngit checkout ${GITVERSION}" > ${NOVNCDIR}/debian/SOURCE
-	cd ${NOVNCDIR}; dpkg-buildpackage -b -uc -us
+	chmod 0644 ${SRCDIR}.tmp/include/jsunzip.js
+	echo "git clone git://git.proxmox.com/git/novnc-pve.git\\ngit checkout ${GITVERSION}" > ${SRCDIR}.tmp/debian/SOURCE
+	cd ${SRCDIR}.tmp; dpkg-buildpackage -rfakeroot -b -uc -us
 	lintian ${DEB}
+	@echo ${DEB}
+
+.PHONY: submodule
+submodule:
+	test -f "${SRCDIR}/vnc.html" || git submodule update --init
 
 .PHONY: download
-download:
-	rm -rf ${NOVNCDIR}
-	git clone git://github.com/kanaka/noVNC ${NOVNCDIR}
-	cd ${NOVNCDIR}; git checkout -b local a0e7ab43dca0ce11a713694ee4cf530bd3b17c5a
-	tar czf ${NOVNCSRC} ${NOVNCDIR}
+download ${SRCDIR}:
+	git submodule foreach 'git pull --ff-only origin master'
 
 .PHONY: upload
 upload: ${DEB}
@@ -46,4 +44,8 @@ distclean: clean
 
 .PHONY: clean
 clean:
-	rm -rf *~ debian/*~ *_${ARCH}.deb *_all.deb *.changes *.dsc novnc 
+	rm -rf *~ debian/*~ *_${ARCH}.deb ${SRCDIR}.tmp *_all.deb *.changes *.dsc *.buildinfo
+
+.PHONY: dinstall
+dinstall: deb
+	dpkg -i ${DEB}
