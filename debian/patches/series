@@ -8,3 +8,4 @@
 0008-focus-canvas-after-load.patch
 0009-decrease-animation-time.patch
 0010-use-only-app.js.patch
+0011-add-width-and-height-to-vncproxy-call-in-console-tab.patch
