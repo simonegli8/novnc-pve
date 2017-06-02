@@ -1,6 +1,6 @@
 PACKAGE=novnc-pve
 VER=0.6
-PKGREL=1
+PKGREL=2
 
 SRCDIR=novnc
 
