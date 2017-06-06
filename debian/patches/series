@@ -9,3 +9,4 @@
 0009-decrease-animation-time.patch
 0010-use-only-app.js.patch
 0011-add-width-and-height-to-vncproxy-call-in-console-tab.patch
+0012-change-higlight-color-for-pressed-buttons.patch

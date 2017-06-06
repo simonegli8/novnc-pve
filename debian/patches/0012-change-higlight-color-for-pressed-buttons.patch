@@ -1,0 +1,26 @@
+From 486e178afc6db131a0b24b18442e5b9fb04f37b0 Mon Sep 17 00:00:00 2001
+From: Dominik Csapak <d.csapak@proxmox.com>
+Date: Tue, 6 Jun 2017 12:03:49 +0200
+Subject: [PATCH 12/12] change higlight color for pressed buttons
+
+Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
+---
+ app/styles/pve.css | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/app/styles/pve.css b/app/styles/pve.css
+index 35002fe..eaeb5cb 100644
+--- a/app/styles/pve.css
++++ b/app/styles/pve.css
+@@ -35,3 +35,8 @@
+ #noVNC_connect_button {
+     display: none;
+ }
++
++:root:not(.noVNC_touch) .noVNC_button.noVNC_selected:hover {
++  border-color: rgba(0, 0, 0, 0.4);
++  background: #5BA8DF;
++}
+-- 
+2.11.0
+
