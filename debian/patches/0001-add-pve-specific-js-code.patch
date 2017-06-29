@@ -191,7 +191,7 @@ index 0000000..668835a
 +		if (migrating === undefined ||
 +		    migrating === true) {
 +		    // check (again) if migrating
-+		    me.UI.showStatus('Checking for Migration', 'warning', 5000);
++		    me.UI.showStatus('Waiting for connection...', 'warning', 5000);
 +		    me.API2Request({
 +			url: me.baseUrl + '/config',
 +			method: 'GET',
@@ -210,7 +210,7 @@ index 0000000..668835a
 +		    });
 +		} else {
 +		    // not migrating any more
-+		    me.UI.showStatus('Migration finished', 'warning');
++		    me.UI.showStatus('Connection resumed', 'warning');
 +		    clearInterval(check);
 +		    me.API2Request({
 +			url: '/cluster/resources',
