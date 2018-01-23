@@ -5,7 +5,8 @@ PKGREL=4
 SRCDIR=novnc
 
 ARCH:=$(shell dpkg-architecture -qDEB_BUILD_ARCH)
-GITVERSION:=$(shell cat .git/refs/heads/master)
+
+GITVERSION:=$(shell git rev-parse HEAD)
 
 DEB=${PACKAGE}_${VER}-${PKGREL}_${ARCH}.deb
 
