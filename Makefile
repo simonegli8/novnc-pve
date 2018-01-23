@@ -3,6 +3,7 @@ VER=0.6
 PKGREL=4
 
 SRCDIR=novnc
+BUILDDIR=${SRCDIR}.tmp
 
 ARCH:=$(shell dpkg-architecture -qDEB_BUILD_ARCH)
 
@@ -16,11 +17,11 @@ all: ${DEB}
 .PHONY: deb
 deb: ${DEB}
 ${DEB}: | submodule
-	rm -rf ${SRCDIR}.tmp
-	cp -rpa ${SRCDIR} ${SRCDIR}.tmp
-	cp -a debian ${SRCDIR}.tmp/
-	echo "git clone git://git.proxmox.com/git/novnc-pve.git\\ngit checkout ${GITVERSION}" > ${SRCDIR}.tmp/debian/SOURCE
-	cd ${SRCDIR}.tmp; dpkg-buildpackage -rfakeroot -b -uc -us
+	rm -rf ${BUILDDIR}
+	cp -rpa ${SRCDIR} ${BUILDDIR}
+	cp -a debian ${BUILDDIR}
+	echo "git clone git://git.proxmox.com/git/novnc-pve.git\\ngit checkout ${GITVERSION}" > ${BUILDDIR}/debian/SOURCE
+	cd ${BUILDDIR}; dpkg-buildpackage -rfakeroot -b -uc -us
 	lintian ${DEB}
 	@echo ${DEB}
 
@@ -41,7 +42,7 @@ distclean: clean
 
 .PHONY: clean
 clean:
-	rm -rf *~ debian/*~ *_${ARCH}.deb ${SRCDIR}.tmp *_all.deb *.changes *.dsc *.buildinfo
+	rm -rf *~ debian/*~ *.deb ${BUILDDIR} *.changes *.dsc *.buildinfo
 
 .PHONY: dinstall
 dinstall: deb
