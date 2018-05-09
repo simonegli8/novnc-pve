@@ -1,3 +1,9 @@
+novnc-pve (1.0.0-1) unstable; urgency=medium
+
+  * upgrade to v1.0.0
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 09 May 2018 13:25:24 +0200
+
 novnc-pve (0.6-4) unstable; urgency=medium
 
   * Replace 'migrating' info strings with more generic 'connecting' messages
