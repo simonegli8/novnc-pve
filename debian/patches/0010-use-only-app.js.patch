@@ -1,4 +1,4 @@
-From 6d3945c7c0b680a871d789215659f04e42acd6e7 Mon Sep 17 00:00:00 2001
+From 821a87411fd75bc1137e99250689f21d820e49ed Mon Sep 17 00:00:00 2001
 From: Dominik Csapak <d.csapak@proxmox.com>
 Date: Tue, 16 May 2017 10:36:15 +0200
 Subject: [PATCH 10/10] use only app.js
@@ -12,7 +12,7 @@ Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
  1 file changed, 1 insertion(+), 16 deletions(-)
 
 diff --git a/vnc.html b/vnc.html
-index ff70e0c..40c726b 100644
+index a139e26..46d09d7 100644
 --- a/vnc.html
 +++ b/vnc.html
 @@ -46,22 +46,7 @@
@@ -34,8 +34,8 @@ index ff70e0c..40c726b 100644
 -        });
 -    </script>
 -    <!-- actual script modules -->
--    <script type="module" src="/novnc/app/ui.js"></script>
-+    <script src="/novnc/app.js"></script>
+-    <script type="module" crossorigin="anonymous" src="/novnc/app/ui.js"></script>
++    <script crossorigin=anonymous" src="/novnc/app.js"></script>
      <!-- end scripts -->
  </head>
  

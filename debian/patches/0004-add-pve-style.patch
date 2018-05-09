@@ -1,7 +1,7 @@
-From 1cdfeafd561bfe4d9acb7ef8a838d82c64f9c1e5 Mon Sep 17 00:00:00 2001
+From 5d8fb2485e4863d561481ea7d51e36f8e0be1d2b Mon Sep 17 00:00:00 2001
 From: Dominik Csapak <d.csapak@proxmox.com>
 Date: Tue, 13 Dec 2016 16:03:41 +0100
-Subject: [PATCH 3/9] add pve style
+Subject: [PATCH 04/10] add pve style
 
 this adds the custom pve style (based on black.css)
 
@@ -10,17 +10,17 @@ and fix the z-index of the connect overlay
 
 Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
 ---
- app/styles/pve.css | 37 +++++++++++++++++++++++++++++++++++++
+ app/styles/pve.css | 42 ++++++++++++++++++++++++++++++++++++++++++
  vnc.html           |  1 +
- 2 files changed, 38 insertions(+)
+ 2 files changed, 43 insertions(+)
  create mode 100644 app/styles/pve.css
 
 diff --git a/app/styles/pve.css b/app/styles/pve.css
 new file mode 100644
-index 0000000..35002fe
+index 0000000..eaeb5cb
 --- /dev/null
 +++ b/app/styles/pve.css
-@@ -0,0 +1,37 @@
+@@ -0,0 +1,42 @@
 +/*
 + * noVNC black CSS
 + * Copyright (C) 2012 Joel Martin
@@ -58,11 +58,16 @@ index 0000000..35002fe
 +#noVNC_connect_button {
 +    display: none;
 +}
++
++:root:not(.noVNC_touch) .noVNC_button.noVNC_selected:hover {
++  border-color: rgba(0, 0, 0, 0.4);
++  background: #5BA8DF;
++}
 diff --git a/vnc.html b/vnc.html
-index 6cb4be4..98a9952 100644
+index 701714c..63d7181 100644
 --- a/vnc.html
 +++ b/vnc.html
-@@ -53,6 +53,7 @@
+@@ -55,6 +55,7 @@
  
      <!-- Stylesheets -->
      <link rel="stylesheet" href="app/styles/base.css" />

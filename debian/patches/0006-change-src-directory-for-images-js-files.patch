@@ -1,7 +1,7 @@
-From 0b7322fc05361366fc4e24e6d5b9d8e2254ace40 Mon Sep 17 00:00:00 2001
+From 87486c038db7ddb212f995c70edf13dc1e8783cd Mon Sep 17 00:00:00 2001
 From: Dominik Csapak <d.csapak@proxmox.com>
 Date: Tue, 17 Jan 2017 17:24:03 +0100
-Subject: [PATCH 5/9] change src directory for images/js files
+Subject: [PATCH 06/10] change src directory for images/js files
 
 since they will be in /novnc/
 also change the directory in the build script
@@ -14,11 +14,11 @@ Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
  3 files changed, 30 insertions(+), 30 deletions(-)
 
 diff --git a/app/ui.js b/app/ui.js
-index d4b0291..d32c789 100644
+index d35be49..d64389d 100644
 --- a/app/ui.js
 +++ b/app/ui.js
-@@ -1771,7 +1771,7 @@ const UI = {
- var LINGUAS = ["de", "el", "nl", "sv"];
+@@ -1725,7 +1725,7 @@ var UI = {
+ var LINGUAS = ["de", "el", "es", "nl", "pl", "sv", "tr", "zh"];
  l10n.setup(LINGUAS);
  if (l10n.language !== "en" && l10n.dictionary === undefined) {
 -    WebUtil.fetchJSON('app/locale/' + l10n.language + '.json', function (translations) {
@@ -40,7 +40,7 @@ index 990fb4d..0f44e1c 100644
          noCopyOverride: () => {},
      },
 diff --git a/vnc.html b/vnc.html
-index cd8e594..23fc0e4 100644
+index 60727e4..fa66d6f 100644
 --- a/vnc.html
 +++ b/vnc.html
 @@ -28,7 +28,7 @@
@@ -76,8 +76,8 @@ index cd8e594..23fc0e4 100644
          });
      </script>
      <!-- actual script modules -->
--    <script type="module" src="app/ui.js"></script>
-+    <script type="module" src="/novnc/app/ui.js"></script>
+-    <script type="module" crossorigin="anonymous" src="app/ui.js"></script>
++    <script type="module" crossorigin="anonymous" src="/novnc/app/ui.js"></script>
      <!-- end scripts -->
  </head>
  
@@ -146,19 +146,19 @@ index cd8e594..23fc0e4 100644
 @@ -130,13 +130,13 @@
              </div>
  
-             <!-- XVP Shutdown/Reboot -->
+             <!-- Shutdown/Reboot -->
 -            <input type="image" alt="Shutdown/Reboot" src="app/images/power.svg"
 +            <input type="image" alt="Shutdown/Reboot" src="/novnc/app/images/power.svg"
-                 id="noVNC_xvp_button" class="noVNC_button"
+                 id="noVNC_power_button" class="noVNC_button"
                  title="Shutdown/Reboot..." />
              <div class="noVNC_vcenter">
-             <div id="noVNC_xvp" class="noVNC_panel">
+             <div id="noVNC_power" class="noVNC_panel">
                  <div class="noVNC_heading">
 -                    <img src="app/images/power.svg"> Power
 +                    <img src="/novnc/app/images/power.svg"> Power
                  </div>
-                 <input type="button" id="noVNC_xvp_shutdown_button" value="Shutdown" />
-                 <input type="button" id="noVNC_xvp_reboot_button" value="Reboot" />
+                 <input type="button" id="noVNC_shutdown_button" value="Shutdown" />
+                 <input type="button" id="noVNC_reboot_button" value="Reboot" />
 @@ -145,13 +145,13 @@
              </div>
  
@@ -198,7 +198,7 @@ index cd8e594..23fc0e4 100644
                      </li>
                      <li>
                          <label><input id="noVNC_setting_shared" type="checkbox" /> Shared Mode</label>
-@@ -249,7 +249,7 @@
+@@ -244,7 +244,7 @@
              </div>
  
              <!-- Connection Controls -->
@@ -207,7 +207,7 @@ index cd8e594..23fc0e4 100644
                  id="noVNC_disconnect_button" class="noVNC_button"
                  title="Disconnect" />
  
-@@ -266,7 +266,7 @@
+@@ -263,7 +263,7 @@
          <div id="noVNC_connect_dlg">
              <div class="noVNC_logo" translate="no"><span>no</span>VNC</div>
              <div id="noVNC_connect_button"><div>
@@ -216,7 +216,7 @@ index cd8e594..23fc0e4 100644
              </div></div>
          </div>
      </div>
-@@ -314,8 +314,8 @@
+@@ -304,8 +304,8 @@
      </div>
  
      <audio id="noVNC_bell">

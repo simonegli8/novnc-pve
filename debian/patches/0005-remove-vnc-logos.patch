@@ -1,20 +1,20 @@
-From a28b283a224990e1b46f304d9a2067afa7633d63 Mon Sep 17 00:00:00 2001
+From 761e67e803bfcf196cc2229ec451adaee0beb61a Mon Sep 17 00:00:00 2001
 From: Dominik Csapak <d.csapak@proxmox.com>
 Date: Fri, 20 Jan 2017 10:35:05 +0100
-Subject: [PATCH 4/9] remove vnc logos
+Subject: [PATCH 05/10] remove vnc logos
 
 to show the pve icon instead
 
 Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
 ---
- vnc.html | 24 ------------------------
- 1 file changed, 24 deletions(-)
+ vnc.html | 26 --------------------------
+ 1 file changed, 26 deletions(-)
 
 diff --git a/vnc.html b/vnc.html
-index 98a9952..cd8e594 100644
+index 63d7181..60727e4 100644
 --- a/vnc.html
 +++ b/vnc.html
-@@ -23,34 +23,10 @@
+@@ -23,36 +23,10 @@
                  Remove this if you use the .htaccess -->
      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
  
@@ -32,7 +32,9 @@ index 98a9952..cd8e594 100644
 -    <link rel="icon" sizes="144x144" type="image/png" href="app/images/icons/novnc-144x144.png">
 -    <link rel="icon" sizes="152x152" type="image/png" href="app/images/icons/novnc-152x152.png">
 -    <link rel="icon" sizes="192x192" type="image/png" href="app/images/icons/novnc-192x192.png">
+-    <!-- Firefox currently mishandles SVG, see #1419039
 -    <link rel="icon" sizes="any" type="image/svg+xml" href="app/images/icons/novnc-icon.svg">
+-    -->
 -    <!-- Repeated last so that legacy handling will pick this -->
 -    <link rel="icon" sizes="16x16" type="image/png" href="app/images/icons/novnc-16x16.png">
 -

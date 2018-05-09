@@ -1,0 +1,72 @@
+From 5a456e52e6a1c9cb283187505bc09289a9fb3334 Mon Sep 17 00:00:00 2001
+From: Dominik Csapak <d.csapak@proxmox.com>
+Date: Wed, 9 May 2018 10:47:53 +0200
+Subject: [PATCH 02/10] add custom fbresize event on rfb
+
+this can be use to react to changes of the resolution, like resizing the
+window
+
+Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
+---
+ app/ui.js   | 16 ++++++++++++++++
+ core/rfb.js | 10 ++++++++++
+ 2 files changed, 26 insertions(+)
+
+diff --git a/app/ui.js b/app/ui.js
+index 143cb60..b01fd5d 100644
+--- a/app/ui.js
++++ b/app/ui.js
+@@ -1047,6 +1047,7 @@ var UI = {
+         UI.rfb.addEventListener("clipboard", UI.clipboardReceive);
+         UI.rfb.addEventListener("bell", UI.bell);
+         UI.rfb.addEventListener("desktopname", UI.updateDesktopName);
++        UI.rfb.addEventListener("fbresize", UI.updateSessionSize);
+         UI.rfb.clipViewport = UI.getSetting('view_clip');
+         UI.rfb.scaleViewport = UI.getSetting('resize') === 'scale';
+         UI.rfb.resizeSession = UI.getSetting('resize') === 'remote';
+@@ -1612,6 +1613,21 @@ var UI = {
+         document.getElementById('pve_commands_button').classList.remove("noVNC_selected");
+     },
+ 
++    updateSessionSize: function(e) {
++        var rfb = e.detail.rfb;
++        var width = e.detail.width;
++        var height = e.detail.height;
++        var resize = UI.getSetting('resize');
++
++        if (resize == 'null') {
++            var clip = UI.getSetting('view_clip');
++            UI.PVE.updateFBSize(rfb, width, height, clip);
++        }
++
++        UI.applyResizeMode();
++        UI.updateViewClip();
++    },
++
+ /* ------^-------
+  *    /PVE
+  * ==============
+diff --git a/core/rfb.js b/core/rfb.js
+index 7c4e0c9..6a1ff85 100644
+--- a/core/rfb.js
++++ b/core/rfb.js
+@@ -1588,6 +1588,16 @@ RFB.prototype = {
+         this._updateClip();
+         this._updateScale();
+ 
++        // fbresize event
++        var event = new CustomEvent("fbresize", {
++            detail: {
++                rfb: this,
++                width: width,
++                height: height }
++            }
++        );
++        this.dispatchEvent(event);
++
+         this._timing.fbu_rt_start = (new Date()).getTime();
+         this._updateContinuousUpdates();
+     },
+-- 
+2.11.0
+

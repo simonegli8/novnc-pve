@@ -1,7 +1,7 @@
-From c3d885b78fd816201ed485eb7a681ce1fcf3a122 Mon Sep 17 00:00:00 2001
+From f56b6fe825b776c30e445d2319488bec63551b8f Mon Sep 17 00:00:00 2001
 From: Dominik Csapak <d.csapak@proxmox.com>
 Date: Fri, 20 Jan 2017 10:16:09 +0100
-Subject: [PATCH 7/9] add replaceable snippets in vnc.html
+Subject: [PATCH 08/10] add replaceable snippets in vnc.html
 
 so that we can insert the username/csrftoken via search/replace
 
@@ -11,7 +11,7 @@ Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
  1 file changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/vnc.html b/vnc.html
-index e789d04..1423f78 100644
+index 8c3d9d9..a139e26 100644
 --- a/vnc.html
 +++ b/vnc.html
 @@ -15,7 +15,7 @@
