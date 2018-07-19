@@ -1,4 +1,4 @@
-From 761e67e803bfcf196cc2229ec451adaee0beb61a Mon Sep 17 00:00:00 2001
+From b093138dedf1c2b8f5b91fe8819092bf8f1371be Mon Sep 17 00:00:00 2001
 From: Dominik Csapak <d.csapak@proxmox.com>
 Date: Fri, 20 Jan 2017 10:35:05 +0100
 Subject: [PATCH 05/10] remove vnc logos
@@ -11,7 +11,7 @@ Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
  1 file changed, 26 deletions(-)
 
 diff --git a/vnc.html b/vnc.html
-index 63d7181..60727e4 100644
+index 3110e8b..bc1a47d 100644
 --- a/vnc.html
 +++ b/vnc.html
 @@ -23,36 +23,10 @@

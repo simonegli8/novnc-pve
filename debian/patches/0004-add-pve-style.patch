@@ -1,4 +1,4 @@
-From 5d8fb2485e4863d561481ea7d51e36f8e0be1d2b Mon Sep 17 00:00:00 2001
+From ad3490e9908ce0a65ef40576520fb33236b5c102 Mon Sep 17 00:00:00 2001
 From: Dominik Csapak <d.csapak@proxmox.com>
 Date: Tue, 13 Dec 2016 16:03:41 +0100
 Subject: [PATCH 04/10] add pve style
@@ -64,7 +64,7 @@ index 0000000..eaeb5cb
 +  background: #5BA8DF;
 +}
 diff --git a/vnc.html b/vnc.html
-index 701714c..63d7181 100644
+index 6c041b5..3110e8b 100644
 --- a/vnc.html
 +++ b/vnc.html
 @@ -55,6 +55,7 @@

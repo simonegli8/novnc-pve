@@ -1,4 +1,4 @@
-From 5a456e52e6a1c9cb283187505bc09289a9fb3334 Mon Sep 17 00:00:00 2001
+From 4bf525059741e1bb68e355904fb82e8c1639aff9 Mon Sep 17 00:00:00 2001
 From: Dominik Csapak <d.csapak@proxmox.com>
 Date: Wed, 9 May 2018 10:47:53 +0200
 Subject: [PATCH 02/10] add custom fbresize event on rfb
@@ -8,15 +8,15 @@ window
 
 Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
 ---
- app/ui.js   | 16 ++++++++++++++++
+ app/ui.js   | 11 +++++++++++
  core/rfb.js | 10 ++++++++++
- 2 files changed, 26 insertions(+)
+ 2 files changed, 21 insertions(+)
 
 diff --git a/app/ui.js b/app/ui.js
-index 143cb60..b01fd5d 100644
+index 59f7cca..d960a12 100644
 --- a/app/ui.js
 +++ b/app/ui.js
-@@ -1047,6 +1047,7 @@ var UI = {
+@@ -1050,6 +1050,7 @@ const UI = {
          UI.rfb.addEventListener("clipboard", UI.clipboardReceive);
          UI.rfb.addEventListener("bell", UI.bell);
          UI.rfb.addEventListener("desktopname", UI.updateDesktopName);
@@ -24,7 +24,7 @@ index 143cb60..b01fd5d 100644
          UI.rfb.clipViewport = UI.getSetting('view_clip');
          UI.rfb.scaleViewport = UI.getSetting('resize') === 'scale';
          UI.rfb.resizeSession = UI.getSetting('resize') === 'remote';
-@@ -1612,6 +1613,21 @@ var UI = {
+@@ -1610,6 +1611,16 @@ const UI = {
          document.getElementById('pve_commands_button').classList.remove("noVNC_selected");
      },
  
@@ -32,12 +32,7 @@ index 143cb60..b01fd5d 100644
 +        var rfb = e.detail.rfb;
 +        var width = e.detail.width;
 +        var height = e.detail.height;
-+        var resize = UI.getSetting('resize');
-+
-+        if (resize == 'null') {
-+            var clip = UI.getSetting('view_clip');
-+            UI.PVE.updateFBSize(rfb, width, height, clip);
-+        }
++        UI.PVE.updateFBSize(rfb, width, height);
 +
 +        UI.applyResizeMode();
 +        UI.updateViewClip();
@@ -47,10 +42,10 @@ index 143cb60..b01fd5d 100644
   *    /PVE
   * ==============
 diff --git a/core/rfb.js b/core/rfb.js
-index 7c4e0c9..6a1ff85 100644
+index 3433030..3e0f176 100644
 --- a/core/rfb.js
 +++ b/core/rfb.js
-@@ -1588,6 +1588,16 @@ RFB.prototype = {
+@@ -1593,6 +1593,16 @@ export default class RFB extends EventTargetMixin {
          this._updateClip();
          this._updateScale();
  
@@ -66,7 +61,7 @@ index 7c4e0c9..6a1ff85 100644
 +
          this._timing.fbu_rt_start = (new Date()).getTime();
          this._updateContinuousUpdates();
-     },
+     }
 -- 
 2.11.0
 

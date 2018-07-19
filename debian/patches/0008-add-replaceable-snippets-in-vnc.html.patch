@@ -1,4 +1,4 @@
-From f56b6fe825b776c30e445d2319488bec63551b8f Mon Sep 17 00:00:00 2001
+From 492c7d299d770dca563f806eadb6458a24d97b2d Mon Sep 17 00:00:00 2001
 From: Dominik Csapak <d.csapak@proxmox.com>
 Date: Fri, 20 Jan 2017 10:16:09 +0100
 Subject: [PATCH 08/10] add replaceable snippets in vnc.html
@@ -11,7 +11,7 @@ Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
  1 file changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/vnc.html b/vnc.html
-index 8c3d9d9..a139e26 100644
+index eca9a54..f63aaa7 100644
 --- a/vnc.html
 +++ b/vnc.html
 @@ -15,7 +15,7 @@

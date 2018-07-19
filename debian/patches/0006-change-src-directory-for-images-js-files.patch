@@ -1,4 +1,4 @@
-From 87486c038db7ddb212f995c70edf13dc1e8783cd Mon Sep 17 00:00:00 2001
+From 127328ecd3996a572d202d9a33da98cad24ecc75 Mon Sep 17 00:00:00 2001
 From: Dominik Csapak <d.csapak@proxmox.com>
 Date: Tue, 17 Jan 2017 17:24:03 +0100
 Subject: [PATCH 06/10] change src directory for images/js files
@@ -8,39 +8,25 @@ also change the directory in the build script
 
 Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
 ---
- app/ui.js                    |  2 +-
- utils/use_require_helpers.js |  2 +-
- vnc.html                     | 56 ++++++++++++++++++++++----------------------
- 3 files changed, 30 insertions(+), 30 deletions(-)
+ app/ui.js |  2 +-
+ vnc.html  | 56 ++++++++++++++++++++++++++++----------------------------
+ 2 files changed, 29 insertions(+), 29 deletions(-)
 
 diff --git a/app/ui.js b/app/ui.js
-index d35be49..d64389d 100644
+index 662352f..c523fcd 100644
 --- a/app/ui.js
 +++ b/app/ui.js
-@@ -1725,7 +1725,7 @@ var UI = {
- var LINGUAS = ["de", "el", "es", "nl", "pl", "sv", "tr", "zh"];
+@@ -1720,7 +1720,7 @@ const UI = {
+ const LINGUAS = ["de", "el", "es", "nl", "pl", "sv", "tr", "zh_CN", "zh_TW"];
  l10n.setup(LINGUAS);
  if (l10n.language !== "en" && l10n.dictionary === undefined) {
--    WebUtil.fetchJSON('app/locale/' + l10n.language + '.json', function (translations) {
+-    WebUtil.fetchJSON('app/locale/' + l10n.language + '.json', (translations) => {
 +    WebUtil.fetchJSON('/novnc/app/locale/' + l10n.language + '.json', function (translations) {
          l10n.dictionary = translations;
  
          // wait for translations to load before loading the UI
-diff --git a/utils/use_require_helpers.js b/utils/use_require_helpers.js
-index 990fb4d..0f44e1c 100644
---- a/utils/use_require_helpers.js
-+++ b/utils/use_require_helpers.js
-@@ -22,7 +22,7 @@ module.exports = {
-             var browserify = require('browserify');
-             var b = browserify(path.join(base_out_path, 'app/ui.js'), {});
-             b.bundle().pipe(fs.createWriteStream(out_path));
--            return `<script src="${path.relative(base_out_path, out_path)}"></script>`;
-+            return `<script src="/novnc/${path.relative(base_out_path, out_path)}"></script>`;
-         },
-         noCopyOverride: () => {},
-     },
 diff --git a/vnc.html b/vnc.html
-index 60727e4..fa66d6f 100644
+index bc1a47d..d17ee81 100644
 --- a/vnc.html
 +++ b/vnc.html
 @@ -28,7 +28,7 @@
@@ -196,9 +182,9 @@ index 60727e4..fa66d6f 100644
 -                        <img src="app/images/settings.svg"> Settings
 +                        <img src="/novnc/app/images/settings.svg"> Settings
                      </li>
-                     <li>
+                     <li style="display:none;">
                          <label><input id="noVNC_setting_shared" type="checkbox" /> Shared Mode</label>
-@@ -244,7 +244,7 @@
+@@ -246,7 +246,7 @@
              </div>
  
              <!-- Connection Controls -->
@@ -207,7 +193,7 @@ index 60727e4..fa66d6f 100644
                  id="noVNC_disconnect_button" class="noVNC_button"
                  title="Disconnect" />
  
-@@ -263,7 +263,7 @@
+@@ -265,7 +265,7 @@
          <div id="noVNC_connect_dlg">
              <div class="noVNC_logo" translate="no"><span>no</span>VNC</div>
              <div id="noVNC_connect_button"><div>
@@ -216,7 +202,7 @@ index 60727e4..fa66d6f 100644
              </div></div>
          </div>
      </div>
-@@ -304,8 +304,8 @@
+@@ -306,8 +306,8 @@
      </div>
  
      <audio id="noVNC_bell">

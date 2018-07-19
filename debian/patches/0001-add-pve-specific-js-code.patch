@@ -1,4 +1,4 @@
-From e9e4fe2eab135507fd6574b2f12ddc5c9d0a532b Mon Sep 17 00:00:00 2001
+From 9607c6496f643fde5435fa799702961dd22bf81a Mon Sep 17 00:00:00 2001
 From: Dominik Csapak <d.csapak@proxmox.com>
 Date: Tue, 13 Dec 2016 16:11:35 +0100
 Subject: [PATCH 01/10] add pve specific js code
@@ -11,17 +11,18 @@ autoresizing, commandstoggle, etc.
 
 Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
 ---
- app/pve.js | 414 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- app/ui.js  |  75 ++++++++---
- 2 files changed, 475 insertions(+), 14 deletions(-)
+ app/pve.js | 418 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ app/ui.js  |  71 +++++++++--
+ vnc.html   |  10 +-
+ 3 files changed, 482 insertions(+), 17 deletions(-)
  create mode 100644 app/pve.js
 
 diff --git a/app/pve.js b/app/pve.js
 new file mode 100644
-index 0000000..37858f5
+index 0000000..e2c37fb
 --- /dev/null
 +++ b/app/pve.js
-@@ -0,0 +1,414 @@
+@@ -0,0 +1,418 @@
 +/*
 + * PVE Utility functions for noVNC
 + * Copyright (C) 2017 Proxmox GmbH
@@ -309,8 +310,6 @@ index 0000000..37858f5
 +	    .addEventListener('click', me.UI.togglePVECommandPanel);
 +
 +	// show/hide the buttons
-+	document.getElementById('noVNC_settings_button')
-+	    .classList.add('noVNC_hidden');
 +	document.getElementById('noVNC_disconnect_button')
 +	    .classList.add('noVNC_hidden');
 +	if (me.consoletype === 'kvm') {
@@ -384,7 +383,7 @@ index 0000000..37858f5
 +		});
 +
 +		document.getElementById('noVNC_password_input').value = result.data.ticket;
-+		me.UI.updateSetting('path', 'api2/json' + me.baseUrl + '/vncwebsocket' + "?" + wsparams);
++		me.UI.forceSetting('path', 'api2/json' + me.baseUrl + '/vncwebsocket' + "?" + wsparams);
 +
 +		callback();
 +	    },
@@ -394,7 +393,7 @@ index 0000000..37858f5
 +	});
 +    },
 +
-+    updateFBSize: function(rfb, width, height, clip) {
++    updateFBSize: function(rfb, width, height) {
 +	var me = this;
 +	try {
 +	    // Note: window size must be even number for firefox
@@ -404,9 +403,15 @@ index 0000000..37858f5
 +	    if (me.sizeUpdateTimer !== undefined) {
 +		clearInterval(me.sizeUpdateTimer);
 +	    }
-+	    if (clip) return;
 +
 +	    var update_size = function() {
++		var clip = me.UI.getSetting('view_clip');
++		var resize = me.UI.getSetting('resize');
++		var autoresize = me.UI.getSetting('autoresize');
++		if (clip || resize === 'scale' || !autoresize) {
++		    return;
++		}
++
 +		// we do not want to resize if we are in fullscreen
 +		if (document.fullscreenElement || // alternative standard method
 +		    document.mozFullScreenElement || // currently working methods
@@ -437,26 +442,26 @@ index 0000000..37858f5
 +    },
 +};
 diff --git a/app/ui.js b/app/ui.js
-index 2218d24..143cb60 100644
+index 4fe2a3f..59f7cca 100644
 --- a/app/ui.js
 +++ b/app/ui.js
-@@ -18,6 +18,7 @@ import Keyboard from "../core/input/keyboard.js";
+@@ -17,6 +17,7 @@ import keysyms from "../core/input/keysymdef.js";
+ import Keyboard from "../core/input/keyboard.js";
  import RFB from "../core/rfb.js";
- import Display from "../core/display.js";
  import * as WebUtil from "./webutil.js";
 +import PVEUI from "./pve.js";
  
- var UI = {
+ const UI = {
  
-@@ -59,6 +60,7 @@ var UI = {
+@@ -58,6 +59,7 @@ const UI = {
      // Render default UI and initialize settings menu
-     start: function(callback) {
+     start(callback) {
  
 +        UI.PVE = new PVEUI(UI);
          // Setup global variables first
          UI.isSafari = (navigator.userAgent.indexOf('Safari') !== -1 &&
                         navigator.userAgent.indexOf('Chrome') === -1);
-@@ -90,6 +92,9 @@ var UI = {
+@@ -89,6 +91,9 @@ const UI = {
          UI.addConnectionControlHandlers();
          UI.addClipboardHandlers();
          UI.addSettingsHandlers();
@@ -466,7 +471,7 @@ index 2218d24..143cb60 100644
          document.getElementById("noVNC_status")
              .addEventListener('click', UI.hideStatus);
  
-@@ -98,23 +103,19 @@ var UI = {
+@@ -97,23 +102,19 @@ const UI = {
  
          UI.openControlbar();
  
@@ -476,7 +481,7 @@ index 2218d24..143cb60 100644
  
          document.documentElement.classList.remove("noVNC_loading");
  
--        var autoconnect = WebUtil.getConfigVar('autoconnect', false);
+-        let autoconnect = WebUtil.getConfigVar('autoconnect', false);
 -        if (autoconnect === 'true' || autoconnect == '1') {
 -            autoconnect = true;
 +        UI.PVE.pveStart(function() {
@@ -496,24 +501,28 @@ index 2218d24..143cb60 100644
 +        });
      },
  
-     initFullscreen: function() {
-@@ -159,9 +160,13 @@ var UI = {
+     initFullscreen() {
+@@ -156,9 +157,10 @@ const UI = {
          /* Populate the controls if defaults are provided in the URL */
          UI.initSetting('host', window.location.hostname);
          UI.initSetting('port', port);
 -        UI.initSetting('encrypt', (window.location.protocol === "https:"));
 +        UI.initSetting('encrypt', true);
          UI.initSetting('view_clip', false);
--        UI.initSetting('resize', 'off');
-+        // we need updateSetting because
-+        // otherwise we load from browser storage
-+        // we want to overwrite the resize mode from url
-+        var resize = WebUtil.getQueryVar('resize');
-+        UI.updateSetting('resize', resize);
+         UI.initSetting('resize', 'off');
++        UI.initSetting('autoresize', true);
          UI.initSetting('shared', true);
          UI.initSetting('view_only', false);
          UI.initSetting('path', 'websockify');
-@@ -393,6 +398,9 @@ var UI = {
+@@ -342,6 +344,7 @@ const UI = {
+         UI.addSettingChangeHandler('resize');
+         UI.addSettingChangeHandler('resize', UI.enableDisableViewClip);
+         UI.addSettingChangeHandler('resize', UI.applyResizeMode);
++        UI.addSettingChangeHandler('autoresize');
+         UI.addSettingChangeHandler('view_clip');
+         UI.addSettingChangeHandler('view_clip', UI.updateViewClip);
+         UI.addSettingChangeHandler('shared');
+@@ -390,6 +393,9 @@ const UI = {
                  document.documentElement.classList.add("noVNC_connecting");
                  break;
              case 'connected':
@@ -523,7 +532,7 @@ index 2218d24..143cb60 100644
                  document.documentElement.classList.add("noVNC_connected");
                  break;
              case 'disconnecting':
-@@ -400,6 +408,11 @@ var UI = {
+@@ -397,6 +403,11 @@ const UI = {
                  document.documentElement.classList.add("noVNC_disconnecting");
                  break;
              case 'disconnected':
@@ -535,7 +544,7 @@ index 2218d24..143cb60 100644
                  break;
              case 'reconnecting':
                  transition_elem.textContent = _("Reconnecting...");
-@@ -813,6 +826,7 @@ var UI = {
+@@ -818,6 +829,7 @@ const UI = {
          UI.closePowerPanel();
          UI.closeClipboardPanel();
          UI.closeExtraKeys();
@@ -543,7 +552,7 @@ index 2218d24..143cb60 100644
      },
  
  /* ------^-------
-@@ -988,6 +1002,12 @@ var UI = {
+@@ -993,6 +1005,12 @@ const UI = {
              UI.reconnect_password = password;
          }
  
@@ -556,7 +565,7 @@ index 2218d24..143cb60 100644
          if (password === null) {
              password = undefined;
          }
-@@ -1567,9 +1587,36 @@ var UI = {
+@@ -1567,9 +1585,36 @@ const UI = {
  /* ------^-------
   *   /EXTRA KEYS
   * ==============
@@ -591,9 +600,43 @@ index 2218d24..143cb60 100644
 + * ==============
 + *     MISC
 + * ------v------*/
-     setMouseButton: function(num) {
-         var view_only = UI.rfb.viewOnly;
+     setMouseButton(num) {
+         const view_only = UI.rfb.viewOnly;
          if (UI.rfb && !view_only) {
+diff --git a/vnc.html b/vnc.html
+index 701714c..6c041b5 100644
+--- a/vnc.html
++++ b/vnc.html
+@@ -200,7 +200,7 @@
+                     <li class="noVNC_heading">
+                         <img src="app/images/settings.svg"> Settings
+                     </li>
+-                    <li>
++                    <li style="display:none;">
+                         <label><input id="noVNC_setting_shared" type="checkbox" /> Shared Mode</label>
+                     </li>
+                     <li>
+@@ -211,15 +211,17 @@
+                         <label><input id="noVNC_setting_view_clip" type="checkbox" /> Clip to Window</label>
+                     </li>
+                     <li>
++                        <label><input id="noVNC_setting_autoresize" type="checkbox" /> Autoresize Window</label>
++                    </li>
++                    <li>
+                         <label for="noVNC_setting_resize">Scaling Mode:</label>
+                         <select id="noVNC_setting_resize" name="vncResize">
+-                            <option value="off">None</option>
++                            <option value="off">Off</option>
+                             <option value="scale">Local Scaling</option>
+-                            <option value="remote">Remote Resizing</option>
+                         </select>
+                     </li>
+                     <li><hr></li>
+-                    <li>
++                    <li style="display:none;">
+                         <div class="noVNC_expander">Advanced</div>
+                         <div><ul>
+                             <li>
 -- 
 2.11.0
 

@@ -1,20 +1,20 @@
-From d83521eab33ef32d35f4ea8ada73585bad4265a4 Mon Sep 17 00:00:00 2001
+From 67da56922c2edea81ee98198db125d9fc8abd8b4 Mon Sep 17 00:00:00 2001
 From: Dominik Csapak <d.csapak@proxmox.com>
 Date: Fri, 20 Jan 2017 10:35:43 +0100
 Subject: [PATCH 07/10] add pve vnc commands
 
 Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
 ---
- vnc.html | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ vnc.html | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
 diff --git a/vnc.html b/vnc.html
-index fa66d6f..8c3d9d9 100644
+index d17ee81..eca9a54 100644
 --- a/vnc.html
 +++ b/vnc.html
-@@ -165,6 +165,26 @@
-                 id="noVNC_fullscreen_button" class="noVNC_button noVNC_hidden"
-                 title="Fullscreen" />
+@@ -245,6 +245,27 @@
+             </div>
+             </div>
  
 +	    <!-- PVE Commands -->
 +            <input type="image" alt="Commands" src="/novnc/app/images/power.svg"
@@ -36,9 +36,10 @@ index fa66d6f..8c3d9d9 100644
 +	    </div>
 +	    </div>
 +
-             <!-- Settings -->
-             <input type="image" alt="Settings" src="/novnc/app/images/settings.svg"
-                 id="noVNC_settings_button" class="noVNC_button"
++
+             <!-- Connection Controls -->
+             <input type="image" alt="Disconnect" src="/novnc/app/images/disconnect.svg"
+                 id="noVNC_disconnect_button" class="noVNC_button"
 -- 
 2.11.0
 

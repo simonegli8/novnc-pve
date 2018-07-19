@@ -1,4 +1,4 @@
-From 6abc6b0b278717584ff2452cbe8d1f448398a406 Mon Sep 17 00:00:00 2001
+From ce3216300e07c2723dc934c734dda432355a3100 Mon Sep 17 00:00:00 2001
 From: Dominik Csapak <d.csapak@proxmox.com>
 Date: Thu, 11 May 2017 10:34:10 +0200
 Subject: [PATCH 03/10] change scaling when toggling fullscreen
@@ -8,32 +8,34 @@ and changing it back when leaving fullscreen
 
 Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
 ---
- app/ui.js | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ app/ui.js | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
 diff --git a/app/ui.js b/app/ui.js
-index b01fd5d..d35be49 100644
+index d960a12..662352f 100644
 --- a/app/ui.js
 +++ b/app/ui.js
-@@ -1210,6 +1210,12 @@ var UI = {
+@@ -1212,6 +1212,13 @@ const UI = {
              } else if (document.msExitFullscreen) {
                  document.msExitFullscreen();
              }
 +
 +            // when changing from fullscreen to window,
 +            // re enable auto resize
-+            if (WebUtil.getQueryVar('resize') === null) {
-+                UI.updateSetting('resize', null);
++            if (WebUtil.getQueryVar('resize') !== 'scale') {
++                UI.forceSetting('resize', 'off');
++                UI.enableSetting('resize');
 +            }
          } else {
              if (document.documentElement.requestFullscreen) {
                  document.documentElement.requestFullscreen();
-@@ -1220,7 +1226,10 @@ var UI = {
+@@ -1222,7 +1229,11 @@ const UI = {
              } else if (document.body.msRequestFullscreen) {
                  document.body.msRequestFullscreen();
              }
 +            // we want scaling in fullscreen mode
-+            UI.updateSetting('resize', 'scale');
++            UI.forceSetting('resize', 'scale');
++            UI.enableSetting('resize');
          }
 +        UI.applyResizeMode();
          UI.enableDisableViewClip();
