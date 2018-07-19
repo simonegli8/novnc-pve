@@ -8,3 +8,4 @@
 0008-add-replaceable-snippets-in-vnc.html.patch
 0009-decrease-animation-time.patch
 0010-use-only-app.js.patch
+0011-add-localCursor-setting-to-rfb.patch
