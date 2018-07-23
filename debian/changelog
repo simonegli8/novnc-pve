@@ -1,3 +1,13 @@
+novnc-pve (1.0.0-2) unstable; urgency=medium
+
+  * update novnc to commit f9b6d7665d01f31a6c0c675ec3f604e99f6b2341
+    fixes, among other things, a bug with Alt Gr using Firefox and numpad
+    issues with IE 11
+
+  * add package version to CSS and JS resources to improve caching behavior
+
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 23 Jul 2018 14:05:49 +0200
+
 novnc-pve (1.0.0-1) unstable; urgency=medium
 
   * upgrade to v1.0.0
