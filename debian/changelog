@@ -1,3 +1,9 @@
+novnc-pve (1.0.0-3) unstable; urgency=medium
+
+  * support new 'cmd' parameter
+
+ -- Proxmox Support Team <support@proxmox.com>  Thu, 28 Feb 2019 11:13:10 +0100
+
 novnc-pve (1.0.0-2) unstable; urgency=medium
 
   * update novnc to commit f9b6d7665d01f31a6c0c675ec3f604e99f6b2341

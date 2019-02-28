@@ -1,6 +1,6 @@
 PACKAGE=novnc-pve
 VER=1.0.0
-PKGREL=2
+PKGREL=3
 
 SRCDIR=novnc
 BUILDDIR=${SRCDIR}.tmp
