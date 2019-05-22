@@ -1,15 +1,13 @@
+include /usr/share/dpkg/pkg-info.mk
+
 PACKAGE=novnc-pve
-VER=1.0.0
-PKGREL=3
 
 SRCDIR=novnc
 BUILDDIR=${SRCDIR}.tmp
 
-ARCH:=$(shell dpkg-architecture -qDEB_BUILD_ARCH)
-
 GITVERSION:=$(shell git rev-parse HEAD)
 
-DEB=${PACKAGE}_${VER}-${PKGREL}_${ARCH}.deb
+DEB=${PACKAGE}_${DEB_VERSION_UPSTREAM_REVISION}_all.deb
 
 all: ${DEB}
 	@echo ${DEB}
