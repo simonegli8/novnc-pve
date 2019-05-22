@@ -1,3 +1,9 @@
+novnc-pve (1.0.0-60) pve pmg; urgency=medium
+
+  * re-build for Debian Buster
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 22 May 2019 19:31:47 +0200
+
 novnc-pve (1.0.0-3) unstable; urgency=medium
 
   * support new 'cmd' parameter
