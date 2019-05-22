@@ -2,14 +2,14 @@ Source: novnc-pve
 Section: web
 Priority: optional
 Maintainer: Proxmox Support Team <support@proxmox.com>
-Build-Depends: debhelper (>= 7.0.0~),
+Build-Depends: debhelper (>= 10~),
                node-es6-module-transpiler,
                quilt,
-Standards-Version: 3.8.3
+Standards-Version: 4.1.3
 Homepage: https://github.com/kanaka/noVNC/
 
 Package: novnc-pve
-Architecture: any
+Architecture: all
 Depends: ${misc:Depends},
 Description: HTML5 VNC client
  VNC client using HTML5 (WebSockets, Canvas). This packet is use by
