@@ -8,24 +8,34 @@ BUILDDIR=${SRCDIR}.tmp
 GITVERSION:=$(shell git rev-parse HEAD)
 
 DEB=${PACKAGE}_${DEB_VERSION_UPSTREAM_REVISION}_all.deb
+DSC=${PACKAGE}_${DEB_VERSION_UPSTREAM_REVISION}.dsc
 
 all: ${DEB}
 	@echo ${DEB}
 
-.PHONY: deb
-deb: ${DEB}
-${DEB}: | submodule
+${SRCDIR}/vnc.html: submodule
+${BUILDDIR}: $(SRCDIR)/vnc.html
 	rm -rf ${BUILDDIR}
 	cp -rpa ${SRCDIR} ${BUILDDIR}
 	cp -a debian ${BUILDDIR}
 	echo "git clone git://git.proxmox.com/git/novnc-pve.git\\ngit checkout ${GITVERSION}" > ${BUILDDIR}/debian/SOURCE
-	cd ${BUILDDIR}; dpkg-buildpackage -rfakeroot -b -uc -us
+
+.PHONY: deb
+deb: ${DEB}
+${DEB}: ${BUILDDIR}
+	cd ${BUILDDIR}; dpkg-buildpackage -b -uc -us
 	lintian ${DEB}
 	@echo ${DEB}
 
+.PHONY: dsc
+dsc: ${DSC}
+${DSC}: ${BUILDDIR}
+	cd ${BUILDDIR}; dpkg-buildpackage -S -uc -us -d
+	lintian ${DSC}
+
 .PHONY: submodule
 submodule:
-	test -f "${SRCDIR}/vnc.html" || git submodule update --init
+	git submodule update --init
 
 .PHONY: download
 download ${SRCDIR}:
