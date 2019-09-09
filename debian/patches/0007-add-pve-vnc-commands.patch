@@ -1,7 +1,7 @@
-From 67da56922c2edea81ee98198db125d9fc8abd8b4 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Dominik Csapak <d.csapak@proxmox.com>
 Date: Fri, 20 Jan 2017 10:35:43 +0100
-Subject: [PATCH 07/10] add pve vnc commands
+Subject: [PATCH 07/12] add pve vnc commands
 
 Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
 ---
@@ -9,10 +9,10 @@ Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
  1 file changed, 21 insertions(+)
 
 diff --git a/vnc.html b/vnc.html
-index d17ee81..eca9a54 100644
+index f93cf89..fad5d4a 100644
 --- a/vnc.html
 +++ b/vnc.html
-@@ -245,6 +245,27 @@
+@@ -240,6 +240,27 @@
              </div>
              </div>
  
@@ -40,6 +40,3 @@ index d17ee81..eca9a54 100644
              <!-- Connection Controls -->
              <input type="image" alt="Disconnect" src="/novnc/app/images/disconnect.svg"
                  id="noVNC_disconnect_button" class="noVNC_button"
--- 
-2.11.0
-

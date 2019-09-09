@@ -1,7 +1,7 @@
-From ce3216300e07c2723dc934c734dda432355a3100 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Dominik Csapak <d.csapak@proxmox.com>
 Date: Thu, 11 May 2017 10:34:10 +0200
-Subject: [PATCH 03/10] change scaling when toggling fullscreen
+Subject: [PATCH 03/12] change scaling when toggling fullscreen
 
 when activating fullscreen, we change the scaling to 'scale',
 and changing it back when leaving fullscreen
@@ -12,10 +12,10 @@ Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
  1 file changed, 11 insertions(+)
 
 diff --git a/app/ui.js b/app/ui.js
-index d960a12..662352f 100644
+index 1b0f7aa..8cc6cfd 100644
 --- a/app/ui.js
 +++ b/app/ui.js
-@@ -1212,6 +1212,13 @@ const UI = {
+@@ -1201,6 +1201,13 @@ const UI = {
              } else if (document.msExitFullscreen) {
                  document.msExitFullscreen();
              }
@@ -29,7 +29,7 @@ index d960a12..662352f 100644
          } else {
              if (document.documentElement.requestFullscreen) {
                  document.documentElement.requestFullscreen();
-@@ -1222,7 +1229,11 @@ const UI = {
+@@ -1211,7 +1218,11 @@ const UI = {
              } else if (document.body.msRequestFullscreen) {
                  document.body.msRequestFullscreen();
              }
@@ -38,9 +38,6 @@ index d960a12..662352f 100644
 +            UI.enableSetting('resize');
          }
 +        UI.applyResizeMode();
-         UI.enableDisableViewClip();
          UI.updateFullscreenButton();
      },
--- 
-2.11.0
-
+ 

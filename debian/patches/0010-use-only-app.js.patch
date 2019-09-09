@@ -1,7 +1,7 @@
-From e78d6d49ae2c4986ce283ddb2b36601f498d5015 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Dominik Csapak <d.csapak@proxmox.com>
 Date: Tue, 16 May 2017 10:36:15 +0200
-Subject: [PATCH 10/10] use only app.js
+Subject: [PATCH 10/12] use only app.js
 
 because we will use the commonjs version,
 we only need to use the generated app.js
@@ -12,10 +12,10 @@ Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
  1 file changed, 1 insertion(+), 16 deletions(-)
 
 diff --git a/vnc.html b/vnc.html
-index f63aaa7..83825eb 100644
+index bba7d7d..6fb195e 100644
 --- a/vnc.html
 +++ b/vnc.html
-@@ -46,22 +46,7 @@
+@@ -35,22 +35,7 @@
      </script>
  
      <!-- begin scripts -->
@@ -39,6 +39,3 @@ index f63aaa7..83825eb 100644
      <!-- end scripts -->
  </head>
  
--- 
-2.11.0
-

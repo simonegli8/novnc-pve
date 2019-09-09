@@ -1,7 +1,7 @@
-From 9607c6496f643fde5435fa799702961dd22bf81a Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Dominik Csapak <d.csapak@proxmox.com>
 Date: Tue, 13 Dec 2016 16:11:35 +0100
-Subject: [PATCH 01/10] add pve specific js code
+Subject: [PATCH 01/12] add pve specific js code
 
 this adds a es6 module 'PVEUI' which we use for defining the pve related
 methods (API2Request, etc.)
@@ -11,10 +11,10 @@ autoresizing, commandstoggle, etc.
 
 Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
 ---
- app/pve.js | 418 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- app/ui.js  |  71 +++++++++--
+ app/pve.js | 418 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ app/ui.js  |  66 +++++++--
  vnc.html   |  10 +-
- 3 files changed, 482 insertions(+), 17 deletions(-)
+ 3 files changed, 480 insertions(+), 14 deletions(-)
  create mode 100644 app/pve.js
 
 diff --git a/app/pve.js b/app/pve.js
@@ -442,10 +442,10 @@ index 0000000..e2c37fb
 +    },
 +};
 diff --git a/app/ui.js b/app/ui.js
-index 4fe2a3f..59f7cca 100644
+index 17ec48d..4683c02 100644
 --- a/app/ui.js
 +++ b/app/ui.js
-@@ -17,6 +17,7 @@ import keysyms from "../core/input/keysymdef.js";
+@@ -16,6 +16,7 @@ import keysyms from "../core/input/keysymdef.js";
  import Keyboard from "../core/input/keyboard.js";
  import RFB from "../core/rfb.js";
  import * as WebUtil from "./webutil.js";
@@ -453,15 +453,16 @@ index 4fe2a3f..59f7cca 100644
  
  const UI = {
  
-@@ -58,6 +59,7 @@ const UI = {
+@@ -54,6 +55,8 @@ const UI = {
      // Render default UI and initialize settings menu
-     start(callback) {
+     start() {
  
 +        UI.PVE = new PVEUI(UI);
-         // Setup global variables first
-         UI.isSafari = (navigator.userAgent.indexOf('Safari') !== -1 &&
-                        navigator.userAgent.indexOf('Chrome') === -1);
-@@ -89,6 +91,9 @@ const UI = {
++
+         UI.initSettings();
+ 
+         // Translate the DOM
+@@ -81,6 +84,9 @@ const UI = {
          UI.addConnectionControlHandlers();
          UI.addClipboardHandlers();
          UI.addSettingsHandlers();
@@ -471,7 +472,7 @@ index 4fe2a3f..59f7cca 100644
          document.getElementById("noVNC_status")
              .addEventListener('click', UI.hideStatus);
  
-@@ -97,23 +102,19 @@ const UI = {
+@@ -89,19 +95,15 @@ const UI = {
  
          UI.openControlbar();
  
@@ -491,18 +492,11 @@ index 4fe2a3f..59f7cca 100644
 -            // Show the connect panel on first load unless autoconnecting
 -            UI.openConnectPanel();
 -        }
- 
--        if (typeof callback === "function") {
--            callback(UI.rfb);
--        }
-+            if (typeof callback === "function") {
-+                callback(UI.rfb);
-+            }
 +        });
-     },
  
-     initFullscreen() {
-@@ -156,9 +157,10 @@ const UI = {
+         return Promise.resolve(UI.rfb);
+     },
+@@ -145,9 +147,10 @@ const UI = {
          /* Populate the controls if defaults are provided in the URL */
          UI.initSetting('host', window.location.hostname);
          UI.initSetting('port', port);
@@ -513,16 +507,16 @@ index 4fe2a3f..59f7cca 100644
 +        UI.initSetting('autoresize', true);
          UI.initSetting('shared', true);
          UI.initSetting('view_only', false);
-         UI.initSetting('path', 'websockify');
-@@ -342,6 +344,7 @@ const UI = {
+         UI.initSetting('show_dot', false);
+@@ -334,6 +337,7 @@ const UI = {
          UI.addSettingChangeHandler('resize');
-         UI.addSettingChangeHandler('resize', UI.enableDisableViewClip);
          UI.addSettingChangeHandler('resize', UI.applyResizeMode);
+         UI.addSettingChangeHandler('resize', UI.updateViewClip);
 +        UI.addSettingChangeHandler('autoresize');
          UI.addSettingChangeHandler('view_clip');
          UI.addSettingChangeHandler('view_clip', UI.updateViewClip);
          UI.addSettingChangeHandler('shared');
-@@ -390,6 +393,9 @@ const UI = {
+@@ -384,6 +388,9 @@ const UI = {
                  document.documentElement.classList.add("noVNC_connecting");
                  break;
              case 'connected':
@@ -532,7 +526,7 @@ index 4fe2a3f..59f7cca 100644
                  document.documentElement.classList.add("noVNC_connected");
                  break;
              case 'disconnecting':
-@@ -397,6 +403,11 @@ const UI = {
+@@ -391,6 +398,11 @@ const UI = {
                  document.documentElement.classList.add("noVNC_disconnecting");
                  break;
              case 'disconnected':
@@ -544,7 +538,7 @@ index 4fe2a3f..59f7cca 100644
                  break;
              case 'reconnecting':
                  transition_elem.textContent = _("Reconnecting...");
-@@ -818,6 +829,7 @@ const UI = {
+@@ -805,6 +817,7 @@ const UI = {
          UI.closePowerPanel();
          UI.closeClipboardPanel();
          UI.closeExtraKeys();
@@ -552,7 +546,7 @@ index 4fe2a3f..59f7cca 100644
      },
  
  /* ------^-------
-@@ -993,6 +1005,12 @@ const UI = {
+@@ -980,6 +993,12 @@ const UI = {
              UI.reconnect_password = password;
          }
  
@@ -565,7 +559,7 @@ index 4fe2a3f..59f7cca 100644
          if (password === null) {
              password = undefined;
          }
-@@ -1567,9 +1585,36 @@ const UI = {
+@@ -1549,9 +1568,36 @@ const UI = {
  /* ------^-------
   *   /EXTRA KEYS
   * ==============
@@ -604,25 +598,26 @@ index 4fe2a3f..59f7cca 100644
          const view_only = UI.rfb.viewOnly;
          if (UI.rfb && !view_only) {
 diff --git a/vnc.html b/vnc.html
-index 701714c..6c041b5 100644
+index 212321b..072d86b 100644
 --- a/vnc.html
 +++ b/vnc.html
-@@ -200,7 +200,7 @@
+@@ -191,7 +191,7 @@
                      <li class="noVNC_heading">
-                         <img src="app/images/settings.svg"> Settings
+                         <img alt="" src="app/images/settings.svg"> Settings
                      </li>
 -                    <li>
 +                    <li style="display:none;">
-                         <label><input id="noVNC_setting_shared" type="checkbox" /> Shared Mode</label>
+                         <label><input id="noVNC_setting_shared" type="checkbox"> Shared Mode</label>
                      </li>
                      <li>
-@@ -211,15 +211,17 @@
-                         <label><input id="noVNC_setting_view_clip" type="checkbox" /> Clip to Window</label>
-                     </li>
+@@ -201,16 +201,18 @@
                      <li>
+                         <label><input id="noVNC_setting_view_clip" type="checkbox"> Clip to Window</label>
+                     </li>
++                    <li>
 +                        <label><input id="noVNC_setting_autoresize" type="checkbox" /> Autoresize Window</label>
 +                    </li>
-+                    <li>
+                     <li>
                          <label for="noVNC_setting_resize">Scaling Mode:</label>
                          <select id="noVNC_setting_resize" name="vncResize">
 -                            <option value="off">None</option>
@@ -637,6 +632,3 @@ index 701714c..6c041b5 100644
                          <div class="noVNC_expander">Advanced</div>
                          <div><ul>
                              <li>
--- 
-2.11.0
-

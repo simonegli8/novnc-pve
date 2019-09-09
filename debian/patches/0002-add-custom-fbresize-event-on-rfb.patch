@@ -1,7 +1,7 @@
-From 4bf525059741e1bb68e355904fb82e8c1639aff9 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Dominik Csapak <d.csapak@proxmox.com>
 Date: Wed, 9 May 2018 10:47:53 +0200
-Subject: [PATCH 02/10] add custom fbresize event on rfb
+Subject: [PATCH 02/12] add custom fbresize event on rfb
 
 this can be use to react to changes of the resolution, like resizing the
 window
@@ -13,10 +13,10 @@ Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
  2 files changed, 21 insertions(+)
 
 diff --git a/app/ui.js b/app/ui.js
-index 59f7cca..d960a12 100644
+index 4683c02..1b0f7aa 100644
 --- a/app/ui.js
 +++ b/app/ui.js
-@@ -1050,6 +1050,7 @@ const UI = {
+@@ -1039,6 +1039,7 @@ const UI = {
          UI.rfb.addEventListener("clipboard", UI.clipboardReceive);
          UI.rfb.addEventListener("bell", UI.bell);
          UI.rfb.addEventListener("desktopname", UI.updateDesktopName);
@@ -24,7 +24,7 @@ index 59f7cca..d960a12 100644
          UI.rfb.clipViewport = UI.getSetting('view_clip');
          UI.rfb.scaleViewport = UI.getSetting('resize') === 'scale';
          UI.rfb.resizeSession = UI.getSetting('resize') === 'remote';
-@@ -1610,6 +1611,16 @@ const UI = {
+@@ -1593,6 +1594,16 @@ const UI = {
          document.getElementById('pve_commands_button').classList.remove("noVNC_selected");
      },
  
@@ -42,10 +42,10 @@ index 59f7cca..d960a12 100644
   *    /PVE
   * ==============
 diff --git a/core/rfb.js b/core/rfb.js
-index 3433030..3e0f176 100644
+index 89b8130..c079af1 100644
 --- a/core/rfb.js
 +++ b/core/rfb.js
-@@ -1593,6 +1593,16 @@ export default class RFB extends EventTargetMixin {
+@@ -1670,6 +1670,16 @@ export default class RFB extends EventTargetMixin {
          this._updateClip();
          this._updateScale();
  
@@ -59,9 +59,6 @@ index 3433030..3e0f176 100644
 +        );
 +        this.dispatchEvent(event);
 +
-         this._timing.fbu_rt_start = (new Date()).getTime();
          this._updateContinuousUpdates();
      }
--- 
-2.11.0
-
+ 

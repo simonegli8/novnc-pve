@@ -1,7 +1,7 @@
-From ad3490e9908ce0a65ef40576520fb33236b5c102 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Dominik Csapak <d.csapak@proxmox.com>
 Date: Tue, 13 Dec 2016 16:03:41 +0100
-Subject: [PATCH 04/10] add pve style
+Subject: [PATCH 04/12] add pve style
 
 this adds the custom pve style (based on black.css)
 
@@ -11,8 +11,8 @@ and fix the z-index of the connect overlay
 Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
 ---
  app/styles/pve.css | 42 ++++++++++++++++++++++++++++++++++++++++++
- vnc.html           |  1 +
- 2 files changed, 43 insertions(+)
+ vnc.html           |  3 ++-
+ 2 files changed, 44 insertions(+), 1 deletion(-)
  create mode 100644 app/styles/pve.css
 
 diff --git a/app/styles/pve.css b/app/styles/pve.css
@@ -64,17 +64,16 @@ index 0000000..eaeb5cb
 +  background: #5BA8DF;
 +}
 diff --git a/vnc.html b/vnc.html
-index 6c041b5..3110e8b 100644
+index 072d86b..57b44a1 100644
 --- a/vnc.html
 +++ b/vnc.html
-@@ -55,6 +55,7 @@
+@@ -48,7 +48,8 @@
+     <link rel="apple-touch-icon" sizes="152x152" type="image/png" href="app/images/icons/novnc-152x152.png">
  
      <!-- Stylesheets -->
-     <link rel="stylesheet" href="app/styles/base.css" />
+-    <link rel="stylesheet" href="app/styles/base.css">
++    <link rel="stylesheet" href="app/styles/base.css" />
 +    <link rel="stylesheet" href="/novnc/app/styles/pve.css" />
  
-     <!--
-     <script type='text/javascript'
--- 
-2.11.0
-
+     <!-- this is included as a normal file in order to catch script-loading errors as well -->
+     <script src="app/error-handler.js"></script>

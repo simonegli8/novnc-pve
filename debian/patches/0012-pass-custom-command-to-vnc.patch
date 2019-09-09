@@ -1,9 +1,10 @@
-From bc515ecef9162774bff846e362b4c8315032ea2a Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tim Marx <t.marx@proxmox.com>
 Date: Fri, 21 Dec 2018 11:46:13 +0100
 Subject: [PATCH 12/12] pass custom command to vnc
 
 Signed-off-by: Tim Marx <t.marx@proxmox.com>
+Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
 ---
  app/pve.js | 7 +++++++
  1 file changed, 7 insertions(+)
@@ -20,19 +21,16 @@ index e2c37fb..9cf4b09 100644
      this.lastFBWidth = undefined;
      this.lastFBHeight = undefined;
      this.sizeUpdateTimer = undefined;
-@@ -47,6 +48,12 @@ export default function PVEUI(UI){
+@@ -46,6 +47,12 @@ export default function PVEUI(UI){
+ 	    url =  baseUrl + '/vncshell';
  	    params.upgrade = 1;
  	    title = 'System upgrade on node ' + this.nodename;
- 	    break;
++	    break;
 +	case 'cmd':
 +	    url =  baseUrl + '/vncshell';
 +	    params.cmd = decodeURI(this.cmd);
 +	    title = 'Install Ceph on node ' + this.nodename;
 +
-+	    break;
+ 	    break;
  	default:
  	    throw 'implement me';
- 	    break;
--- 
-2.11.0
-

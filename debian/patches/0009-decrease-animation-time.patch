@@ -1,7 +1,7 @@
-From 60e19c4a22688d0e13dedbed1808e6b4576946e8 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Dominik Csapak <d.csapak@proxmox.com>
 Date: Fri, 20 Jan 2017 10:55:49 +0100
-Subject: [PATCH 09/10] decrease animation time
+Subject: [PATCH 09/12] decrease animation time
 
 because 0.5s is too long
 
@@ -11,10 +11,10 @@ Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
  1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/app/styles/base.css b/app/styles/base.css
-index 344db9b..6e0d8d6 100644
+index 3ca9894..137aec8 100644
 --- a/app/styles/base.css
 +++ b/app/styles/base.css
-@@ -285,7 +285,7 @@ select:active {
+@@ -283,7 +283,7 @@ select:active {
    position: fixed;
    z-index: 10;
  
@@ -23,7 +23,7 @@ index 344db9b..6e0d8d6 100644
  
    /* Edge misrenders animations wihthout this */
    transform: translateX(0);
-@@ -302,7 +302,7 @@ select:active {
+@@ -300,7 +300,7 @@ select:active {
    position: relative;
    left: -100%;
  
@@ -32,7 +32,7 @@ index 344db9b..6e0d8d6 100644
  
    background-color: rgb(110, 132, 163);
    border-radius: 0 10px 10px 0;
-@@ -320,7 +320,7 @@ select:active {
+@@ -318,7 +318,7 @@ select:active {
    height: 100%;
    width: 30px;
    left: -30px;
@@ -41,7 +41,7 @@ index 344db9b..6e0d8d6 100644
  }
  #noVNC_control_bar.noVNC_open::before {
    box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.5);
-@@ -354,7 +354,7 @@ select:active {
+@@ -352,7 +352,7 @@ select:active {
  }
  #noVNC_control_bar_handle:after {
    content: "";
@@ -50,7 +50,7 @@ index 344db9b..6e0d8d6 100644
    background: url("../images/handle.svg");
    position: absolute;
    top: 22px; /* (50px-6px)/2 */
-@@ -476,7 +476,7 @@ select:active {
+@@ -474,7 +474,7 @@ select:active {
  .noVNC_panel {
    transform: translateX(25px);
  
@@ -59,7 +59,7 @@ index 344db9b..6e0d8d6 100644
  
    max-height: 100vh; /* Chrome is buggy with 100% */
    overflow-x: hidden;
-@@ -653,7 +653,7 @@ select:active {
+@@ -651,7 +651,7 @@ select:active {
  
    cursor: pointer;
  
@@ -68,6 +68,3 @@ index 344db9b..6e0d8d6 100644
  
    visibility: hidden;
    opacity: 0;
--- 
-2.11.0
-
