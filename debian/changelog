@@ -1,3 +1,9 @@
+novnc-pve (1.1.0-1) pve pmg; urgency=medium
+
+  * update to 1.1.0
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 21 Aug 2019 17:04:38 +0200
+
 novnc-pve (1.0.0-60) pve pmg; urgency=medium
 
   * re-build for Debian Buster
