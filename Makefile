@@ -10,8 +10,7 @@ GITVERSION:=$(shell git rev-parse HEAD)
 DEB=${PACKAGE}_${DEB_VERSION_UPSTREAM_REVISION}_all.deb
 DSC=${PACKAGE}_${DEB_VERSION_UPSTREAM_REVISION}.dsc
 
-all: ${DEB}
-	@echo ${DEB}
+all:
 
 ${SRCDIR}/vnc.html: submodule
 ${BUILDDIR}: $(SRCDIR)/vnc.html
@@ -35,7 +34,7 @@ ${DSC}: ${BUILDDIR}
 
 .PHONY: submodule
 submodule:
-	git submodule update --init
+	test -f "${SRCDIR}/VERSION" || git submodule update --init
 
 .PHONY: download
 download ${SRCDIR}:
@@ -50,7 +49,7 @@ distclean: clean
 
 .PHONY: clean
 clean:
-	rm -rf *~ debian/*~ *.deb ${BUILDDIR} *.changes *.dsc *.buildinfo
+	rm -rf *~ debian/*~ *.deb ${BUILDDIR} *.changes *.dsc *.buildinfo ${PACKAGE}*.tar.gz
 
 .PHONY: dinstall
 dinstall: deb
