@@ -6,6 +6,9 @@
 export DEB_BUILD_HARDENING=1
 DEB_VERSION = $(shell dpkg-parsechangelog -SVersion)
 
+%:
+	dh ${@} --with quilt
+
 override_dh_auto_build:
 	compile-modules convert -f bundle app/ui.js > app.js
 	dh_auto_build
@@ -14,6 +17,3 @@ override_dh_install:
 	cp vnc.html index.html.tpl
 	sed -i -re "s/\.(css|js)/\.\1?ver=${DEB_VERSION}/g" index.html.tpl
 	dh_install
-
-%:
-	dh ${@} --with quilt
