@@ -1,8 +1,8 @@
-app/images	     usr/share/novnc-pve/app
-app/locale 	     usr/share/novnc-pve/app
-app/sounds 	     usr/share/novnc-pve/app
-app/styles 	     usr/share/novnc-pve/app
+app/images           usr/share/novnc-pve/app
+app/locale           usr/share/novnc-pve/app
+app/sounds           usr/share/novnc-pve/app
+app/styles           usr/share/novnc-pve/app
 app/error-handler.js usr/share/novnc-pve/app
-app.js		     usr/share/novnc-pve
+app.js               usr/share/novnc-pve
 docs                 usr/share/novnc-pve
-index.html.tpl	     usr/share/novnc-pve
+index.html.tpl       usr/share/novnc-pve
