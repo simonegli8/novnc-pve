@@ -4,5 +4,6 @@ app/sounds           usr/share/novnc-pve/app
 app/styles           usr/share/novnc-pve/app
 app/error-handler.js usr/share/novnc-pve/app
 app.js               usr/share/novnc-pve
+package.json         usr/share/novnc-pve
 docs                 usr/share/novnc-pve
 index.html.tpl       usr/share/novnc-pve

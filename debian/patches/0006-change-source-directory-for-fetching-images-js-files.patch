@@ -8,14 +8,23 @@ also change the directory in the build script
 
 Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
 ---
- app/ui.js |  2 +-
+ app/ui.js |  4 ++--
  vnc.html  | 50 +++++++++++++++++++++++++-------------------------
- 2 files changed, 26 insertions(+), 26 deletions(-)
+ 2 files changed, 27 insertions(+), 27 deletions(-)
 
 diff --git a/app/ui.js b/app/ui.js
-index ef2c77f..d604067 100644
+index ef2c77f..1605565 100644
 --- a/app/ui.js
 +++ b/app/ui.js
+@@ -64,7 +64,7 @@ const UI = {
+         // Translate the DOM
+         l10n.translateDOM();
+ 
+-        WebUtil.fetchJSON('./package.json')
++        WebUtil.fetchJSON('/novnc/package.json')
+             .then((packageInfo) => {
+                 Array.from(document.getElementsByClassName('noVNC_version')).forEach(el => el.innerText = packageInfo.version);
+             })
 @@ -1767,7 +1767,7 @@ l10n.setup(LINGUAS);
  if (l10n.language === "en" || l10n.dictionary !== undefined) {
      UI.prime();
