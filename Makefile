@@ -42,7 +42,7 @@ download ${SRCDIR}:
 
 .PHONY: upload
 upload: ${DEB}
-	tar cf - ${DEB}|ssh -X repoman@repo.proxmox.com -- upload --product pmg,pve --dist buster
+	tar cf - ${DEB}|ssh -X repoman@repo.proxmox.com -- upload --product pmg,pve --dist bullseye
 
 .PHONY: distclean
 distclean: clean
