@@ -15,7 +15,7 @@ Signed-off-by: Thomas Lamprecht <t.lamprecht@proxmox.com>
  4 files changed, 37 insertions(+), 1 deletion(-)
 
 diff --git a/app/ui.js b/app/ui.js
-index d604067..d8126bc 100644
+index 17e86a7..ded4bf6 100644
 --- a/app/ui.js
 +++ b/app/ui.js
 @@ -166,6 +166,7 @@ const UI = {

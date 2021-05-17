@@ -12,7 +12,7 @@ Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
  1 file changed, 11 insertions(+)
 
 diff --git a/app/ui.js b/app/ui.js
-index 91bdcf4..ef2c77f 100644
+index fdae7a2..7237d00 100644
 --- a/app/ui.js
 +++ b/app/ui.js
 @@ -1239,6 +1239,13 @@ const UI = {

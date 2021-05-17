@@ -13,9 +13,9 @@ Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
 Signed-off-by: Thomas Lamprecht <t.lamprecht@proxmox.com>
 ---
  app/pve.js | 418 +++++++++++++++++++++++++++++++++++++++++++++++++++++
- app/ui.js  |  66 +++++++--
+ app/ui.js  |  75 ++++++++--
  vnc.html   |  10 +-
- 3 files changed, 480 insertions(+), 14 deletions(-)
+ 3 files changed, 487 insertions(+), 16 deletions(-)
  create mode 100644 app/pve.js
 
 diff --git a/app/pve.js b/app/pve.js
@@ -443,7 +443,7 @@ index 0000000..e2c37fb
 +    },
 +};
 diff --git a/app/ui.js b/app/ui.js
-index c70743d..317f845 100644
+index c70743d..cae2b57 100644
 --- a/app/ui.js
 +++ b/app/ui.js
 @@ -16,6 +16,7 @@ import keysyms from "../core/input/keysymdef.js";
@@ -562,7 +562,7 @@ index c70743d..317f845 100644
          if (password === null) {
              password = undefined;
          }
-@@ -1621,9 +1640,36 @@ const UI = {
+@@ -1621,12 +1640,42 @@ const UI = {
  /* ------^-------
   *   /EXTRA KEYS
   * ==============
@@ -600,6 +600,25 @@ index c70743d..317f845 100644
      updateViewOnly() {
          if (!UI.rfb) return;
          UI.rfb.viewOnly = UI.getSetting('view_only');
++	if (!UI.PVE) return;
++
++	let kvm = UI.PVE.consoletype === 'kvm';
+ 
+         // Hide input related buttons in view only mode
+         if (UI.rfb.viewOnly) {
+@@ -1641,8 +1690,10 @@ const UI = {
+                 .classList.remove('noVNC_hidden');
+             document.getElementById('noVNC_toggle_extra_keys_button')
+                 .classList.remove('noVNC_hidden');
+-            document.getElementById('noVNC_clipboard_button')
+-                .classList.remove('noVNC_hidden');
++	    if (!kvm) {
++		document.getElementById('noVNC_clipboard_button')
++		    .classList.remove('noVNC_hidden');
++	    }
+         }
+     },
+ 
 diff --git a/vnc.html b/vnc.html
 index 32f356f..5ec354a 100644
 --- a/vnc.html
