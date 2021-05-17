@@ -1,3 +1,11 @@
+novnc-pve (1.2.0-1) bullseye; urgency=medium
+
+  * update to upstream noVNC 1.2.0 release
+
+  * re-build for Debian 11 Bullseye based releases
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 14 May 2021 17:10:02 +0200
+
 novnc-pve (1.1.0-1) pve pmg; urgency=medium
 
   * update to 1.1.0
