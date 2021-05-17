@@ -10,3 +10,4 @@
 0010-use-only-app.js.patch
 0011-add-localCursor-setting-to-rfb.patch
 0012-pass-custom-command-to-vnc.patch
+0013-Revert-Remove-the-default-value-of-wsProtocols.patch
