@@ -1,7 +1,7 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Dominik Csapak <d.csapak@proxmox.com>
 Date: Tue, 13 Dec 2016 16:03:41 +0100
-Subject: [PATCH 04/12] add pve style
+Subject: [PATCH] add pve style
 
 this adds the custom pve style (based on black.css)
 
@@ -64,10 +64,10 @@ index 0000000..eaeb5cb
 +  background: #5BA8DF;
 +}
 diff --git a/vnc.html b/vnc.html
-index 072d86b..57b44a1 100644
+index 5ec354a..a49e3a2 100644
 --- a/vnc.html
 +++ b/vnc.html
-@@ -48,7 +48,8 @@
+@@ -52,7 +52,8 @@
      <link rel="apple-touch-icon" sizes="152x152" type="image/png" href="app/images/icons/novnc-152x152.png">
  
      <!-- Stylesheets -->

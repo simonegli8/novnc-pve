@@ -1,31 +1,32 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Dominik Csapak <d.csapak@proxmox.com>
 Date: Thu, 19 Jul 2018 11:31:51 +0200
-Subject: [PATCH 11/12] add localCursor setting to rfb
+Subject: [PATCH] add localCursor setting to rfb
 
 and use it in app.js (default true)
 
 Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
+Signed-off-by: Thomas Lamprecht <t.lamprecht@proxmox.com>
 ---
- app/ui.js           |  9 +++++++++
+ app/ui.js           | 10 ++++++++++
  core/rfb.js         | 10 ++++++++++
  core/util/cursor.js | 15 ++++++++++++++-
  vnc.html            |  3 +++
- 4 files changed, 36 insertions(+), 1 deletion(-)
+ 4 files changed, 37 insertions(+), 1 deletion(-)
 
 diff --git a/app/ui.js b/app/ui.js
-index 7201179..35d5d7a 100644
+index d604067..d8126bc 100644
 --- a/app/ui.js
 +++ b/app/ui.js
-@@ -151,6 +151,7 @@ const UI = {
-         UI.initSetting('view_clip', false);
-         UI.initSetting('resize', 'off');
+@@ -166,6 +166,7 @@ const UI = {
+         UI.initSetting('quality', 6);
+         UI.initSetting('compression', 2);
          UI.initSetting('autoresize', true);
 +        UI.initSetting('local_cursor', true);
          UI.initSetting('shared', true);
          UI.initSetting('view_only', false);
          UI.initSetting('show_dot', false);
-@@ -345,6 +346,8 @@ const UI = {
+@@ -356,6 +357,8 @@ const UI = {
          UI.addSettingChangeHandler('view_only', UI.updateViewOnly);
          UI.addSettingChangeHandler('show_dot');
          UI.addSettingChangeHandler('show_dot', UI.updateShowDotCursor);
@@ -34,18 +35,19 @@ index 7201179..35d5d7a 100644
          UI.addSettingChangeHandler('host');
          UI.addSettingChangeHandler('port');
          UI.addSettingChangeHandler('path');
-@@ -1041,6 +1044,7 @@ const UI = {
+@@ -1056,6 +1059,7 @@ const UI = {
          UI.rfb.addEventListener("desktopname", UI.updateDesktopName);
          UI.rfb.addEventListener("fbresize", UI.updateSessionSize);
          UI.rfb.clipViewport = UI.getSetting('view_clip');
 +        UI.rfb.localCursor = UI.getSetting('local_cursor');
          UI.rfb.scaleViewport = UI.getSetting('resize') === 'scale';
          UI.rfb.resizeSession = UI.getSetting('resize') === 'remote';
- 
-@@ -1638,6 +1642,11 @@ const UI = {
-         }
-     },
- 
+         UI.rfb.qualityLevel = parseInt(UI.getSetting('quality'));
+@@ -1692,6 +1696,12 @@ const UI = {
+  * ==============
+  *     MISC
+  * ------v------*/
++
 +    updateLocalCursor() {
 +        if (!UI.rfb) return;
 +        UI.rfb.localCursor = UI.getSetting('local_cursor');
@@ -55,20 +57,20 @@ index 7201179..35d5d7a 100644
          if (!UI.rfb) return;
          UI.rfb.viewOnly = UI.getSetting('view_only');
 diff --git a/core/rfb.js b/core/rfb.js
-index c079af1..2beb00c 100644
+index 7ea2004..85c7836 100644
 --- a/core/rfb.js
 +++ b/core/rfb.js
-@@ -246,6 +246,7 @@ export default class RFB extends EventTargetMixin {
+@@ -296,6 +296,7 @@ export default class RFB extends EventTargetMixin {
          this._clipViewport = false;
          this._scaleViewport = false;
          this._resizeSession = false;
 +        this._localCursor = false;
-     }
  
-     // ===== PROPERTIES =====
-@@ -308,6 +309,15 @@ export default class RFB extends EventTargetMixin {
-     get background() { return this._screen.style.background; }
-     set background(cssValue) { this._screen.style.background = cssValue; }
+         this._showDotCursor = false;
+         if (options.showDotCursor !== undefined) {
+@@ -356,6 +357,15 @@ export default class RFB extends EventTargetMixin {
+         }
+     }
  
 +    get localCursor() { return this._localCursor; }
 +    set localCursor(localCursor) {
@@ -79,11 +81,11 @@ index c079af1..2beb00c 100644
 +        }
 +    }
 +
-     // ===== PUBLIC METHODS =====
- 
-     disconnect() {
+     get showDotCursor() { return this._showDotCursor; }
+     set showDotCursor(show) {
+         this._showDotCursor = show;
 diff --git a/core/util/cursor.js b/core/util/cursor.js
-index 0d0b754..73d7880 100644
+index 4db1dab..e5b1768 100644
 --- a/core/util/cursor.js
 +++ b/core/util/cursor.js
 @@ -12,6 +12,8 @@ export default class Cursor {
@@ -95,7 +97,7 @@ index 0d0b754..73d7880 100644
          this._canvas = document.createElement('canvas');
  
          if (useFallback) {
-@@ -115,7 +117,7 @@ export default class Cursor {
+@@ -110,7 +112,7 @@ export default class Cursor {
      }
  
      clear() {
@@ -104,8 +106,8 @@ index 0d0b754..73d7880 100644
          this._canvas.width = 0;
          this._canvas.height = 0;
          this._position.x = this._position.x + this._hotSpot.x;
-@@ -124,6 +126,11 @@ export default class Cursor {
-         this._hotSpot.y = 0;
+@@ -140,6 +142,11 @@ export default class Cursor {
+         this._updateVisibility(target);
      }
  
 +    setLocalCursor(cursor) {
@@ -116,22 +118,29 @@ index 0d0b754..73d7880 100644
      _handleMouseOver(event) {
          // This event could be because we're entering the target, or
          // moving around amongst its sub elements. Let the move handler
-@@ -218,4 +225,10 @@ export default class Cursor {
-         this._canvas.style.left = this._position.x + "px";
-         this._canvas.style.top = this._position.y + "px";
+@@ -192,6 +199,11 @@ export default class Cursor {
+         }
      }
-+
+ 
 +    _updateLocalCursor() {
 +        if (this._target)
 +            this._target.style.cursor = this._showLocalCursor ? 'default' : 'none';
 +    }
 +
+     _showCursor() {
+         if (this._canvas.style.visibility === 'hidden') {
+             this._canvas.style.visibility = '';
+@@ -250,4 +262,5 @@ export default class Cursor {
+         return document.captureElement &&
+             document.documentElement.contains(document.captureElement);
+     }
++
  }
 diff --git a/vnc.html b/vnc.html
-index 6fb195e..d48091d 100644
+index 9f594e2..bf1fde5 100644
 --- a/vnc.html
 +++ b/vnc.html
-@@ -167,6 +167,9 @@
+@@ -157,6 +157,9 @@
                      <li>
                          <label><input id="noVNC_setting_view_clip" type="checkbox"> Clip to Window</label>
                      </li>

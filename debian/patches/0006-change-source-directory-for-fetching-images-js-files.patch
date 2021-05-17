@@ -1,22 +1,22 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Dominik Csapak <d.csapak@proxmox.com>
 Date: Tue, 17 Jan 2017 17:24:03 +0100
-Subject: [PATCH 06/12] change src directory for images/js files
+Subject: [PATCH] change source-directory for fetching images/js files
 
-since they will be in /novnc/
+since they will be served from `/novnc/`
 also change the directory in the build script
 
 Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
 ---
  app/ui.js |  2 +-
- vnc.html  | 58 +++++++++++++++++++++++++++----------------------------
- 2 files changed, 30 insertions(+), 30 deletions(-)
+ vnc.html  | 50 +++++++++++++++++++++++++-------------------------
+ 2 files changed, 26 insertions(+), 26 deletions(-)
 
 diff --git a/app/ui.js b/app/ui.js
-index 8cc6cfd..7201179 100644
+index ef2c77f..d604067 100644
 --- a/app/ui.js
 +++ b/app/ui.js
-@@ -1713,7 +1713,7 @@ l10n.setup(LINGUAS);
+@@ -1767,7 +1767,7 @@ l10n.setup(LINGUAS);
  if (l10n.language === "en" || l10n.dictionary !== undefined) {
      UI.prime();
  } else {
@@ -26,10 +26,10 @@ index 8cc6cfd..7201179 100644
          .catch(err => Log.Error("Failed to load translations: " + err))
          .then(UI.prime);
 diff --git a/vnc.html b/vnc.html
-index 1420849..f93cf89 100644
+index 12db665..396ded8 100644
 --- a/vnc.html
 +++ b/vnc.html
-@@ -22,15 +22,15 @@
+@@ -26,19 +26,19 @@
      <meta name="apple-mobile-web-app-capable" content="yes" />
      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
      <!-- Stylesheets -->
@@ -46,89 +46,62 @@ index 1420849..f93cf89 100644
 -    <script src="vendor/promise.js"></script>
 +    <script src="/novnc/vendor/promise.js"></script>
      <!-- ES2015/ES6 modules polyfill -->
-     <script type="module">
-         window._noVNC_has_module_support = true;
-@@ -39,12 +39,12 @@
-         window.addEventListener("load", function() {
-             if (window._noVNC_has_module_support) return;
-             var loader = document.createElement("script");
--            loader.src = "vendor/browser-es-module-loader/dist/browser-es-module-loader.js";
-+            loader.src = "/novnc/vendor/browser-es-module-loader/dist/browser-es-module-loader.js";
-             document.head.appendChild(loader);
-         });
-     </script>
+-    <script nomodule src="vendor/browser-es-module-loader/dist/browser-es-module-loader.js"></script>
++    <script nomodule src="/novnc/vendor/browser-es-module-loader/dist/browser-es-module-loader.js"></script>
      <!-- actual script modules -->
 -    <script type="module" crossorigin="anonymous" src="app/ui.js"></script>
 +    <script type="module" crossorigin="anonymous" src="/novnc/app/ui.js"></script>
      <!-- end scripts -->
  </head>
  
-@@ -69,51 +69,51 @@
+@@ -63,51 +63,51 @@
              <h1 class="noVNC_logo" translate="no"><span>no</span><br>VNC</h1>
  
              <!-- Drag/Pan the viewport -->
--            <input type="image" alt="viewport drag" src="app/images/drag.svg"
-+            <input type="image" alt="viewport drag" src="/novnc/app/images/drag.svg"
+-            <input type="image" alt="Drag" src="app/images/drag.svg"
++            <input type="image" alt="Drag" src="/novnc/app/images/drag.svg"
                  id="noVNC_view_drag_button" class="noVNC_button noVNC_hidden"
                  title="Move/Drag Viewport">
  
              <!--noVNC Touch Device only buttons-->
              <div id="noVNC_mobile_buttons">
--                <input type="image" alt="No mousebutton" src="app/images/mouse_none.svg"
-+                <input type="image" alt="No mousebutton" src="/novnc/app/images/mouse_none.svg"
-                     id="noVNC_mouse_button0" class="noVNC_button"
-                     title="Active Mouse Button">
--                <input type="image" alt="Left mousebutton" src="app/images/mouse_left.svg"
-+                <input type="image" alt="Left mousebutton" src="/novnc/app/images/mouse_left.svg"
-                     id="noVNC_mouse_button1" class="noVNC_button"
-                     title="Active Mouse Button">
--                <input type="image" alt="Middle mousebutton" src="app/images/mouse_middle.svg"
-+                <input type="image" alt="Middle mousebutton" src="/novnc/app/images/mouse_middle.svg"
-                     id="noVNC_mouse_button2" class="noVNC_button"
-                     title="Active Mouse Button">
--                <input type="image" alt="Right mousebutton" src="app/images/mouse_right.svg"
-+                <input type="image" alt="Right mousebutton" src="/novnc/app/images/mouse_right.svg"
-                     id="noVNC_mouse_button4" class="noVNC_button"
-                     title="Active Mouse Button">
 -                <input type="image" alt="Keyboard" src="app/images/keyboard.svg"
 +                <input type="image" alt="Keyboard" src="/novnc/app/images/keyboard.svg"
                      id="noVNC_keyboard_button" class="noVNC_button" title="Show Keyboard">
              </div>
  
              <!-- Extra manual keys -->
-             <div id="noVNC_extra_keys">
--                <input type="image" alt="Extra keys" src="app/images/toggleextrakeys.svg"
-+                <input type="image" alt="Extra keys" src="/novnc/app/images/toggleextrakeys.svg"
-                     id="noVNC_toggle_extra_keys_button" class="noVNC_button"
-                     title="Show Extra Keys">
-                 <div class="noVNC_vcenter">
-                 <div id="noVNC_modifiers" class="noVNC_panel">
--                    <input type="image" alt="Ctrl" src="app/images/ctrl.svg"
-+                    <input type="image" alt="Ctrl" src="/novnc/app/images/ctrl.svg"
-                         id="noVNC_toggle_ctrl_button" class="noVNC_button"
-                         title="Toggle Ctrl">
--                    <input type="image" alt="Alt" src="app/images/alt.svg"
-+                    <input type="image" alt="Alt" src="/novnc/app/images/alt.svg"
-                         id="noVNC_toggle_alt_button" class="noVNC_button"
-                         title="Toggle Alt">
--                    <input type="image" alt="Windows" src="app/images/windows.svg"
-+                    <input type="image" alt="Alt" src="/novnc/app/images/windows.svg"
-                         id="noVNC_toggle_windows_button" class="noVNC_button"
-                         title="Toggle Windows">
--                    <input type="image" alt="Tab" src="app/images/tab.svg"
-+                    <input type="image" alt="Tab" src="/novnc/app/images/tab.svg"
-                         id="noVNC_send_tab_button" class="noVNC_button"
-                         title="Send Tab">
--                    <input type="image" alt="Esc" src="app/images/esc.svg"
-+                    <input type="image" alt="Esc" src="/novnc/app/images/esc.svg"
-                         id="noVNC_send_esc_button" class="noVNC_button"
-                         title="Send Escape">
--                    <input type="image" alt="Ctrl+Alt+Del" src="app/images/ctrlaltdel.svg"
-+                    <input type="image" alt="Ctrl+Alt+Del" src="/novnc/app/images/ctrlaltdel.svg"
-                         id="noVNC_send_ctrl_alt_del_button" class="noVNC_button"
-                         title="Send Ctrl-Alt-Del">
-                 </div>
-@@ -121,13 +121,13 @@
+-            <input type="image" alt="Extra keys" src="app/images/toggleextrakeys.svg"
++            <input type="image" alt="Extra keys" src="/novnc/app/images/toggleextrakeys.svg"
+                 id="noVNC_toggle_extra_keys_button" class="noVNC_button"
+                 title="Show Extra Keys">
+             <div class="noVNC_vcenter">
+             <div id="noVNC_modifiers" class="noVNC_panel">
+-                <input type="image" alt="Ctrl" src="app/images/ctrl.svg"
++                <input type="image" alt="Ctrl" src="/novnc/app/images/ctrl.svg"
+                     id="noVNC_toggle_ctrl_button" class="noVNC_button"
+                     title="Toggle Ctrl">
+-                <input type="image" alt="Alt" src="app/images/alt.svg"
++                <input type="image" alt="Alt" src="/novnc/app/images/alt.svg"
+                     id="noVNC_toggle_alt_button" class="noVNC_button"
+                     title="Toggle Alt">
+-                <input type="image" alt="Windows" src="app/images/windows.svg"
++                <input type="image" alt="Windows" src="/novnc/app/images/windows.svg"
+                     id="noVNC_toggle_windows_button" class="noVNC_button"
+                     title="Toggle Windows">
+-                <input type="image" alt="Tab" src="app/images/tab.svg"
++                <input type="image" alt="Tab" src="/novnc/app/images/tab.svg"
+                     id="noVNC_send_tab_button" class="noVNC_button"
+                     title="Send Tab">
+-                <input type="image" alt="Esc" src="app/images/esc.svg"
++                <input type="image" alt="Esc" src="/novnc/app/images/esc.svg"
+                     id="noVNC_send_esc_button" class="noVNC_button"
+                     title="Send Escape">
+-                <input type="image" alt="Ctrl+Alt+Del" src="app/images/ctrlaltdel.svg"
++                <input type="image" alt="Ctrl+Alt+Del" src="/novnc/app/images/ctrlaltdel.svg"
+                     id="noVNC_send_ctrl_alt_del_button" class="noVNC_button"
+                     title="Send Ctrl-Alt-Del">
+             </div>
              </div>
  
              <!-- Shutdown/Reboot -->
@@ -144,7 +117,7 @@ index 1420849..f93cf89 100644
                  </div>
                  <input type="button" id="noVNC_shutdown_button" value="Shutdown">
                  <input type="button" id="noVNC_reboot_button" value="Reboot">
-@@ -136,13 +136,13 @@
+@@ -116,13 +116,13 @@
              </div>
  
              <!-- Clipboard -->
@@ -160,7 +133,7 @@ index 1420849..f93cf89 100644
                  </div>
                  <textarea id="noVNC_clipboard_text" rows=5></textarea>
                  <br>
-@@ -152,19 +152,19 @@
+@@ -132,19 +132,19 @@
              </div>
  
              <!-- Toggle fullscreen -->
@@ -183,7 +156,7 @@ index 1420849..f93cf89 100644
                      </li>
                      <li style="display:none;">
                          <label><input id="noVNC_setting_shared" type="checkbox"> Shared Mode</label>
-@@ -241,7 +241,7 @@
+@@ -235,7 +235,7 @@
              </div>
  
              <!-- Connection Controls -->
@@ -192,7 +165,7 @@ index 1420849..f93cf89 100644
                  id="noVNC_disconnect_button" class="noVNC_button"
                  title="Disconnect">
  
-@@ -260,7 +260,7 @@
+@@ -254,7 +254,7 @@
          <div id="noVNC_connect_dlg">
              <div class="noVNC_logo" translate="no"><span>no</span>VNC</div>
              <div id="noVNC_connect_button"><div>
@@ -201,7 +174,7 @@ index 1420849..f93cf89 100644
              </div></div>
          </div>
      </div>
-@@ -300,8 +300,8 @@
+@@ -298,8 +298,8 @@
      </div>
  
      <audio id="noVNC_bell">

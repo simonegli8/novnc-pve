@@ -1,7 +1,7 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Dominik Csapak <d.csapak@proxmox.com>
 Date: Fri, 20 Jan 2017 10:35:43 +0100
-Subject: [PATCH 07/12] add pve vnc commands
+Subject: [PATCH] add pve vnc commands
 
 Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
 ---
@@ -9,10 +9,10 @@ Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
  1 file changed, 21 insertions(+)
 
 diff --git a/vnc.html b/vnc.html
-index f93cf89..fad5d4a 100644
+index 396ded8..a0802e0 100644
 --- a/vnc.html
 +++ b/vnc.html
-@@ -240,6 +240,27 @@
+@@ -234,6 +234,27 @@
              </div>
              </div>
  

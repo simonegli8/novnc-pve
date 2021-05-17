@@ -1,15 +1,16 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Dominik Csapak <d.csapak@proxmox.com>
 Date: Tue, 13 Dec 2016 16:11:35 +0100
-Subject: [PATCH 01/12] add pve specific js code
+Subject: [PATCH] add PVE specific JS code
 
-this adds a es6 module 'PVEUI' which we use for defining the pve related
-methods (API2Request, etc.)
+Add a ES6 module named `PVEUI` which defines the Proxmox VE
+related helper methods, like for example, API2Request.
 
-we also modify ui.js so that it uses this module and sets up our
-autoresizing, commandstoggle, etc.
+Hook the `PVEUI` module into the upstream `ui.js`, so that handlers
+for `autoresizing`, `commandstoggle`, etc., get setup.
 
 Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
+Signed-off-by: Thomas Lamprecht <t.lamprecht@proxmox.com>
 ---
  app/pve.js | 418 +++++++++++++++++++++++++++++++++++++++++++++++++++++
  app/ui.js  |  66 +++++++--
@@ -442,7 +443,7 @@ index 0000000..e2c37fb
 +    },
 +};
 diff --git a/app/ui.js b/app/ui.js
-index 17ec48d..4683c02 100644
+index c70743d..317f845 100644
 --- a/app/ui.js
 +++ b/app/ui.js
 @@ -16,6 +16,7 @@ import keysyms from "../core/input/keysymdef.js";
@@ -451,9 +452,9 @@ index 17ec48d..4683c02 100644
  import * as WebUtil from "./webutil.js";
 +import PVEUI from "./pve.js";
  
- const UI = {
+ const PAGE_TITLE = "noVNC";
  
-@@ -54,6 +55,8 @@ const UI = {
+@@ -56,6 +57,8 @@ const UI = {
      // Render default UI and initialize settings menu
      start() {
  
@@ -462,7 +463,7 @@ index 17ec48d..4683c02 100644
          UI.initSettings();
  
          // Translate the DOM
-@@ -81,6 +84,9 @@ const UI = {
+@@ -94,6 +97,9 @@ const UI = {
          UI.addConnectionControlHandlers();
          UI.addClipboardHandlers();
          UI.addSettingsHandlers();
@@ -472,7 +473,7 @@ index 17ec48d..4683c02 100644
          document.getElementById("noVNC_status")
              .addEventListener('click', UI.hideStatus);
  
-@@ -89,19 +95,15 @@ const UI = {
+@@ -102,19 +108,15 @@ const UI = {
  
          UI.openControlbar();
  
@@ -496,7 +497,7 @@ index 17ec48d..4683c02 100644
  
          return Promise.resolve(UI.rfb);
      },
-@@ -145,9 +147,10 @@ const UI = {
+@@ -158,11 +160,12 @@ const UI = {
          /* Populate the controls if defaults are provided in the URL */
          UI.initSetting('host', window.location.hostname);
          UI.initSetting('port', port);
@@ -504,19 +505,21 @@ index 17ec48d..4683c02 100644
 +        UI.initSetting('encrypt', true);
          UI.initSetting('view_clip', false);
          UI.initSetting('resize', 'off');
+         UI.initSetting('quality', 6);
+         UI.initSetting('compression', 2);
 +        UI.initSetting('autoresize', true);
          UI.initSetting('shared', true);
          UI.initSetting('view_only', false);
          UI.initSetting('show_dot', false);
-@@ -334,6 +337,7 @@ const UI = {
+@@ -341,6 +344,7 @@ const UI = {
          UI.addSettingChangeHandler('resize');
          UI.addSettingChangeHandler('resize', UI.applyResizeMode);
          UI.addSettingChangeHandler('resize', UI.updateViewClip);
 +        UI.addSettingChangeHandler('autoresize');
-         UI.addSettingChangeHandler('view_clip');
-         UI.addSettingChangeHandler('view_clip', UI.updateViewClip);
-         UI.addSettingChangeHandler('shared');
-@@ -384,6 +388,9 @@ const UI = {
+         UI.addSettingChangeHandler('quality');
+         UI.addSettingChangeHandler('quality', UI.updateQuality);
+         UI.addSettingChangeHandler('compression');
+@@ -395,6 +399,9 @@ const UI = {
                  document.documentElement.classList.add("noVNC_connecting");
                  break;
              case 'connected':
@@ -526,7 +529,7 @@ index 17ec48d..4683c02 100644
                  document.documentElement.classList.add("noVNC_connected");
                  break;
              case 'disconnecting':
-@@ -391,6 +398,11 @@ const UI = {
+@@ -402,6 +409,11 @@ const UI = {
                  document.documentElement.classList.add("noVNC_disconnecting");
                  break;
              case 'disconnected':
@@ -537,8 +540,8 @@ index 17ec48d..4683c02 100644
 +                }
                  break;
              case 'reconnecting':
-                 transition_elem.textContent = _("Reconnecting...");
-@@ -805,6 +817,7 @@ const UI = {
+                 transitionElem.textContent = _("Reconnecting...");
+@@ -820,6 +832,7 @@ const UI = {
          UI.closePowerPanel();
          UI.closeClipboardPanel();
          UI.closeExtraKeys();
@@ -546,8 +549,8 @@ index 17ec48d..4683c02 100644
      },
  
  /* ------^-------
-@@ -980,6 +993,12 @@ const UI = {
-             UI.reconnect_password = password;
+@@ -997,6 +1010,12 @@ const UI = {
+             UI.reconnectPassword = password;
          }
  
 +        var password = document.getElementById('noVNC_password_input').value;
@@ -559,7 +562,7 @@ index 17ec48d..4683c02 100644
          if (password === null) {
              password = undefined;
          }
-@@ -1549,9 +1568,36 @@ const UI = {
+@@ -1621,9 +1640,36 @@ const UI = {
  /* ------^-------
   *   /EXTRA KEYS
   * ==============
@@ -594,14 +597,14 @@ index 17ec48d..4683c02 100644
 + * ==============
 + *     MISC
 + * ------v------*/
-     setMouseButton(num) {
-         const view_only = UI.rfb.viewOnly;
-         if (UI.rfb && !view_only) {
+     updateViewOnly() {
+         if (!UI.rfb) return;
+         UI.rfb.viewOnly = UI.getSetting('view_only');
 diff --git a/vnc.html b/vnc.html
-index 212321b..072d86b 100644
+index 32f356f..5ec354a 100644
 --- a/vnc.html
 +++ b/vnc.html
-@@ -191,7 +191,7 @@
+@@ -171,7 +171,7 @@
                      <li class="noVNC_heading">
                          <img alt="" src="app/images/settings.svg"> Settings
                      </li>
@@ -610,7 +613,7 @@ index 212321b..072d86b 100644
                          <label><input id="noVNC_setting_shared" type="checkbox"> Shared Mode</label>
                      </li>
                      <li>
-@@ -201,16 +201,18 @@
+@@ -181,16 +181,18 @@
                      <li>
                          <label><input id="noVNC_setting_view_clip" type="checkbox"> Clip to Window</label>
                      </li>

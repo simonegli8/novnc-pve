@@ -1,9 +1,9 @@
-0001-add-pve-specific-js-code.patch
+0001-add-PVE-specific-JS-code.patch
 0002-add-custom-fbresize-event-on-rfb.patch
 0003-change-scaling-when-toggling-fullscreen.patch
 0004-add-pve-style.patch
 0005-remove-vnc-logos.patch
-0006-change-src-directory-for-images-js-files.patch
+0006-change-source-directory-for-fetching-images-js-files.patch
 0007-add-pve-vnc-commands.patch
 0008-add-replaceable-snippets-in-vnc.html.patch
 0009-decrease-animation-time.patch

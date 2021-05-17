@@ -1,7 +1,7 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Dominik Csapak <d.csapak@proxmox.com>
 Date: Fri, 20 Jan 2017 10:35:05 +0100
-Subject: [PATCH 05/12] remove vnc logos
+Subject: [PATCH] remove vnc logos
 
 to show the pve icon instead
 
@@ -11,12 +11,12 @@ Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
  1 file changed, 3 insertions(+), 29 deletions(-)
 
 diff --git a/vnc.html b/vnc.html
-index 57b44a1..1420849 100644
+index a49e3a2..12db665 100644
 --- a/vnc.html
 +++ b/vnc.html
-@@ -17,36 +17,10 @@
- 
-     <meta charset="utf-8">
+@@ -21,36 +21,10 @@
+                 Remove this if you use the .htaccess -->
+     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
  
 -    <!-- Icons (see app/images/icons/Makefile for what the sizes are for) -->
 -    <link rel="icon" sizes="16x16" type="image/png" href="app/images/icons/novnc-16x16.png">
