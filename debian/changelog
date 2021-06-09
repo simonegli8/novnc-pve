@@ -1,3 +1,9 @@
+novnc-pve (1.2.0-2) bullseye; urgency=medium
+
+  * avoid passing deprecated 'upgrade' parameter
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 9 Jun 2021 10:52:22 +0200
+
 novnc-pve (1.2.0-1) bullseye; urgency=medium
 
   * update to upstream noVNC 1.2.0 release
