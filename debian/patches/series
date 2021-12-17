@@ -12,3 +12,4 @@
 0012-pass-custom-command-to-vnc.patch
 0013-Revert-Remove-the-default-value-of-wsProtocols.patch
 0014-avoid-passing-deprecated-upgrade-parameter.patch
+0015-create-own-class-for-hidden-buttons.patch
