@@ -21,4 +21,3 @@ index 9cf4b09..0ab825a 100644
  	    title = 'System upgrade on node ' + this.nodename;
  	    break;
  	case 'cmd':
-

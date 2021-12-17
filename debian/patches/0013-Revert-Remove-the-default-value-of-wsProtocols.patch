@@ -15,10 +15,10 @@ Signed-off-by: Thomas Lamprecht <t.lamprecht@proxmox.com>
  2 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/core/rfb.js b/core/rfb.js
-index 85c7836..f049246 100644
+index ec75610..96617b9 100644
 --- a/core/rfb.js
 +++ b/core/rfb.js
-@@ -87,7 +87,8 @@ export default class RFB extends EventTargetMixin {
+@@ -91,7 +91,8 @@ export default class RFB extends EventTargetMixin {
          this._rfbCredentials = options.credentials || {};
          this._shared = 'shared' in options ? !!options.shared : true;
          this._repeaterID = options.repeaterID || '';
@@ -29,7 +29,7 @@ index 85c7836..f049246 100644
          // Internal state
          this._rfbConnectionState = '';
 diff --git a/docs/API.md b/docs/API.md
-index d78360a..d55a234 100644
+index aa5aea7..623d685 100644
 --- a/docs/API.md
 +++ b/docs/API.md
 @@ -195,8 +195,7 @@ connection to a specified VNC server.

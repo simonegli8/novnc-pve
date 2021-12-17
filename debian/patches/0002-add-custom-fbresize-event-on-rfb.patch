@@ -13,10 +13,10 @@ Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
  2 files changed, 21 insertions(+)
 
 diff --git a/app/ui.js b/app/ui.js
-index cae2b57..fdae7a2 100644
+index 6b4442f..11fad2d 100644
 --- a/app/ui.js
 +++ b/app/ui.js
-@@ -1054,6 +1054,7 @@ const UI = {
+@@ -1055,6 +1055,7 @@ const UI = {
          UI.rfb.addEventListener("clipboard", UI.clipboardReceive);
          UI.rfb.addEventListener("bell", UI.bell);
          UI.rfb.addEventListener("desktopname", UI.updateDesktopName);
@@ -24,7 +24,7 @@ index cae2b57..fdae7a2 100644
          UI.rfb.clipViewport = UI.getSetting('view_clip');
          UI.rfb.scaleViewport = UI.getSetting('resize') === 'scale';
          UI.rfb.resizeSession = UI.getSetting('resize') === 'remote';
-@@ -1665,6 +1666,16 @@ const UI = {
+@@ -1666,6 +1667,16 @@ const UI = {
          document.getElementById('pve_commands_button').classList.remove("noVNC_selected");
      },
  
@@ -42,10 +42,10 @@ index cae2b57..fdae7a2 100644
   *    /PVE
   * ==============
 diff --git a/core/rfb.js b/core/rfb.js
-index f35d503..7ea2004 100644
+index ea3bf58..90ca28b 100644
 --- a/core/rfb.js
 +++ b/core/rfb.js
-@@ -2492,6 +2492,16 @@ export default class RFB extends EventTargetMixin {
+@@ -2499,6 +2499,16 @@ export default class RFB extends EventTargetMixin {
          this._updateClip();
          this._updateScale();
  

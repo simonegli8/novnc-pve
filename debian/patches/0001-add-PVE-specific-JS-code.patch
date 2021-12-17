@@ -13,9 +13,9 @@ Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
 Signed-off-by: Thomas Lamprecht <t.lamprecht@proxmox.com>
 ---
  app/pve.js | 418 +++++++++++++++++++++++++++++++++++++++++++++++++++++
- app/ui.js  |  75 ++++++++--
+ app/ui.js  |  66 +++++++--
  vnc.html   |  10 +-
- 3 files changed, 487 insertions(+), 16 deletions(-)
+ 3 files changed, 480 insertions(+), 14 deletions(-)
  create mode 100644 app/pve.js
 
 diff --git a/app/pve.js b/app/pve.js
@@ -443,7 +443,7 @@ index 0000000..e2c37fb
 +    },
 +};
 diff --git a/app/ui.js b/app/ui.js
-index c70743d..cae2b57 100644
+index cb6a9fd..6b4442f 100644
 --- a/app/ui.js
 +++ b/app/ui.js
 @@ -16,6 +16,7 @@ import keysyms from "../core/input/keysymdef.js";
@@ -463,7 +463,7 @@ index c70743d..cae2b57 100644
          UI.initSettings();
  
          // Translate the DOM
-@@ -94,6 +97,9 @@ const UI = {
+@@ -100,6 +103,9 @@ const UI = {
          UI.addConnectionControlHandlers();
          UI.addClipboardHandlers();
          UI.addSettingsHandlers();
@@ -473,7 +473,7 @@ index c70743d..cae2b57 100644
          document.getElementById("noVNC_status")
              .addEventListener('click', UI.hideStatus);
  
-@@ -102,19 +108,15 @@ const UI = {
+@@ -108,19 +114,15 @@ const UI = {
  
          UI.openControlbar();
  
@@ -497,7 +497,7 @@ index c70743d..cae2b57 100644
  
          return Promise.resolve(UI.rfb);
      },
-@@ -158,11 +160,12 @@ const UI = {
+@@ -164,11 +166,12 @@ const UI = {
          /* Populate the controls if defaults are provided in the URL */
          UI.initSetting('host', window.location.hostname);
          UI.initSetting('port', port);
@@ -511,7 +511,7 @@ index c70743d..cae2b57 100644
          UI.initSetting('shared', true);
          UI.initSetting('view_only', false);
          UI.initSetting('show_dot', false);
-@@ -341,6 +344,7 @@ const UI = {
+@@ -347,6 +350,7 @@ const UI = {
          UI.addSettingChangeHandler('resize');
          UI.addSettingChangeHandler('resize', UI.applyResizeMode);
          UI.addSettingChangeHandler('resize', UI.updateViewClip);
@@ -519,7 +519,7 @@ index c70743d..cae2b57 100644
          UI.addSettingChangeHandler('quality');
          UI.addSettingChangeHandler('quality', UI.updateQuality);
          UI.addSettingChangeHandler('compression');
-@@ -395,6 +399,9 @@ const UI = {
+@@ -401,6 +405,9 @@ const UI = {
                  document.documentElement.classList.add("noVNC_connecting");
                  break;
              case 'connected':
@@ -529,7 +529,7 @@ index c70743d..cae2b57 100644
                  document.documentElement.classList.add("noVNC_connected");
                  break;
              case 'disconnecting':
-@@ -402,6 +409,11 @@ const UI = {
+@@ -408,6 +415,11 @@ const UI = {
                  document.documentElement.classList.add("noVNC_disconnecting");
                  break;
              case 'disconnected':
@@ -541,7 +541,7 @@ index c70743d..cae2b57 100644
                  break;
              case 'reconnecting':
                  transitionElem.textContent = _("Reconnecting...");
-@@ -820,6 +832,7 @@ const UI = {
+@@ -821,6 +833,7 @@ const UI = {
          UI.closePowerPanel();
          UI.closeClipboardPanel();
          UI.closeExtraKeys();
@@ -549,7 +549,7 @@ index c70743d..cae2b57 100644
      },
  
  /* ------^-------
-@@ -997,6 +1010,12 @@ const UI = {
+@@ -998,6 +1011,12 @@ const UI = {
              UI.reconnectPassword = password;
          }
  
@@ -562,7 +562,7 @@ index c70743d..cae2b57 100644
          if (password === null) {
              password = undefined;
          }
-@@ -1621,12 +1640,42 @@ const UI = {
+@@ -1622,9 +1641,36 @@ const UI = {
  /* ------^-------
   *   /EXTRA KEYS
   * ==============
@@ -600,30 +600,11 @@ index c70743d..cae2b57 100644
      updateViewOnly() {
          if (!UI.rfb) return;
          UI.rfb.viewOnly = UI.getSetting('view_only');
-+	if (!UI.PVE) return;
-+
-+	let kvm = UI.PVE.consoletype === 'kvm';
- 
-         // Hide input related buttons in view only mode
-         if (UI.rfb.viewOnly) {
-@@ -1641,8 +1690,10 @@ const UI = {
-                 .classList.remove('noVNC_hidden');
-             document.getElementById('noVNC_toggle_extra_keys_button')
-                 .classList.remove('noVNC_hidden');
--            document.getElementById('noVNC_clipboard_button')
--                .classList.remove('noVNC_hidden');
-+	    if (!kvm) {
-+		document.getElementById('noVNC_clipboard_button')
-+		    .classList.remove('noVNC_hidden');
-+	    }
-         }
-     },
- 
 diff --git a/vnc.html b/vnc.html
-index 32f356f..5ec354a 100644
+index 8d4b497..7ce9ba7 100644
 --- a/vnc.html
 +++ b/vnc.html
-@@ -171,7 +171,7 @@
+@@ -163,7 +163,7 @@
                      <li class="noVNC_heading">
                          <img alt="" src="app/images/settings.svg"> Settings
                      </li>
@@ -632,7 +613,7 @@ index 32f356f..5ec354a 100644
                          <label><input id="noVNC_setting_shared" type="checkbox"> Shared Mode</label>
                      </li>
                      <li>
-@@ -181,16 +181,18 @@
+@@ -173,16 +173,18 @@
                      <li>
                          <label><input id="noVNC_setting_view_clip" type="checkbox"> Clip to Window</label>
                      </li>

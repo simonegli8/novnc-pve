@@ -11,12 +11,12 @@ Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
  1 file changed, 3 insertions(+), 29 deletions(-)
 
 diff --git a/vnc.html b/vnc.html
-index a49e3a2..12db665 100644
+index 61d0fdd..216b33f 100644
 --- a/vnc.html
 +++ b/vnc.html
-@@ -21,36 +21,10 @@
-                 Remove this if you use the .htaccess -->
-     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+@@ -17,36 +17,10 @@
+ 
+     <meta charset="utf-8">
  
 -    <!-- Icons (see app/images/icons/Makefile for what the sizes are for) -->
 -    <link rel="icon" sizes="16x16" type="image/png" href="app/images/icons/novnc-16x16.png">

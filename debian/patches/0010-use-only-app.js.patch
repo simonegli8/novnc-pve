@@ -8,24 +8,19 @@ generated app.js
 
 Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
 ---
- vnc.html | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ vnc.html | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/vnc.html b/vnc.html
-index 5f09cd2..9f594e2 100644
+index dc4cc23..21b3844 100644
 --- a/vnc.html
 +++ b/vnc.html
-@@ -39,12 +39,7 @@
+@@ -37,7 +37,7 @@
+ 	PVE.CSRFPreventionToken = '[% token %]';
+ 	INCLUDE_URI='/novnc/include';
      </script>
- 
-     <!-- begin scripts -->
--    <!-- promise polyfills promises for IE11 -->
--    <script src="/novnc/vendor/promise.js"></script>
--    <!-- ES2015/ES6 modules polyfill -->
--    <script nomodule src="/novnc/vendor/browser-es-module-loader/dist/browser-es-module-loader.js"></script>
--    <!-- actual script modules -->
 -    <script type="module" crossorigin="anonymous" src="/novnc/app/ui.js"></script>
 +    <script crossorigin=anonymous" src="/novnc/app.js"></script>
-     <!-- end scripts -->
  </head>
  
+ <body>

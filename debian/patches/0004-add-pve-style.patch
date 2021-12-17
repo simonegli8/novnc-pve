@@ -64,10 +64,10 @@ index 0000000..eaeb5cb
 +  background: #5BA8DF;
 +}
 diff --git a/vnc.html b/vnc.html
-index 5ec354a..a49e3a2 100644
+index 7ce9ba7..61d0fdd 100644
 --- a/vnc.html
 +++ b/vnc.html
-@@ -52,7 +52,8 @@
+@@ -48,7 +48,8 @@
      <link rel="apple-touch-icon" sizes="152x152" type="image/png" href="app/images/icons/novnc-152x152.png">
  
      <!-- Stylesheets -->
@@ -75,5 +75,5 @@ index 5ec354a..a49e3a2 100644
 +    <link rel="stylesheet" href="app/styles/base.css" />
 +    <link rel="stylesheet" href="/novnc/app/styles/pve.css" />
  
-     <!-- this is included as a normal file in order to catch script-loading errors as well -->
-     <script src="app/error-handler.js"></script>
+     <!-- Images that will later appear via CSS -->
+     <link rel="preload" as="image" href="app/images/info.svg">

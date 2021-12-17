@@ -7,11 +7,11 @@ so that we can insert the username/csrftoken via search/replace
 
 Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
 ---
- vnc.html | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ vnc.html | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/vnc.html b/vnc.html
-index a0802e0..5f09cd2 100644
+index 01f71e1..dc4cc23 100644
 --- a/vnc.html
 +++ b/vnc.html
 @@ -13,7 +13,7 @@
@@ -22,19 +22,17 @@ index a0802e0..5f09cd2 100644
 +    <title>[% nodename %] - Proxmox Console</title>
  
      <meta charset="utf-8">
-     
-@@ -30,7 +30,13 @@
-     <link rel="stylesheet" href="/novnc/app/styles/pve.css" />
  
-     <!-- this is included as a normal file in order to catch script-loading errors as well -->
--    <script src="/novnc/app/error-handler.js"></script>
-+    <script type="text/javascript" src="/novnc/app/error-handler.js"></script>
+@@ -31,6 +31,12 @@
+     <link rel="preload" as="image" href="/novnc/app/images/warning.svg">
+ 
+     <script src="/novnc/app/error-handler.js"></script>
 +    <script type="text/javascript">
 +	if (typeof(PVE) === 'undefined') PVE = {};
 +	PVE.UserName = '[% username %]';
 +	PVE.CSRFPreventionToken = '[% token %]';
 +	INCLUDE_URI='/novnc/include';
 +    </script>
+     <script type="module" crossorigin="anonymous" src="/novnc/app/ui.js"></script>
+ </head>
  
-     <!-- begin scripts -->
-     <!-- promise polyfills promises for IE11 -->
