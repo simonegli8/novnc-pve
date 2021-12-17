@@ -3,7 +3,7 @@ Section: web
 Priority: optional
 Maintainer: Proxmox Support Team <support@proxmox.com>
 Build-Depends: debhelper (>= 12~),
-               node-es6-module-transpiler,
+               esbuild,
                quilt,
 Standards-Version: 4.5.1
 Homepage: https://github.com/kanaka/noVNC/

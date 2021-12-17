@@ -11,7 +11,7 @@ export DEB_BUILD_HARDENING=1
 	dh ${@} --with quilt
 
 override_dh_auto_build:
-	compile-modules convert -f bundle app/ui.js > app.js
+	esbuild --bundle app/ui.js > app.js
 	dh_auto_build
 
 override_dh_install:
