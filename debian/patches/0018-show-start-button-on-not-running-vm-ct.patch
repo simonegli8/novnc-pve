@@ -88,7 +88,7 @@ index 18126b0..f2e7484 100644
 +
 +/* start button */
 +#pve_start_dlg {
-+  transition: 0.5s ease-in-out;
++  transition: 0.2s ease-in-out;
 +  transform: scale(0, 0);
 +  visibility: hidden;
 +  opacity: 0;
