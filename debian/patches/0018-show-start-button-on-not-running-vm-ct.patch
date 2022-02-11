@@ -13,9 +13,9 @@ colors were adapted
 
 Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
 ---
- app/pve.js          | 34 ++++++++++++++++++++++++--
- app/styles/pve.css  | 58 +++++++++++++++++++++++++++++++++++++++++++++
- vnc.html            |  9 +++++++
+ app/pve.js         | 34 +++++++++++++++++++++++++--
+ app/styles/pve.css | 58 ++++++++++++++++++++++++++++++++++++++++++++++
+ vnc.html           |  9 +++++++
  3 files changed, 99 insertions(+), 2 deletions(-)
 
 diff --git a/app/pve.js b/app/pve.js
@@ -78,7 +78,7 @@ index 042eb7c..9da23ed 100644
  	var me = this;
  	try {
 diff --git a/app/styles/pve.css b/app/styles/pve.css
-index 18126b0..f2e7484 100644
+index 18126b0..e0ca61f 100644
 --- a/app/styles/pve.css
 +++ b/app/styles/pve.css
 @@ -44,3 +44,61 @@
@@ -144,10 +144,10 @@ index 18126b0..f2e7484 100644
 +  padding: 0 5px 2px 0;
 +}
 diff --git a/vnc.html b/vnc.html
-index d94fd99..72efa89 100644
+index 3e63087..f0488b1 100644
 --- a/vnc.html
 +++ b/vnc.html
-@@ -283,6 +283,15 @@
+@@ -281,6 +281,15 @@
          </div>
      </div>
  

@@ -1,3 +1,4 @@
+extra/0001-Ignore-ResizeObserver-errors.patch
 0001-add-PVE-specific-JS-code.patch
 0002-add-custom-fbresize-event-on-rfb.patch
 0003-change-scaling-when-toggling-fullscreen.patch

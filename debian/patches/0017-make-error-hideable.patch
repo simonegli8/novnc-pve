@@ -11,7 +11,7 @@ Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
  1 file changed, 15 insertions(+), 2 deletions(-)
 
 diff --git a/app/error-handler.js b/app/error-handler.js
-index 81a6cba..6ce8013 100644
+index f956c22..20233b2 100644
 --- a/app/error-handler.js
 +++ b/app/error-handler.js
 @@ -15,6 +15,18 @@
@@ -33,7 +33,7 @@ index 81a6cba..6ce8013 100644
  
      // Fallback for all uncought errors
      function handleError(event, err) {
-@@ -52,8 +64,9 @@
+@@ -58,8 +70,9 @@
                  msg.appendChild(div);
              }
  
