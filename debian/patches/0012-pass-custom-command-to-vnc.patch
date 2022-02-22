@@ -10,7 +10,7 @@ Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
  1 file changed, 7 insertions(+)
 
 diff --git a/app/pve.js b/app/pve.js
-index e2c37fb..9cf4b09 100644
+index e3c7758..446b85d 100644
 --- a/app/pve.js
 +++ b/app/pve.js
 @@ -11,6 +11,7 @@ export default function PVEUI(UI){

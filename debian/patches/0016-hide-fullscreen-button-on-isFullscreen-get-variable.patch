@@ -13,7 +13,7 @@ Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
  1 file changed, 7 insertions(+)
 
 diff --git a/app/pve.js b/app/pve.js
-index 486bd5c..042eb7c 100644
+index 4774e3a..583a406 100644
 --- a/app/pve.js
 +++ b/app/pve.js
 @@ -12,6 +12,7 @@ export default function PVEUI(UI){
@@ -24,7 +24,7 @@ index 486bd5c..042eb7c 100644
      this.lastFBWidth = undefined;
      this.lastFBHeight = undefined;
      this.sizeUpdateTimer = undefined;
-@@ -304,6 +305,12 @@ PVEUI.prototype = {
+@@ -313,6 +314,12 @@ PVEUI.prototype = {
  		.classList.add('pve_hidden');
  	}
  

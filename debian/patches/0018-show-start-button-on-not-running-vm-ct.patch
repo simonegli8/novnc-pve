@@ -19,10 +19,10 @@ Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
  3 files changed, 99 insertions(+), 2 deletions(-)
 
 diff --git a/app/pve.js b/app/pve.js
-index 042eb7c..9da23ed 100644
+index 583a406..8144fdb 100644
 --- a/app/pve.js
 +++ b/app/pve.js
-@@ -311,6 +311,11 @@ PVEUI.prototype = {
+@@ -320,6 +320,11 @@ PVEUI.prototype = {
  		.classList.add('pve_hidden');
  	}
  
@@ -34,7 +34,7 @@ index 042eb7c..9da23ed 100644
  	// add command logic
  	var commandArray = [
  	    { cmd: 'start', kvm: 1, lxc: 1},
-@@ -359,8 +364,8 @@ PVEUI.prototype = {
+@@ -368,8 +373,8 @@ PVEUI.prototype = {
  	return { width: ow, height: oh };
      },
  
@@ -45,7 +45,7 @@ index 042eb7c..9da23ed 100644
  	me.API2Request({
  	    url: me.url,
  	    method: 'POST',
-@@ -382,6 +387,31 @@ PVEUI.prototype = {
+@@ -391,6 +396,31 @@ PVEUI.prototype = {
  	});
      },
  

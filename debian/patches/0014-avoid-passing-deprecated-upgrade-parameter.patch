@@ -9,7 +9,7 @@ Signed-off-by: Fabian Ebner <f.ebner@proxmox.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/app/pve.js b/app/pve.js
-index 9cf4b09..0ab825a 100644
+index 446b85d..dfff1b0 100644
 --- a/app/pve.js
 +++ b/app/pve.js
 @@ -45,7 +45,7 @@ export default function PVEUI(UI){

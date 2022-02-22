@@ -13,10 +13,10 @@ Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
  2 files changed, 8 insertions(+), 4 deletions(-)
 
 diff --git a/app/pve.js b/app/pve.js
-index 0ab825a..486bd5c 100644
+index dfff1b0..4774e3a 100644
 --- a/app/pve.js
 +++ b/app/pve.js
-@@ -293,15 +293,15 @@ PVEUI.prototype = {
+@@ -302,15 +302,15 @@ PVEUI.prototype = {
  
  	// show/hide the buttons
  	document.getElementById('noVNC_disconnect_button')
@@ -35,7 +35,7 @@ index 0ab825a..486bd5c 100644
  	}
  
  	// add command logic
-@@ -326,7 +326,7 @@ PVEUI.prototype = {
+@@ -335,7 +335,7 @@ PVEUI.prototype = {
  		    me.pve_vm_command(item.cmd);
  		};
  	    } else {

@@ -12,18 +12,18 @@ for `autoresizing`, `commandstoggle`, etc., get setup.
 Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
 Signed-off-by: Thomas Lamprecht <t.lamprecht@proxmox.com>
 ---
- app/pve.js | 418 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ app/pve.js | 427 +++++++++++++++++++++++++++++++++++++++++++++++++++++
  app/ui.js  |  66 +++++++--
  vnc.html   |  10 +-
- 3 files changed, 480 insertions(+), 14 deletions(-)
+ 3 files changed, 489 insertions(+), 14 deletions(-)
  create mode 100644 app/pve.js
 
 diff --git a/app/pve.js b/app/pve.js
 new file mode 100644
-index 0000000..e2c37fb
+index 0000000..e3c7758
 --- /dev/null
 +++ b/app/pve.js
-@@ -0,0 +1,418 @@
+@@ -0,0 +1,427 @@
 +/*
 + * PVE Utility functions for noVNC
 + * Copyright (C) 2017 Proxmox GmbH
@@ -292,7 +292,16 @@ index 0000000..e2c37fb
 +	    url: baseUrl + "/status/" + cmd,
 +	    method: 'POST',
 +	    failure: function(msg) {
-+		me.UI.showStatus(msg, 'warning');
++		if (cmd === 'start' && msg.match(/already running/) !== null) {
++		    // we wanted to start, but it was already running, so
++		    // reload anyway
++		    me.UI.showStatus("VM command '" + cmd +"' successful", 'normal');
++		    setTimeout(function() {
++			location.reload();
++		    }, 1000);
++		} else {
++		    me.UI.showStatus(msg, 'warning');
++		}
 +	    },
 +	    success: function() {
 +		me.UI.showStatus("VM command '" + cmd +"' successful", 'normal');
