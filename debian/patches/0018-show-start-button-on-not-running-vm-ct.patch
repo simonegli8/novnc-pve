@@ -13,22 +13,40 @@ colors were adapted
 
 Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
 ---
- app/pve.js         | 34 +++++++++++++++++++++++++--
+ app/pve.js         | 38 ++++++++++++++++++++++++++----
  app/styles/pve.css | 58 ++++++++++++++++++++++++++++++++++++++++++++++
  vnc.html           |  9 +++++++
- 3 files changed, 99 insertions(+), 2 deletions(-)
+ 3 files changed, 101 insertions(+), 4 deletions(-)
 
 diff --git a/app/pve.js b/app/pve.js
-index 583a406..8144fdb 100644
+index 583a406..3eeaa47 100644
 --- a/app/pve.js
 +++ b/app/pve.js
+@@ -231,7 +231,7 @@ PVEUI.prototype = {
+ 
+     },
+ 
+-    pve_vm_command: function(cmd, params, reload) {
++    pve_vm_command: function(cmd, params, reload, mustConfirm = true) {
+ 	var me = this;
+ 	var baseUrl;
+ 	var confirmMsg = "";
+@@ -255,7 +255,7 @@ PVEUI.prototype = {
+ 
+ 	confirmMsg = confirmMsg.replace('{0}', me.vmid);
+ 
+-	if (confirmMsg !== "" && confirm(confirmMsg) !== true) {
++	if (confirmMsg !== "" && mustConfirm && confirm(confirmMsg) !== true) {
+ 	    return;
+ 	}
+ 
 @@ -320,6 +320,11 @@ PVEUI.prototype = {
  		.classList.add('pve_hidden');
  	}
  
 +        document.getElementById("pve_start_button")
 +            .addEventListener('click', function() {
-+		me.pve_vm_command('start');
++		me.pve_vm_command('start', {}, undefined, false);
 +	    });
 +
  	// add command logic
