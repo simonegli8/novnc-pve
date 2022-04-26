@@ -1,3 +1,9 @@
+novnc-pve (1.3.0-3) bullseye; urgency=medium
+
+  * skip confirmation in start button
+
+ -- Proxmox Support Team <support@proxmox.com>  Tue, 26 Apr 2022 15:55:25 +0200
+
 novnc-pve (1.3.0-2) bullseye; urgency=medium
 
   * check for the guests status, and show a start button if the guest is not
