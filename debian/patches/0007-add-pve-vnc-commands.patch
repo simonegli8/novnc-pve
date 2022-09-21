@@ -28,11 +28,11 @@ index 8ca4ea4..01f71e1 100644
 +                </div>
 +		<input id="pve_command_start" type="button" value="Start" />
 +		<input id="pve_command_shutdown" type="button" value="Shutdown" />
-+		<input id="pve_command_stop" type="button" value="Stop" />
-+		<input id="pve_command_reset" type="button" value="Reset" />
++		<input id="pve_command_stop" type="button" value="Hard Stop" />
++		<input id="pve_command_reset" type="button" value="Hard Reset" />
 +		<input id="pve_command_suspend" type="button" value="Suspend" />
 +		<input id="pve_command_resume" type="button" value="Resume" />
-+		<input id="pve_command_reload" type="button" value="Reload" />
++		<input id="pve_command_reload" type="button" value="Reload noVNC" />
 +	    </div>
 +	    </div>
 +
