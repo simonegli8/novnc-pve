@@ -13,15 +13,24 @@ colors were adapted
 
 Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
 ---
- app/pve.js         | 38 ++++++++++++++++++++++++++----
+ app/pve.js         | 45 +++++++++++++++++++++++++++++++----
  app/styles/pve.css | 58 ++++++++++++++++++++++++++++++++++++++++++++++
  vnc.html           |  9 +++++++
- 3 files changed, 101 insertions(+), 4 deletions(-)
+ 3 files changed, 107 insertions(+), 5 deletions(-)
 
 diff --git a/app/pve.js b/app/pve.js
-index 583a406..3eeaa47 100644
+index 583a406..287615f 100644
 --- a/app/pve.js
 +++ b/app/pve.js
+@@ -117,7 +117,7 @@ PVEUI.prototype = {
+ 
+ 	    if (errmsg !== undefined) {
+ 		if (reqOpts.failure) {
+-		    reqOpts.failure.call(scope, errmsg);
++		    reqOpts.failure.call(scope, errmsg, xhr.status);
+ 		}
+ 	    } else {
+ 		if (reqOpts.success) {
 @@ -231,7 +231,7 @@ PVEUI.prototype = {
  
      },
@@ -63,7 +72,7 @@ index 583a406..3eeaa47 100644
  	me.API2Request({
  	    url: me.url,
  	    method: 'POST',
-@@ -391,6 +396,31 @@ PVEUI.prototype = {
+@@ -391,6 +396,36 @@ PVEUI.prototype = {
  	});
      },
  
@@ -83,8 +92,13 @@ index 583a406..3eeaa47 100644
 +			    .classList.add("noVNC_open");
 +		    }
 +		},
-+		failure: function(msg) {
-+		    me.UI.showStatus(msg, 'error');
++		failure: function(msg, code) {
++		    if (code === 403) {
++			// connect anyway for users with VM.Console but without VM.Audit
++			me.initConnection(callback);
++		    } else {
++			me.UI.showStatus(msg, 'error');
++		    }
 +		}
 +	    });
 +	} else {
