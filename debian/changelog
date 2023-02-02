@@ -1,3 +1,11 @@
+novnc-pve (1.4.0-1) bullseye; urgency=medium
+
+  * upgrade noVNC and patches to new 1.4.0 upstream release
+
+  * check for package.json instead of VERSION in Makefile
+
+ -- Proxmox Support Team <support@proxmox.com>  Thu, 02 Feb 2023 10:06:55 +0200
+
 novnc-pve (1.3.0-3) bullseye; urgency=medium
 
   * skip confirmation in start button
