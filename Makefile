@@ -34,7 +34,7 @@ ${DSC}: ${BUILDDIR}
 
 .PHONY: submodule
 submodule:
-	test -f "${SRCDIR}/VERSION" || git submodule update --init
+	test -f "${SRCDIR}/package.json" || git submodule update --init
 
 .PHONY: download
 download ${SRCDIR}:
