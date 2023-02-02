@@ -12,10 +12,10 @@ Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/vnc.html b/vnc.html
-index dc4cc23..21b3844 100644
+index 4ce107a..eed474f 100644
 --- a/vnc.html
 +++ b/vnc.html
-@@ -37,7 +37,7 @@
+@@ -38,7 +38,7 @@
  	PVE.CSRFPreventionToken = '[% token %]';
  	INCLUDE_URI='/novnc/include';
      </script>

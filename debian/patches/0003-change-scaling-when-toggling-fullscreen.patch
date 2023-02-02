@@ -12,10 +12,10 @@ Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
  1 file changed, 11 insertions(+)
 
 diff --git a/app/ui.js b/app/ui.js
-index 11fad2d..b40d1f8 100644
+index 60f4c00..235b049 100644
 --- a/app/ui.js
 +++ b/app/ui.js
-@@ -1240,6 +1240,13 @@ const UI = {
+@@ -1292,6 +1292,13 @@ const UI = {
              } else if (document.msExitFullscreen) {
                  document.msExitFullscreen();
              }
@@ -29,7 +29,7 @@ index 11fad2d..b40d1f8 100644
          } else {
              if (document.documentElement.requestFullscreen) {
                  document.documentElement.requestFullscreen();
-@@ -1250,7 +1257,11 @@ const UI = {
+@@ -1302,7 +1309,11 @@ const UI = {
              } else if (document.body.msRequestFullscreen) {
                  document.body.msRequestFullscreen();
              }

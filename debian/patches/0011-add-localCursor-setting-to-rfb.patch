@@ -15,10 +15,10 @@ Signed-off-by: Thomas Lamprecht <t.lamprecht@proxmox.com>
  4 files changed, 37 insertions(+), 1 deletion(-)
 
 diff --git a/app/ui.js b/app/ui.js
-index f7b7dc4..37a0279 100644
+index 1d52a5a..02004c3 100644
 --- a/app/ui.js
 +++ b/app/ui.js
-@@ -172,6 +172,7 @@ const UI = {
+@@ -180,6 +180,7 @@ const UI = {
          UI.initSetting('quality', 6);
          UI.initSetting('compression', 2);
          UI.initSetting('autoresize', true);
@@ -26,7 +26,7 @@ index f7b7dc4..37a0279 100644
          UI.initSetting('shared', true);
          UI.initSetting('view_only', false);
          UI.initSetting('show_dot', false);
-@@ -362,6 +363,8 @@ const UI = {
+@@ -372,6 +373,8 @@ const UI = {
          UI.addSettingChangeHandler('view_only', UI.updateViewOnly);
          UI.addSettingChangeHandler('show_dot');
          UI.addSettingChangeHandler('show_dot', UI.updateShowDotCursor);
@@ -35,7 +35,7 @@ index f7b7dc4..37a0279 100644
          UI.addSettingChangeHandler('host');
          UI.addSettingChangeHandler('port');
          UI.addSettingChangeHandler('path');
-@@ -1057,6 +1060,7 @@ const UI = {
+@@ -1076,6 +1079,7 @@ const UI = {
          UI.rfb.addEventListener("desktopname", UI.updateDesktopName);
          UI.rfb.addEventListener("fbresize", UI.updateSessionSize);
          UI.rfb.clipViewport = UI.getSetting('view_clip');
@@ -43,7 +43,7 @@ index f7b7dc4..37a0279 100644
          UI.rfb.scaleViewport = UI.getSetting('resize') === 'scale';
          UI.rfb.resizeSession = UI.getSetting('resize') === 'remote';
          UI.rfb.qualityLevel = parseInt(UI.getSetting('quality'));
-@@ -1693,6 +1697,12 @@ const UI = {
+@@ -1760,6 +1764,12 @@ const UI = {
   * ==============
   *     MISC
   * ------v------*/
@@ -57,18 +57,18 @@ index f7b7dc4..37a0279 100644
          if (!UI.rfb) return;
          UI.rfb.viewOnly = UI.getSetting('view_only');
 diff --git a/core/rfb.js b/core/rfb.js
-index 90ca28b..ec75610 100644
+index 2f662ce..2dc0638 100644
 --- a/core/rfb.js
 +++ b/core/rfb.js
-@@ -256,6 +256,7 @@ export default class RFB extends EventTargetMixin {
-         this._clipViewport = false;
+@@ -290,6 +290,7 @@ export default class RFB extends EventTargetMixin {
+         this._clippingViewport = false;
          this._scaleViewport = false;
          this._resizeSession = false;
 +        this._localCursor = false;
  
          this._showDotCursor = false;
          if (options.showDotCursor !== undefined) {
-@@ -316,6 +317,15 @@ export default class RFB extends EventTargetMixin {
+@@ -360,6 +361,15 @@ export default class RFB extends EventTargetMixin {
          }
      }
  
@@ -85,7 +85,7 @@ index 90ca28b..ec75610 100644
      set showDotCursor(show) {
          this._showDotCursor = show;
 diff --git a/core/util/cursor.js b/core/util/cursor.js
-index 12bcced..ce7340e 100644
+index 3000cf0..0d9651f 100644
 --- a/core/util/cursor.js
 +++ b/core/util/cursor.js
 @@ -12,6 +12,8 @@ export default class Cursor {
@@ -97,7 +97,7 @@ index 12bcced..ce7340e 100644
          this._canvas = document.createElement('canvas');
  
          if (useFallback) {
-@@ -100,7 +102,7 @@ export default class Cursor {
+@@ -104,7 +106,7 @@ export default class Cursor {
      }
  
      clear() {
@@ -106,7 +106,7 @@ index 12bcced..ce7340e 100644
          this._canvas.width = 0;
          this._canvas.height = 0;
          this._position.x = this._position.x + this._hotSpot.x;
-@@ -130,6 +132,11 @@ export default class Cursor {
+@@ -134,6 +136,11 @@ export default class Cursor {
          this._updateVisibility(target);
      }
  
@@ -118,7 +118,7 @@ index 12bcced..ce7340e 100644
      _handleMouseOver(event) {
          // This event could be because we're entering the target, or
          // moving around amongst its sub elements. Let the move handler
-@@ -182,6 +189,11 @@ export default class Cursor {
+@@ -186,6 +193,11 @@ export default class Cursor {
          }
      }
  
@@ -130,17 +130,17 @@ index 12bcced..ce7340e 100644
      _showCursor() {
          if (this._canvas.style.visibility === 'hidden') {
              this._canvas.style.visibility = '';
-@@ -240,4 +252,5 @@ export default class Cursor {
+@@ -244,4 +256,5 @@ export default class Cursor {
          return document.captureElement &&
              document.documentElement.contains(document.captureElement);
      }
 +
  }
 diff --git a/vnc.html b/vnc.html
-index 21b3844..3e63087 100644
+index eed474f..b80f3c5 100644
 --- a/vnc.html
 +++ b/vnc.html
-@@ -154,6 +154,9 @@
+@@ -157,6 +157,9 @@
                      <li>
                          <label><input id="noVNC_setting_view_clip" type="checkbox"> Clip to Window</label>
                      </li>

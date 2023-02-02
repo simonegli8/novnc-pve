@@ -15,10 +15,10 @@ Signed-off-by: Thomas Lamprecht <t.lamprecht@proxmox.com>
  2 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/core/rfb.js b/core/rfb.js
-index ec75610..96617b9 100644
+index 2dc0638..39fd869 100644
 --- a/core/rfb.js
 +++ b/core/rfb.js
-@@ -91,7 +91,8 @@ export default class RFB extends EventTargetMixin {
+@@ -117,7 +117,8 @@ export default class RFB extends EventTargetMixin {
          this._rfbCredentials = options.credentials || {};
          this._shared = 'shared' in options ? !!options.shared : true;
          this._repeaterID = options.repeaterID || '';
@@ -29,10 +29,10 @@ index ec75610..96617b9 100644
          // Internal state
          this._rfbConnectionState = '';
 diff --git a/docs/API.md b/docs/API.md
-index aa5aea7..623d685 100644
+index eb3ec33..6616048 100644
 --- a/docs/API.md
 +++ b/docs/API.md
-@@ -195,8 +195,7 @@ connection to a specified VNC server.
+@@ -229,8 +229,7 @@ new RFB(target, urlOrChannel, options);
          encountered.
  
      `wsProtocols`
@@ -40,5 +40,5 @@ index aa5aea7..623d685 100644
 -        in the WebSocket connection. Empty by default.
 +      - Protocols to use in the WebSocket connection, the default is: ['binary']
  
- #### connect
+ #### bell
  

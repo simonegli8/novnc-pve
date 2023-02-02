@@ -45,7 +45,7 @@ index dfff1b0..4774e3a 100644
  	});
      },
 diff --git a/app/styles/pve.css b/app/styles/pve.css
-index eaeb5cb..18126b0 100644
+index eaeb5cb..6376593 100644
 --- a/app/styles/pve.css
 +++ b/app/styles/pve.css
 @@ -40,3 +40,7 @@
@@ -54,5 +54,5 @@ index eaeb5cb..18126b0 100644
  }
 +
 +.noVNC_button.pve_hidden {
-+  display: none;
++  display: none !important;
 +}

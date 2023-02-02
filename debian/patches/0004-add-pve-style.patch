@@ -11,8 +11,8 @@ and fix the z-index of the connect overlay
 Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
 ---
  app/styles/pve.css | 42 ++++++++++++++++++++++++++++++++++++++++++
- vnc.html           |  3 ++-
- 2 files changed, 44 insertions(+), 1 deletion(-)
+ vnc.html           |  5 +++--
+ 2 files changed, 45 insertions(+), 2 deletions(-)
  create mode 100644 app/styles/pve.css
 
 diff --git a/app/styles/pve.css b/app/styles/pve.css
@@ -64,15 +64,17 @@ index 0000000..eaeb5cb
 +  background: #5BA8DF;
 +}
 diff --git a/vnc.html b/vnc.html
-index 7ce9ba7..61d0fdd 100644
+index e8a982f..b54fe41 100644
 --- a/vnc.html
 +++ b/vnc.html
-@@ -48,7 +48,8 @@
-     <link rel="apple-touch-icon" sizes="152x152" type="image/png" href="app/images/icons/novnc-152x152.png">
+@@ -36,8 +36,9 @@
+     <link rel="apple-touch-icon" sizes="180x180" type="image/png" href="app/images/icons/novnc-ios-180.png">
  
      <!-- Stylesheets -->
 -    <link rel="stylesheet" href="app/styles/base.css">
+-    <link rel="stylesheet" href="app/styles/input.css">
 +    <link rel="stylesheet" href="app/styles/base.css" />
++    <link rel="stylesheet" href="app/styles/input.css" />
 +    <link rel="stylesheet" href="/novnc/app/styles/pve.css" />
  
      <!-- Images that will later appear via CSS -->

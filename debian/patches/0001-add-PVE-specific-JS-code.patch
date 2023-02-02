@@ -452,10 +452,10 @@ index 0000000..e3c7758
 +    },
 +};
 diff --git a/app/ui.js b/app/ui.js
-index cb6a9fd..6b4442f 100644
+index c1f6776..5ebb134 100644
 --- a/app/ui.js
 +++ b/app/ui.js
-@@ -16,6 +16,7 @@ import keysyms from "../core/input/keysymdef.js";
+@@ -17,6 +17,7 @@ import keysyms from "../core/input/keysymdef.js";
  import Keyboard from "../core/input/keyboard.js";
  import RFB from "../core/rfb.js";
  import * as WebUtil from "./webutil.js";
@@ -463,7 +463,7 @@ index cb6a9fd..6b4442f 100644
  
  const PAGE_TITLE = "noVNC";
  
-@@ -56,6 +57,8 @@ const UI = {
+@@ -57,6 +58,8 @@ const UI = {
      // Render default UI and initialize settings menu
      start() {
  
@@ -472,7 +472,7 @@ index cb6a9fd..6b4442f 100644
          UI.initSettings();
  
          // Translate the DOM
-@@ -100,6 +103,9 @@ const UI = {
+@@ -108,6 +111,9 @@ const UI = {
          UI.addConnectionControlHandlers();
          UI.addClipboardHandlers();
          UI.addSettingsHandlers();
@@ -482,7 +482,7 @@ index cb6a9fd..6b4442f 100644
          document.getElementById("noVNC_status")
              .addEventListener('click', UI.hideStatus);
  
-@@ -108,19 +114,15 @@ const UI = {
+@@ -116,19 +122,15 @@ const UI = {
  
          UI.openControlbar();
  
@@ -506,7 +506,7 @@ index cb6a9fd..6b4442f 100644
  
          return Promise.resolve(UI.rfb);
      },
-@@ -164,11 +166,12 @@ const UI = {
+@@ -172,11 +174,12 @@ const UI = {
          /* Populate the controls if defaults are provided in the URL */
          UI.initSetting('host', window.location.hostname);
          UI.initSetting('port', port);
@@ -520,7 +520,7 @@ index cb6a9fd..6b4442f 100644
          UI.initSetting('shared', true);
          UI.initSetting('view_only', false);
          UI.initSetting('show_dot', false);
-@@ -347,6 +350,7 @@ const UI = {
+@@ -357,6 +360,7 @@ const UI = {
          UI.addSettingChangeHandler('resize');
          UI.addSettingChangeHandler('resize', UI.applyResizeMode);
          UI.addSettingChangeHandler('resize', UI.updateViewClip);
@@ -528,7 +528,7 @@ index cb6a9fd..6b4442f 100644
          UI.addSettingChangeHandler('quality');
          UI.addSettingChangeHandler('quality', UI.updateQuality);
          UI.addSettingChangeHandler('compression');
-@@ -401,6 +405,9 @@ const UI = {
+@@ -411,6 +415,9 @@ const UI = {
                  document.documentElement.classList.add("noVNC_connecting");
                  break;
              case 'connected':
@@ -538,7 +538,7 @@ index cb6a9fd..6b4442f 100644
                  document.documentElement.classList.add("noVNC_connected");
                  break;
              case 'disconnecting':
-@@ -408,6 +415,11 @@ const UI = {
+@@ -418,6 +425,11 @@ const UI = {
                  document.documentElement.classList.add("noVNC_disconnecting");
                  break;
              case 'disconnected':
@@ -550,7 +550,7 @@ index cb6a9fd..6b4442f 100644
                  break;
              case 'reconnecting':
                  transitionElem.textContent = _("Reconnecting...");
-@@ -821,6 +833,7 @@ const UI = {
+@@ -843,6 +855,7 @@ const UI = {
          UI.closePowerPanel();
          UI.closeClipboardPanel();
          UI.closeExtraKeys();
@@ -558,7 +558,7 @@ index cb6a9fd..6b4442f 100644
      },
  
  /* ------^-------
-@@ -998,6 +1011,12 @@ const UI = {
+@@ -1015,6 +1028,12 @@ const UI = {
              UI.reconnectPassword = password;
          }
  
@@ -571,7 +571,7 @@ index cb6a9fd..6b4442f 100644
          if (password === null) {
              password = undefined;
          }
-@@ -1622,9 +1641,36 @@ const UI = {
+@@ -1689,9 +1708,36 @@ const UI = {
  /* ------^-------
   *   /EXTRA KEYS
   * ==============
@@ -610,19 +610,19 @@ index cb6a9fd..6b4442f 100644
          if (!UI.rfb) return;
          UI.rfb.viewOnly = UI.getSetting('view_only');
 diff --git a/vnc.html b/vnc.html
-index 8d4b497..7ce9ba7 100644
+index 24a118d..e8a982f 100644
 --- a/vnc.html
 +++ b/vnc.html
-@@ -163,7 +163,7 @@
-                     <li class="noVNC_heading">
-                         <img alt="" src="app/images/settings.svg"> Settings
-                     </li>
+@@ -154,7 +154,7 @@
+                     <img alt="" src="app/images/settings.svg"> Settings
+                 </div>
+                 <ul>
 -                    <li>
 +                    <li style="display:none;">
                          <label><input id="noVNC_setting_shared" type="checkbox"> Shared Mode</label>
                      </li>
                      <li>
-@@ -173,16 +173,18 @@
+@@ -164,16 +164,18 @@
                      <li>
                          <label><input id="noVNC_setting_view_clip" type="checkbox"> Clip to Window</label>
                      </li>

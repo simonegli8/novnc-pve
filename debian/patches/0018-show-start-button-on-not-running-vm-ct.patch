@@ -110,12 +110,12 @@ index 583a406..287615f 100644
  	var me = this;
  	try {
 diff --git a/app/styles/pve.css b/app/styles/pve.css
-index 18126b0..e0ca61f 100644
+index 6376593..1a0caad 100644
 --- a/app/styles/pve.css
 +++ b/app/styles/pve.css
 @@ -44,3 +44,61 @@
  .noVNC_button.pve_hidden {
-   display: none;
+   display: none !important;
  }
 +
 +/* start button */
@@ -176,11 +176,11 @@ index 18126b0..e0ca61f 100644
 +  padding: 0 5px 2px 0;
 +}
 diff --git a/vnc.html b/vnc.html
-index 3e63087..f0488b1 100644
+index b80f3c5..ca69f03 100644
 --- a/vnc.html
 +++ b/vnc.html
-@@ -281,6 +281,15 @@
-         </div>
+@@ -313,6 +313,15 @@
+     </form></div>
      </div>
  
 +    <div class="noVNC_center">

@@ -9,10 +9,10 @@ Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
  1 file changed, 21 insertions(+)
 
 diff --git a/vnc.html b/vnc.html
-index 8ca4ea4..01f71e1 100644
+index f081aee..9281009 100644
 --- a/vnc.html
 +++ b/vnc.html
-@@ -226,6 +226,27 @@
+@@ -229,6 +229,27 @@
              </div>
              </div>
  

@@ -9,23 +9,23 @@ also change the directory in the build script
 Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
 ---
  app/ui.js |  4 ++--
- vnc.html  | 52 ++++++++++++++++++++++++++--------------------------
- 2 files changed, 28 insertions(+), 28 deletions(-)
+ vnc.html  | 54 +++++++++++++++++++++++++++---------------------------
+ 2 files changed, 29 insertions(+), 29 deletions(-)
 
 diff --git a/app/ui.js b/app/ui.js
-index b40d1f8..f7b7dc4 100644
+index 235b049..1d52a5a 100644
 --- a/app/ui.js
 +++ b/app/ui.js
-@@ -64,7 +64,7 @@ const UI = {
-         // Translate the DOM
-         l10n.translateDOM();
+@@ -73,7 +73,7 @@ const UI = {
+         }
  
+         // Try to fetch version number
 -        fetch('./package.json')
 +        fetch('/novnc/package.json')
              .then((response) => {
                  if (!response.ok) {
                      throw Error("" + response.status + " " + response.statusText);
-@@ -1768,7 +1768,7 @@ l10n.setup(LINGUAS);
+@@ -1835,7 +1835,7 @@ l10n.setup(LINGUAS);
  if (l10n.language === "en" || l10n.dictionary !== undefined) {
      UI.prime();
  } else {
@@ -35,15 +35,17 @@ index b40d1f8..f7b7dc4 100644
              if (!response.ok) {
                  throw Error("" + response.status + " " + response.statusText);
 diff --git a/vnc.html b/vnc.html
-index 216b33f..8ca4ea4 100644
+index 5c5549d..f081aee 100644
 --- a/vnc.html
 +++ b/vnc.html
-@@ -22,16 +22,16 @@
+@@ -22,17 +22,17 @@
      <meta name="apple-mobile-web-app-capable" content="yes" />
      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
      <!-- Stylesheets -->
 -    <link rel="stylesheet" href="app/styles/base.css" />
+-    <link rel="stylesheet" href="app/styles/input.css" />
 +    <link rel="stylesheet" href="/novnc/app/styles/base.css" />
++    <link rel="stylesheet" href="/novnc/app/styles/input.css" />
      <link rel="stylesheet" href="/novnc/app/styles/pve.css" />
  
      <!-- Images that will later appear via CSS -->
@@ -54,15 +56,15 @@ index 216b33f..8ca4ea4 100644
 +    <link rel="preload" as="image" href="/novnc/app/images/error.svg">
 +    <link rel="preload" as="image" href="/novnc/app/images/warning.svg">
  
--    <script src="app/error-handler.js"></script>
+-    <script type="module" crossorigin="anonymous" src="app/error-handler.js"></script>
 -    <script type="module" crossorigin="anonymous" src="app/ui.js"></script>
-+    <script src="/novnc/app/error-handler.js"></script>
++    <script type="module" crossorigin="anonymous" src="/novnc/app/error-handler.js"></script>
 +    <script type="module" crossorigin="anonymous" src="/novnc/app/ui.js"></script>
  </head>
  
  <body>
-@@ -55,51 +55,51 @@
-             <h1 class="noVNC_logo" translate="no"><span>no</span><br>VNC</h1>
+@@ -58,51 +58,51 @@
+             <hr>
  
              <!-- Drag/Pan the viewport -->
 -            <input type="image" alt="Drag" src="app/images/drag.svg"
@@ -124,7 +126,7 @@ index 216b33f..8ca4ea4 100644
                  </div>
                  <input type="button" id="noVNC_shutdown_button" value="Shutdown">
                  <input type="button" id="noVNC_reboot_button" value="Reboot">
-@@ -108,13 +108,13 @@
+@@ -111,13 +111,13 @@
              </div>
  
              <!-- Clipboard -->
@@ -138,16 +140,16 @@ index 216b33f..8ca4ea4 100644
 -                    <img alt="" src="app/images/clipboard.svg"> Clipboard
 +                    <img alt="" src="/novnc/app/images/clipboard.svg"> Clipboard
                  </div>
-                 <textarea id="noVNC_clipboard_text" rows=5></textarea>
-                 <br>
-@@ -124,19 +124,19 @@
+                 <p class="noVNC_subheading">
+                     Edit clipboard content in the textarea below.
+@@ -127,18 +127,18 @@
              </div>
  
              <!-- Toggle fullscreen -->
--            <input type="image" alt="Fullscreen" src="app/images/fullscreen.svg"
+-            <input type="image" alt="Full Screen" src="app/images/fullscreen.svg"
 +            <input type="image" alt="Fullscreen" src="/novnc/app/images/fullscreen.svg"
                  id="noVNC_fullscreen_button" class="noVNC_button noVNC_hidden"
-                 title="Fullscreen">
+                 title="Full Screen">
  
              <!-- Settings -->
 -            <input type="image" alt="Settings" src="app/images/settings.svg"
@@ -156,14 +158,13 @@ index 216b33f..8ca4ea4 100644
                  title="Settings">
              <div class="noVNC_vcenter">
              <div id="noVNC_settings" class="noVNC_panel">
+                 <div class="noVNC_heading">
+-                    <img alt="" src="app/images/settings.svg"> Settings
++                    <img alt="" src="/novnc/app/images/settings.svg"> Settings
+                 </div>
                  <ul>
-                     <li class="noVNC_heading">
--                        <img alt="" src="app/images/settings.svg"> Settings
-+                        <img alt="" src="/novnc/app/images/settings.svg"> Settings
-                     </li>
                      <li style="display:none;">
-                         <label><input id="noVNC_setting_shared" type="checkbox"> Shared Mode</label>
-@@ -227,7 +227,7 @@
+@@ -230,7 +230,7 @@
              </div>
  
              <!-- Connection Controls -->
@@ -172,16 +173,16 @@ index 216b33f..8ca4ea4 100644
                  id="noVNC_disconnect_button" class="noVNC_button"
                  title="Disconnect">
  
-@@ -246,7 +246,7 @@
-         <div id="noVNC_connect_dlg">
-             <div class="noVNC_logo" translate="no"><span>no</span>VNC</div>
-             <div id="noVNC_connect_button"><div>
--                <img alt="" src="app/images/connect.svg"> Connect
-+                <img alt="" src="/novnc/app/images/connect.svg"> Connect
-             </div></div>
+@@ -253,7 +253,7 @@
+             <p class="noVNC_logo" translate="no"><span>no</span>VNC</p>
+             <div>
+                 <button id="noVNC_connect_button">
+-                    <img alt="" src="app/images/connect.svg"> Connect
++                    <img alt="" src="/novnc/app/images/connect.svg"> Connect
+                 </button>
+             </div>
          </div>
-     </div>
-@@ -290,8 +290,8 @@
+@@ -323,8 +323,8 @@
      </div>
  
      <audio id="noVNC_bell">

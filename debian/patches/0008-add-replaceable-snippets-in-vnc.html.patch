@@ -11,7 +11,7 @@ Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
  1 file changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/vnc.html b/vnc.html
-index 01f71e1..dc4cc23 100644
+index 9281009..4ce107a 100644
 --- a/vnc.html
 +++ b/vnc.html
 @@ -13,7 +13,7 @@
@@ -23,10 +23,10 @@ index 01f71e1..dc4cc23 100644
  
      <meta charset="utf-8">
  
-@@ -31,6 +31,12 @@
+@@ -32,6 +32,12 @@
      <link rel="preload" as="image" href="/novnc/app/images/warning.svg">
  
-     <script src="/novnc/app/error-handler.js"></script>
+     <script type="module" crossorigin="anonymous" src="/novnc/app/error-handler.js"></script>
 +    <script type="text/javascript">
 +	if (typeof(PVE) === 'undefined') PVE = {};
 +	PVE.UserName = '[% username %]';

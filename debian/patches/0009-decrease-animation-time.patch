@@ -11,10 +11,10 @@ Signed-off-by: Dominik Csapak <d.csapak@proxmox.com>
  1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/app/styles/base.css b/app/styles/base.css
-index fd78b79..db52eaa 100644
+index 06e736a..a3eb872 100644
 --- a/app/styles/base.css
 +++ b/app/styles/base.css
-@@ -339,7 +339,7 @@ select:active {
+@@ -222,7 +222,7 @@ html {
    position: fixed;
    z-index: 10;
  
@@ -23,7 +23,7 @@ index fd78b79..db52eaa 100644
  
    /* Edge misrenders animations wihthout this */
    transform: translateX(0);
-@@ -356,7 +356,7 @@ select:active {
+@@ -239,7 +239,7 @@ html {
    position: relative;
    left: -100%;
  
@@ -32,7 +32,7 @@ index fd78b79..db52eaa 100644
  
    background-color: rgb(110, 132, 163);
    border-radius: 0 10px 10px 0;
-@@ -374,7 +374,7 @@ select:active {
+@@ -260,7 +260,7 @@ html {
    height: 100%;
    width: 30px;
    left: -30px;
@@ -41,7 +41,7 @@ index fd78b79..db52eaa 100644
  }
  #noVNC_control_bar.noVNC_open::before {
    box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.5);
-@@ -408,7 +408,7 @@ select:active {
+@@ -294,7 +294,7 @@ html {
  }
  #noVNC_control_bar_handle:after {
    content: "";
@@ -50,16 +50,16 @@ index fd78b79..db52eaa 100644
    background: url("../images/handle.svg");
    position: absolute;
    top: 22px; /* (50px-6px)/2 */
-@@ -530,7 +530,7 @@ select:active {
+@@ -430,7 +430,7 @@ html {
  .noVNC_panel {
    transform: translateX(25px);
  
 -  transition: 0.5s ease-in-out;
 +  transition: 0.25s ease-in-out;
  
-   max-height: 100vh; /* Chrome is buggy with 100% */
-   overflow-x: hidden;
-@@ -717,7 +717,7 @@ select:active {
+   box-sizing: border-box; /* so max-width don't have to care about padding */
+   max-width: calc(100vw - 75px - 25px); /* minus left and right margins */
+@@ -649,7 +649,7 @@ html {
  
    cursor: pointer;
  
