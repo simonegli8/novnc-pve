@@ -8,7 +8,7 @@ include /usr/share/dpkg/pkg-info.mk
 export DEB_BUILD_HARDENING=1
 
 %:
-	dh ${@} --with quilt
+	dh ${@}
 
 override_dh_auto_build:
 	esbuild --bundle app/ui.js > app.js

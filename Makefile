@@ -4,6 +4,7 @@ PACKAGE=novnc-pve
 
 SRCDIR=novnc
 BUILDDIR=$(SRCDIR).tmp
+ORIG_SRC_TAR=$(PACKAGE)_$(DEB_VERSION_UPSTREAM).orig.tar.gz
 
 GITVERSION:=$(shell git rev-parse HEAD)
 
@@ -26,9 +27,12 @@ $(DEB): $(BUILDDIR)
 	lintian $(DEB)
 	@echo $(DEB)
 
+$(ORIG_SRC_TAR): $(BUILDDIR)
+	tar czf $(ORIG_SRC_TAR) -C $(BUILDDIR) .
+
 .PHONY: dsc
 dsc: $(DSC)
-$(DSC): $(BUILDDIR)
+$(DSC): $(ORIG_SRC_TAR) $(BUILDDIR)
 	cd $(BUILDDIR); dpkg-buildpackage -S -uc -us -d
 	lintian $(DSC)
 
