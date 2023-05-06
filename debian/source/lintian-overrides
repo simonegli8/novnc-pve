@@ -1,1 +1,1 @@
-novnc-pve source: source-is-missing core/util/browser.js line length is *
+novnc-pve source: source-is-missing [core/util/*]
