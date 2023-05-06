@@ -5,7 +5,7 @@ Maintainer: Proxmox Support Team <support@proxmox.com>
 Build-Depends: debhelper (>= 12~),
                esbuild,
                quilt,
-Standards-Version: 4.5.1
+Standards-Version: 4.6.2
 Homepage: https://github.com/kanaka/noVNC/
 
 Package: novnc-pve
