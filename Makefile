@@ -1,4 +1,4 @@
-include /usr/share/dpkg/pkg-info.mk
+include /usr/share/dpkg/default.mk
 
 PACKAGE=novnc-pve
 
@@ -41,8 +41,9 @@ download $(SRCDIR):
 	git submodule foreach 'git pull --ff-only origin master'
 
 .PHONY: upload
+upload: UPLOAD_DIST ?= $(DEB_DISTRIBUTION)
 upload: $(DEB)
-	tar cf - $(DEB)|ssh -X repoman@repo.proxmox.com -- upload --product pmg,pve --dist bullseye
+	tar cf - $(DEB)|ssh -X repoman@repo.proxmox.com -- upload --product pmg,pve --dist $(UPLOAD_DIST)
 
 .PHONY: distclean
 distclean: clean
