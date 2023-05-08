@@ -36,6 +36,9 @@ $(DSC): $(ORIG_SRC_TAR) $(BUILDDIR)
 	cd $(BUILDDIR); dpkg-buildpackage -S -uc -us -d
 	lintian $(DSC)
 
+sbuild: $(DSC)
+	sbuild $(DSC)
+
 .PHONY: submodule
 submodule:
 	test -f "$(SRCDIR)/package.json" || git submodule update --init
