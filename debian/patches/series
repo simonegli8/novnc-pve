@@ -16,3 +16,4 @@
 0016-hide-fullscreen-button-on-isFullscreen-get-variable.patch
 0017-make-error-hideable.patch
 0018-show-start-button-on-not-running-vm-ct.patch
+0019-show-clipboard-button.patch

@@ -1,0 +1,30 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Markus Frank <m.frank@proxmox.com>
+Date: Fri, 28 Oct 2022 13:57:57 +0200
+Subject: [PATCH] show clipboard button
+
+show button when clipboard at status/current is true
+
+Signed-off-by: Markus Frank <m.frank@proxmox.com>
+---
+ app/pve.js | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/app/pve.js b/app/pve.js
+index 287615f..1b98f20 100644
+--- a/app/pve.js
++++ b/app/pve.js
+@@ -411,6 +411,10 @@ PVEUI.prototype = {
+ 			document.getElementById('pve_start_dlg')
+ 			    .classList.add("noVNC_open");
+ 		    }
++		    if (result.data.clipboard === "vnc") {
++			document.getElementById('noVNC_clipboard_button')
++			    .classList.remove('pve_hidden');
++		    }
+ 		},
+ 		failure: function(msg, code) {
+ 		    if (code === 403) {
+-- 
+2.39.2
+
