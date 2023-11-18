@@ -1,3 +1,10 @@
+novnc-pve (1.4.0-3) bookworm; urgency=medium
+
+  * show clipboard button if client signals support, e.g., for VGA style
+    clipboards that VMs have.
+
+ -- Proxmox Support Team <support@proxmox.com>  Sat, 18 Nov 2023 17:38:12 +0100
+
 novnc-pve (1.4.0-2) bookworm; urgency=medium
 
   * re-build for Debian 12 Bookworm based releases
